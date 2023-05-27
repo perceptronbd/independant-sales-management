@@ -83,23 +83,13 @@ const navlink = [
       },
       {
         link: "/home/authentications",
-        label: "Authentications",
+        label: "Users & Authentications",
         icon: IconKey,
-      },
-      {
-        link: "/home/user-management",
-        label: "User Management",
-        icon: IconFingerprint,
       },
       {
         link: "/home/notifications",
         label: "Notifications",
         icon: IconBellCog,
-      },
-      {
-        link: "/home/others",
-        label: "Others",
-        icon: IconSwitchHorizontal,
       },
     ],
   },

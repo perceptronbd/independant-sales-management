@@ -5,12 +5,12 @@ import tw from "twin.macro";
 import styled from "@emotion/styled";
 
 const HeadGrid = styled.div`
-  ${tw`grid grid-cols-4 gap-2
-   h-12 items-end border-b-2`}
+  ${tw`grid grid-cols-4 gap-2 h-12 items-center border-b-2`}
 `;
 
-const HeadGridItems = styled.div(() => [
-  tw`ml-6 my-0 pr-1 font-light flex justify-start text-textColor-tertiary`,
+const HeadGridItems = styled.div(({ icon }) => [
+  tw`ml-6 my-0 pr-1 font-semibold flex justify-start text-textColor-tertiary`,
+  icon && tw`justify-end mr-10`,
 ]);
 
 const RowGrid = styled.div`
@@ -43,6 +43,9 @@ export const FileTable = ({ data }) => {
         <HeadGridItems>Files</HeadGridItems>
         <HeadGridItems tertiary>Date</HeadGridItems>
         <HeadGridItems secondary>Uploaded by</HeadGridItems>
+        <HeadGridItems secondary icon>
+          Action
+        </HeadGridItems>
       </HeadGrid>
       <ScrollArea h={500} scrollbarSize={4}>
         {files}
