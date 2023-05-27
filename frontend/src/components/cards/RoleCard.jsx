@@ -5,7 +5,7 @@ import { Text } from "../texts/Text";
 const Bar = ({ role }) => {
   return (
     <div
-      className={clsx("w-16 h-1 bg-gradient-to-r", {
+      className={clsx("w-16 h-1 bg-gradient-to-r rounded-xl", {
         "from-red-500 to-red-200": role === "Agent",
         "from-orange-500 to-orange-200": role === "Prescriptor",
         "from-yellow-500 to-yellow-200": role === "Generedor",

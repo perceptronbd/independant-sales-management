@@ -10,7 +10,7 @@ module.exports = {
         },
         alert: {
           highLight: "#00E2EE",
-          ok: "#39ff14",
+          ok: "#12b886",
           warning: "#FAC425",
           danger: "#F12940",
         },

@@ -7,7 +7,10 @@ export function SliderInput({ checked: initialChecked }) {
   const [checked, setChecked] = useState(initialChecked);
 
   return (
-    <div className="mx-auto">
+    <div
+      className=" flex justify-center items-center mx-auto my-2  h-12
+    "
+    >
       <Switch
         checked={checked}
         onChange={(event) => setChecked(event.currentTarget.checked)}

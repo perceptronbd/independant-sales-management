@@ -7,93 +7,119 @@ const mockData = [
   {
     role: "Agent",
     access: [
-      { type: "Access Type 01", value: 1 },
-      { type: "Access Type 02", value: 0 },
-      { type: "Access Type 03", value: 1 },
-      { type: "Access Type 04", value: 0 },
-      { type: "Access Type 05", value: 1 },
+      { type: "Create User", value: 1 },
+      { type: "Edit User", value: 1 },
+      { type: "Create Role", value: 0 },
+      { type: "Edit Role", value: 0 },
+      { type: "Create Access", value: 0 },
+      { type: "Delete Access", value: 0 },
     ],
   },
   {
     role: "Prescriptor",
     access: [
-      { type: "Access Type 01", value: 0 },
-      { type: "Access Type 02", value: 1 },
-      { type: "Access Type 03", value: 1 },
-      { type: "Access Type 04", value: 0 },
-      { type: "Access Type 05", value: 1 },
+      { type: "Create User", value: 1 },
+      { type: "Edit User", value: 0 },
+      { type: "Create Role", value: 1 },
+      { type: "Edit Role", value: 0 },
+      { type: "Create Access", value: 0 },
+      { type: "Delete Access", value: 0 },
     ],
   },
   {
     role: "Generedor",
     access: [
-      { type: "Access Type 01", value: 0 },
-      { type: "Access Type 02", value: 0 },
-      { type: "Access Type 03", value: 1 },
-      { type: "Access Type 04", value: 1 },
-      { type: "Access Type 05", value: 1 },
+      { type: "Create User", value: 1 },
+      { type: "Edit User", value: 1 },
+      { type: "Create Role", value: 1 },
+      { type: "Edit Role", value: 0 },
+      { type: "Create Access", value: 0 },
+      { type: "Delete Access", value: 0 },
     ],
   },
   {
     role: "Generedor Lider",
     access: [
-      { type: "Access Type 01", value: 0 },
-      { type: "Access Type 02", value: 1 },
-      { type: "Access Type 03", value: 1 },
-      { type: "Access Type 04", value: 1 },
-      { type: "Access Type 05", value: 1 },
+      { type: "Create User", value: 1 },
+      { type: "Edit User", value: 1 },
+      { type: "Create Role", value: 1 },
+      { type: "Edit Role", value: 1 },
+      { type: "Create Access", value: 0 },
+      { type: "Delete Access", value: 0 },
     ],
   },
   {
     role: "Manager",
     access: [
-      { type: "Access Type 01", value: 1 },
-      { type: "Access Type 02", value: 1 },
-      { type: "Access Type 03", value: 1 },
-      { type: "Access Type 04", value: 1 },
-      { type: "Access Type 05", value: 1 },
+      { type: "Create User", value: 1 },
+      { type: "Edit User", value: 1 },
+      { type: "Create Role", value: 1 },
+      { type: "Edit Role", value: 1 },
+      { type: "Create Access", value: 1 },
+      { type: "Delete Access", value: 1 },
     ],
   },
 ];
-const Container = styled.div(() => [tw`flex flex-col h-max w-full m-1`]);
+const Container = styled.div(() => [tw`flex flex-col w-full m-1`]);
 
 const Span = styled.span`
-  ${tw`font-semibold my-2 p-2 bg-backgroundColor-tertiary text-textColor-tertiary border-l rounded`}
+  ${tw`font-semibold flex justify-center items-center bg-backgroundColor-tertiary border-l rounded my-2 h-12 `}
 `;
 
-const GridContainer = styled.div`
+const RowContainer = styled.div`
   ${tw`
     bg-backgroundColor-secondary
     w-full
+    justify-between
     p-2
     flex
     rounded-xl
-    justify-center items-center
   `}
 `;
 
+const RowGrid = styled.div`
+  ${tw`grid [grid-auto-rows: max-content] justify-center items-center
+    `}
+`;
+
 export const RolesAndAccess = () => {
+  const accessTypes = [];
+
+  // Iterate over the data array to extract access types
+  for (let i = 0; i < mockData.length; i++) {
+    const accessKeys = mockData[i].access;
+
+    for (let j = 0; j < accessKeys.length; j++) {
+      const accessKey = accessKeys[j].type;
+
+      if (!accessTypes.includes(accessKey)) {
+        accessTypes.push(accessKey);
+      }
+    }
+  }
+
+  const accessTypeElements = accessTypes.map((accessType, index) => (
+    <Span key={index}>{accessType}</Span>
+  ));
+
   return (
     <Container>
       <Text title>Roles & Access</Text>
-      <GridContainer>
-        <div>
-          <RoleCard />
-          <RoleCard role="Prescriptor" />
-          <RoleCard role="Generedor" />
-          <RoleCard role="Generedor Lider" />
-          <RoleCard role="Manager" />
-        </div>
+      <RowContainer>
+        <RowGrid>
+          <span className="h-28 w-40"></span>
+          {accessTypeElements}
+        </RowGrid>
 
         {mockData.map((data) => (
-          <div className="" key={data.role}>
+          <RowGrid key={data.role}>
             <RoleCard role={data.role} />
             {data.access.map((access) => (
               <SliderInput key={access.type} checked={access.value === 1} />
             ))}
-          </div>
+          </RowGrid>
         ))}
-      </GridContainer>
+      </RowContainer>
     </Container>
   );
 };
