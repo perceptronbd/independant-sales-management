@@ -1,18 +1,43 @@
 import React from "react";
-import tw from "twin.macro";
-import styled from "@emotion/styled";
+import clsx from "clsx";
 import { Text } from "../texts/Text";
 
-const BarColor = styled.div((role) => [
-  tw`bg-backgroundColor-tertiary w-2`,
-  role === "Agent" && tw`bg-blue-500`,
-]);
+const Bar = ({ role }) => {
+  return (
+    <div
+      className={clsx("w-16 h-1 bg-gradient-to-r", {
+        "from-red-500 to-red-200": role === "Agent",
+        "from-orange-500 to-orange-200": role === "Prescriptor",
+        "from-yellow-500 to-yellow-200": role === "Generedor",
+        "from-green-500 to-green-200": role === "Generedor Lider",
+        "from-green-800 to-green-500": role === "Manager",
+      })}
+    ></div>
+  );
+};
 
 export const RoleCard = ({ role = "Agent", totalUers }) => {
+  const authorityLevel = () => {
+    switch (role) {
+      case "Agent":
+        return "Very Low";
+      case "Prescriptor":
+        return "Low";
+      case "Generedor":
+        return "Medium";
+      case "Generedor Lider":
+        return "High";
+      case "Manager":
+        return "Very High";
+      default:
+        return "Low";
+    }
+  };
+
   return (
     <div
       className="bg-white
-   h-28 w-36 rounded-lg flex flex-col  justify-between"
+   h-28 w-40 rounded-lg flex flex-col justify-between"
     >
       <div className="m-2">
         <Text secondary>{totalUers} Users</Text>
@@ -21,14 +46,8 @@ export const RoleCard = ({ role = "Agent", totalUers }) => {
       <div className="mx-2 mb-2">
         <Text secondary> Authority Level</Text>
         <Text>
-          {"Low"}{" "}
-          <span className="grid grid-cols-5 h-1 w-12">
-            <RoleCard></RoleCard>
-            <RoleCard></RoleCard>
-            <RoleCard></RoleCard>
-            <RoleCard></RoleCard>
-            <RoleCard></RoleCard>
-          </span>
+          {authorityLevel()}
+          <Bar role={role} />
         </Text>
       </div>
     </div>

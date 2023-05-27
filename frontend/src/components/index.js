@@ -16,6 +16,7 @@ export { Text } from "./texts/Text";
 //inputs
 export { SearchBar } from "./inputs/SearchBar";
 export { QuantityInput } from "./inputs/QuantityInput";
+export { SliderInput } from "./inputs/SliderInput";
 //tables
 export { TableReview } from "./tables/TableReview";
 export { UserTable } from "./tables/UserTable";
