@@ -4,8 +4,6 @@ export { ContactBar } from "./navbars/ContactBar";
 //forms
 export { Login } from "./forms/Login";
 export { UserForm } from "./forms/UserForm";
-//skeletons
-export { GridSkeleton } from "./skeletons/GridSkeleton";
 //buttons
 export { Button } from "./buttons/Button";
 export { ButtonSwitcher } from "./buttons/ButtonSwitcher";
@@ -41,3 +39,5 @@ export { InfoCard } from "./cards/InfoCard";
 //containers
 export { Divider } from "./containers/Divider";
 export { DropFile } from "./containers/DropFile";
+//components
+export { Components } from "./Components";

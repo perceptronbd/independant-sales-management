@@ -1,4 +1,4 @@
-import { MantineProvider } from "@mantine/core";
+import { MantineProvider, Skeleton } from "@mantine/core";
 import {
   AdminContact,
   Authentication,
@@ -19,15 +19,14 @@ import {
   UserManagement,
 } from "./pages";
 import { Route, Routes } from "react-router-dom";
-import { Login, GridSkeleton, QuantityInput, UserInfo } from "./components";
+import { Components, Login, UserInfo } from "./components";
 
 export default function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <Routes>
         <Route exact path="/" element={<Login />} />
-        <Route path="/skeleton" element={<GridSkeleton />} />
-        <Route path="/component" element={<QuantityInput />} />
+        <Route path="/component" element={<Components />} />
         <Route path="/home" element={<Home />}>
           <Route path="profile" element={<Profile />} />
           <Route path="crm" element={<CRM />} />
