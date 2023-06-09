@@ -2,12 +2,11 @@ import {
   TextInput,
   PasswordInput,
   Anchor,
-  Paper,
   Title,
   Container,
   Group,
-  Button,
 } from "@mantine/core";
+import { Button } from "../buttons/Button";
 import { NavLink } from "react-router-dom";
 
 export function Login() {
@@ -23,8 +22,8 @@ export function Login() {
         Welcome to PLUTO!
       </Title>
 
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput label="Email" placeholder="you@mantine.dev" required />
+      <div className="bg-backgroundColor-secondary m-2 p-4 rounded-md">
+        <TextInput label="Username" placeholder="you@mantine.dev" required />
         <PasswordInput
           label="Password"
           placeholder="Your password"
@@ -38,11 +37,9 @@ export function Login() {
           </Anchor>
         </Group>
         <NavLink to="/home/profile">
-          <Button fullWidth mt="xl" className="bg-blue-800">
-            Sign in
-          </Button>
+          <Button className={`w-full`}>Sign in</Button>
         </NavLink>
-      </Paper>
+      </div>
     </Container>
   );
 }
