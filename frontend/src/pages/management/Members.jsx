@@ -1,8 +1,15 @@
 import { useState, useEffect } from "react";
-import { userData } from "../../api/modal";
 import { NavLink } from "react-router-dom";
 import { IconCoin, IconUsers } from "@tabler/icons-react";
 import { Button, StatCard, SearchBar, MembersTable } from "../../components";
+
+const userData = [
+  {
+    id: 1,
+    name: "Asif",
+    amount: 332,
+  },
+];
 
 export function Members() {
   const [data, setData] = useState([]);
@@ -37,7 +44,7 @@ export function Members() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
       />
-      <div class="flex flex-row">
+      <div className="flex flex-row">
         <StatCard icon={IconUsers} str={"User"} counts={countUser} />
         <StatCard
           icon={IconCoin}
@@ -49,7 +56,7 @@ export function Members() {
       <div className="flex-grow rounded-lg">
         <MembersTable data={searchResults} />
       </div>
-      <NavLink to={"/home/check-out"} class="h-20  rounded-lg">
+      <NavLink to={"/home/check-out"} className="h-20  rounded-lg">
         <Button>Check Out</Button>
       </NavLink>
     </div>

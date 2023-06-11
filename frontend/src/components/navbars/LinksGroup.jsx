@@ -61,34 +61,36 @@ export function LinksGroup({
   const [linkPath, setLinkPath] = useState("");
 
   const items = (hasLinks ? links : []).map((link) => (
-    <ul>
-      <li key={link.label}>
-        <NavLink
-          to={link.link}
-          className={clsx(classes.link, {
-            "text-accent-primary": window.location.pathname === link.link,
-          })}
-          onClick={() => {
-            setLinkPath(link.link);
-            setOpened(!opened);
-          }}
-        >
-          <li key={link.label}>
-            <NavLink
-              to={link.link}
-              className={clsx(`${classes.link} flex items-center`, {
-                "text-accent-primary": window.location.pathname === link.link,
-              })}
-              onClick={() => {
-                setLinkPath(link.link);
-                setOpened(!opened);
-              }}
-            >
-              {link.icon && <link.icon size="1.1rem" />}
-              <span className="ml-5">{link.label}</span>
-            </NavLink>
-          </li>
-        </NavLink>
+    <ul key={link.label}>
+      <li>
+        <ul>
+          <div
+            //to={link.link}
+            className={clsx(classes.link, {
+              "text-accent-primary": window.location.pathname === link.link,
+            })}
+            onClick={() => {
+              setLinkPath(link.link);
+              setOpened(!opened);
+            }}
+          >
+            <li key={link.label}>
+              <NavLink
+                to={link.link}
+                className={clsx(`${classes.link} flex items-center`, {
+                  "text-accent-primary": window.location.pathname === link.link,
+                })}
+                onClick={() => {
+                  setLinkPath(link.link);
+                  setOpened(!opened);
+                }}
+              >
+                {link.icon && <link.icon size="1.1rem" />}
+                <span className="ml-5">{link.label}</span>
+              </NavLink>
+            </li>
+          </div>
+        </ul>
       </li>
     </ul>
   ));

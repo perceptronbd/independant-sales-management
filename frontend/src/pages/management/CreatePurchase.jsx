@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
-import { userData } from "../../api/modal";
 import { useNavigate } from "react-router-dom";
 import { Button, SearchBar, MemberSelection } from "../../components";
+
+const userData = [
+  {
+    id: 1,
+    name: "Asif",
+    amount: 332,
+  },
+];
 
 export function CreatePurchase() {
   const [data, setData] = useState([]);

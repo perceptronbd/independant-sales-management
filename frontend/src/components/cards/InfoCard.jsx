@@ -2,10 +2,11 @@ import styled from "@emotion/styled";
 import React from "react";
 import tw from "twin.macro";
 
-const Text = styled.p(({ title, secondary }) => [
+const Text = styled.p(({ variant }) => [
   tw`text-textColor-secondary font-medium font-body text-sm`,
-  secondary && tw`text-textColor-tertiary`,
-  title && tw`text-textColor-primary font-title font-bold text-base`,
+  variant === "secondary" && tw`text-textColor-tertiary`,
+  variant === "title" &&
+    tw`text-textColor-primary font-title font-bold text-base`,
 ]);
 
 const SomeText =
@@ -13,7 +14,7 @@ const SomeText =
 export const InfoCard = () => {
   return (
     <div className="pr-4 pl-4 pt-4 pb-2 rounded bg-backgroundColor-secondary">
-      <Text title>Some Info</Text>
+      <Text variant="">Some Info</Text>
       <Text>{SomeText}</Text>
     </div>
   );

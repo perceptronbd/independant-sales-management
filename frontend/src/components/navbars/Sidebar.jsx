@@ -127,7 +127,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function Sidebar() {
+export function Sidebar({ handleLogout }) {
   const { classes } = useStyles();
   const links = navlink.map((item) => (
     <LinksGroup {...item} key={item.label} />
@@ -168,9 +168,9 @@ export function Sidebar() {
         </Navbar.Section>
 
         <Navbar.Section className={classes.footer}>
-          <NavLink to={"/"}>
-            <ButtonIcon icon={IconLogout}>Log Out</ButtonIcon>
-          </NavLink>
+          <ButtonIcon icon={IconLogout} onClick={handleLogout}>
+            Log Out
+          </ButtonIcon>
         </Navbar.Section>
       </Navbar>
     </>

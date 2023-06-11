@@ -1,14 +1,15 @@
 import { Avatar } from "@mantine/core";
 import tw from "twin.macro";
 import styled from "@emotion/styled";
-import { IconPhoneCall, IconAt, IconGridDots } from "@tabler/icons-react";
-import { Button } from "../../components";
+import { IconPhoneCall, IconAt } from "@tabler/icons-react";
 
-const Text = styled.p(({ title, secondary, header }) => [
+const Text = styled.p(({ variant }) => [
   tw`text-textColor-secondary font-medium font-body text-sm`,
-  secondary && tw`text-textColor-tertiary`,
-  title && tw`text-textColor-primary font-title font-bold text-base`,
-  header && tw`text-textColor-primary font-title font-bold text-3xl`,
+  variant === "secondary" && tw`text-textColor-tertiary`,
+  variant === "title" &&
+    tw`text-textColor-primary font-title font-bold text-base`,
+  variant === "header" &&
+    tw`text-textColor-primary font-title font-bold text-3xl`,
 ]);
 
 export function ContactInfo({
@@ -22,9 +23,9 @@ export function ContactInfo({
     <>
       <div className="flex flex-col items-center mb-2">
         <Avatar src={avatar} size={94} radius="lg" className="m-4" />
-        <Text secondary>{title}</Text>
+        <Text variant="secondary">{title}</Text>
 
-        <Text title>{name}</Text>
+        <Text variant="title">{name}</Text>
 
         <div className="flex">
           <IconAt

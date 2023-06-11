@@ -8,10 +8,9 @@ export function UserForm() {
   const [opened, { open, close }] = useDisclosure(false);
 
   const roles = [
-    { value: "generator", label: "Generator" },
-    { value: "prescriptor", label: "Prescriptor" },
-    { value: "coUser", label: "CO User" },
     { value: "user", label: "User" },
+    { value: "coUser", label: "CO User" },
+    { value: "generator", label: "Generator" },
   ];
 
   const form = useForm({
@@ -19,6 +18,7 @@ export function UserForm() {
       firstName: "",
       lastName: "",
       email: "",
+      password: "",
       address: "",
       city: "",
       postalCode: "",
@@ -31,16 +31,16 @@ export function UserForm() {
       firstName: hasLength({ min: 2, max: 10 }),
       lastName: hasLength({ min: 2, max: 10 }),
       email: isEmail(),
+      password: isNotEmpty(),
       address: isNotEmpty(),
       city: isNotEmpty(),
-      postalCode: isNotEmpty(),
       state: isNotEmpty(),
       role: isNotEmpty(),
-      referalID: [],
+      referalID: isNotEmpty(),
     },
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log(form.values);
     open();
   };
@@ -91,6 +91,16 @@ export function UserForm() {
         {...form.getInputProps("email")}
         className="w-1/2 mr-1  mt-2"
       />
+
+      <TextInput
+        label="Password"
+        placeholder="Password"
+        type="password"
+        withAsterisk
+        width={50}
+        {...form.getInputProps("password")}
+        className="w-1/2 mr-1  mt-2"
+      />
       <div className="flex w-full mt-2">
         <TextInput
           label="Address"
@@ -111,7 +121,6 @@ export function UserForm() {
         <TextInput
           label="Postal Code"
           placeholder="Postal Code"
-          withAsterisk
           {...form.getInputProps("postalCode")}
           className="w-1/2 mr-2"
         />
@@ -130,14 +139,19 @@ export function UserForm() {
         withAsterisk
         {...form.getInputProps("role")}
       >
-        <option disabled>Select Role</option>
+        <option value={"Select Role"} disabled>
+          Select Role
+        </option>
         {roles.map((role) => (
-          <option value={role.value}>{role.label}</option>
+          <option value={role.value} key={role.value}>
+            {role.label}
+          </option>
         ))}
       </InputBase>
       <TextInput
         label="Referal ID"
         placeholder="Referal ID"
+        withAsterisk
         {...form.getInputProps("referalID")}
         className="w-1/2 mt-2"
       />

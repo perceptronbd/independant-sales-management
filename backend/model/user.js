@@ -3,7 +3,11 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const userSchema = Schema({
-  username: {
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
     type: String,
     required: true,
   },
@@ -18,14 +22,28 @@ const userSchema = Schema({
   },
   role: {
     type: String,
-    enum: ["user", "admin"],
-    default: "user",
+    required: true,
   },
-  contactNumber: {
+  address: {
     type: String,
     required: true,
   },
-  profilePicture: String,
+  city: {
+    type: String,
+    required: true,
+  },
+  state: {
+    type: String,
+    required: true,
+  },
+  postalCode: {
+    type: String,
+    required: true,
+  },
+  referralID: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

@@ -20,7 +20,7 @@ export const login = async (req, res) => {
       const accessToken = generateAccessToken(user);
       const refreshToken = generateRefreshToken(user);
       refreshTokens.push(refreshToken);
-      res.json({ user, accessToken, refreshToken });
+      res.json({ ...user, accessToken, refreshToken });
     } else {
       res.status(400).json("Username or Password is incorrect!");
     }

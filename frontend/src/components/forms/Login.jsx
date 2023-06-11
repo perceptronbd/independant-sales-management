@@ -1,15 +1,7 @@
-import {
-  TextInput,
-  PasswordInput,
-  Anchor,
-  Title,
-  Container,
-  Group,
-} from "@mantine/core";
+import { TextInput, PasswordInput, Title, Container } from "@mantine/core";
 import { Button } from "../buttons/Button";
-import { NavLink } from "react-router-dom";
 
-export function Login() {
+export function Login({ setUsername, setPassword, handleSubmit }) {
   return (
     <Container size={420} my={40}>
       <Title
@@ -22,24 +14,31 @@ export function Login() {
         Welcome to PLUTO!
       </Title>
 
-      <div className="bg-backgroundColor-secondary m-2 p-4 rounded-md">
-        <TextInput label="Username" placeholder="you@mantine.dev" required />
+      <form
+        className="bg-backgroundColor-secondary m-2 p-4 rounded-md"
+        onSubmit={handleSubmit}
+      >
+        <TextInput
+          label="Username"
+          placeholder="username"
+          required
+          onChange={(e) => {
+            setUsername(e.target.value);
+          }}
+        />
         <PasswordInput
           label="Password"
           placeholder="Your password"
           required
           mt="md"
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
         />
-        <Group position="apart" mt="lg">
-          {/* <Checkbox label="Remember me" /> */}
-          <Anchor component="button" size="sm">
-            Forgot password?
-          </Anchor>
-        </Group>
-        <NavLink to="/home/profile">
-          <Button className={`w-full`}>Sign in</Button>
-        </NavLink>
-      </div>
+        <Button className={`w-full`} type="submit">
+          Sign in
+        </Button>
+      </form>
     </Container>
   );
 }

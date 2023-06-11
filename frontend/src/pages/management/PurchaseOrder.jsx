@@ -1,10 +1,24 @@
 import { useState, useEffect } from "react";
-import { productData, userData } from "../../api/modal";
 import { useLocation, NavLink } from "react-router-dom";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import { Button, SearchBar, ProductSelection } from "../../components";
 
+const userData = [
+  {
+    id: 1,
+    name: "Asif",
+    amount: 332,
+  },
+];
+
+const productData = [
+  {
+    id: 1,
+    product: "product",
+    price: 222,
+  },
+];
 export function PurchaseOrder() {
   const [opened, { open, close }] = useDisclosure(false);
   const [data, setData] = useState([]);
