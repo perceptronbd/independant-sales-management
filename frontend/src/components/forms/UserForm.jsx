@@ -12,9 +12,9 @@ export function UserForm() {
   const [error, setError] = useState();
 
   const roles = [
-    { value: "User", label: "User" },
-    { value: "CO User", label: "CO User" },
-    { value: "Generator", label: "Generator" },
+    { value: "user", label: "User" },
+    { value: "co-user", label: "CO User" },
+    { value: "generator", label: "Generator" },
   ];
 
   const form = useForm({

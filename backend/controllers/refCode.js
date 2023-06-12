@@ -16,7 +16,7 @@ export const refCode = async (req, res) => {
       await user.save();
     }
 
-    res.json({ ...user });
+    res.json({ ...user._doc });
   } catch (error) {
     console.error("Error generating referral code: ", error);
     res.status(500).json({ error: "Internal server error." });

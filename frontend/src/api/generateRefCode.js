@@ -6,9 +6,9 @@ export const generateRefCode = async (_id, setRefCode) => {
     console.log("generateCode", res.data);
     //    localStorage.setItem("user", JSON.stringify(res.data));
     const userData = JSON.parse(localStorage.getItem("user"));
-    userData._doc.refCode = res.data._doc.refCode;
+    userData.refCode = res.data.refCode;
     localStorage.setItem("user", JSON.stringify(userData));
-    setRefCode(res.data._doc.refCode);
+    setRefCode(res.data.refCode);
     return res.data;
   } catch (error) {
     console.error("Error in generateRefCode", error);

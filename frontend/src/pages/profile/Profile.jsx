@@ -1,15 +1,9 @@
-import {
-  ProgressRing,
-  ListCard,
-  ButtonSwitcher,
-  InfoCard,
-  Divider,
-} from "../../components";
+import { ProgressRing, ListCard, InfoCard, Divider } from "../../components";
 import { ContactInfo } from "./ContactInfo";
 
 export function Profile() {
   const data = JSON.parse(localStorage.getItem("user"));
-  const user = data._doc;
+  const user = data;
 
   const capitalizeFirstLetter = (str) => {
     if (str && str.length > 0) {

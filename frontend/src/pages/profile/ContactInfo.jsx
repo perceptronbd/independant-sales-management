@@ -1,7 +1,7 @@
 import { Avatar } from "@mantine/core";
 import tw from "twin.macro";
 import styled from "@emotion/styled";
-import { IconPhoneCall, IconAt } from "@tabler/icons-react";
+import { IconAt } from "@tabler/icons-react";
 import { generateRefCode } from "../../api/generateRefCode";
 import { useState } from "react";
 
@@ -21,15 +21,13 @@ export function ContactInfo({
   email = "mail@glassbreaker.io",
 }) {
   const data = JSON.parse(localStorage.getItem("user"));
-  const user = data._doc;
+  const user = data;
   const _id = user._id;
 
   const [reffCode, setReffCode] = useState(user.refCode);
 
   const handleGenerateRefCode = async () => {
-    console.log("user._id: ", _id);
     await generateRefCode(_id, setReffCode);
-    console.log("res in handleGenerateRefCode: ", reffCode);
   };
 
   return (
