@@ -2,6 +2,8 @@ import { Avatar } from "@mantine/core";
 import tw from "twin.macro";
 import styled from "@emotion/styled";
 import { IconPhoneCall, IconAt } from "@tabler/icons-react";
+import { generateRefCode } from "../../api/generateRefCode";
+import { useState } from "react";
 
 const Text = styled.p(({ variant }) => [
   tw`text-textColor-secondary font-medium font-body text-sm`,
@@ -14,16 +16,27 @@ const Text = styled.p(({ variant }) => [
 
 export function ContactInfo({
   avatar = "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=250&q=80",
-  title = "Generator",
+  role = "Generator",
   name = "Firstname Lastname",
   email = "mail@glassbreaker.io",
-  phone = "+11 (876) 890 56 23",
 }) {
+  const data = JSON.parse(localStorage.getItem("user"));
+  const user = data._doc;
+  const _id = user._id;
+
+  const [reffCode, setReffCode] = useState(user.refCode);
+
+  const handleGenerateRefCode = async () => {
+    console.log("user._id: ", _id);
+    await generateRefCode(_id, setReffCode);
+    console.log("res in handleGenerateRefCode: ", reffCode);
+  };
+
   return (
     <>
       <div className="flex flex-col items-center mb-2">
         <Avatar src={avatar} size={94} radius="lg" className="m-4" />
-        <Text variant="secondary">{title}</Text>
+        <Text variant="secondary">{role}</Text>
 
         <Text variant="title">{name}</Text>
 
@@ -35,7 +48,21 @@ export function ContactInfo({
           />
           <Text>{email}</Text>
         </div>
-        <div className="flex">
+        <div>
+          {reffCode ? (
+            <p className="!text-alert-warning rounded-lg font-medium border-2 border-alert-warning px-2 my-1">
+              Refferal Code: {reffCode}
+            </p>
+          ) : (
+            <button
+              className="!bg-alert-warning text-white rounded-lg font-medium border-2 border-alert-warning px-2 py-1 my-1"
+              onClick={handleGenerateRefCode}
+            >
+              Generate Referal code
+            </button>
+          )}
+        </div>
+        {/* <div className="flex">
           <IconPhoneCall
             stroke={1.5}
             size="1rem"
@@ -44,7 +71,7 @@ export function ContactInfo({
           <Text fz="xs" c="dimmed">
             {phone}
           </Text>
-        </div>
+        </div> */}
       </div>
     </>
   );

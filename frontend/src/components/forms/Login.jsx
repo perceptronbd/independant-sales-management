@@ -1,7 +1,7 @@
 import { TextInput, PasswordInput, Title, Container } from "@mantine/core";
 import { Button } from "../buttons/Button";
 
-export function Login({ setUsername, setPassword, handleSubmit }) {
+export function Login({ setEmail, setPassword, handleSubmit }) {
   return (
     <Container size={420} my={40}>
       <Title
@@ -19,11 +19,12 @@ export function Login({ setUsername, setPassword, handleSubmit }) {
         onSubmit={handleSubmit}
       >
         <TextInput
-          label="Username"
-          placeholder="username"
+          label="Email"
+          placeholder="email"
+          type="email"
           required
           onChange={(e) => {
-            setUsername(e.target.value);
+            setEmail(e.target.value);
           }}
         />
         <PasswordInput

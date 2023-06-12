@@ -1,16 +1,20 @@
 import { useForm, isNotEmpty, isEmail, hasLength } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
+import { IconAlertCircle, IconCircleCheck } from "@tabler/icons-react";
 import { Group, TextInput, Box, InputBase, Modal } from "@mantine/core";
 import { Button } from "../buttons/Button";
 import { Text } from "../texts/Text";
+import { createUser } from "../../api/createUser";
+import { useState } from "react";
 
 export function UserForm() {
   const [opened, { open, close }] = useDisclosure(false);
+  const [error, setError] = useState();
 
   const roles = [
-    { value: "user", label: "User" },
-    { value: "coUser", label: "CO User" },
-    { value: "generator", label: "Generator" },
+    { value: "User", label: "User" },
+    { value: "CO User", label: "CO User" },
+    { value: "Generator", label: "Generator" },
   ];
 
   const form = useForm({
@@ -24,7 +28,7 @@ export function UserForm() {
       postalCode: "",
       state: "",
       role: "",
-      referalID: "",
+      referralID: "",
     },
 
     validate: {
@@ -36,22 +40,29 @@ export function UserForm() {
       city: isNotEmpty(),
       state: isNotEmpty(),
       role: isNotEmpty(),
-      referalID: isNotEmpty(),
+      referralID: isNotEmpty(),
     },
   });
 
   const handleSubmit = async () => {
-    console.log(form.values);
-    open();
+    try {
+      await createUser(form.values);
+      //open();
+      setError("");
+      console.log(error);
+    } catch (error) {
+      setError(error);
+      console.log(error);
+    } finally {
+      open();
+    }
   };
 
   return (
     <Box
       component="form"
       className="mx-auto"
-      onSubmit={form.onSubmit(() => {
-        handleSubmit();
-      })}
+      onSubmit={form.onSubmit(handleSubmit)}
       sx={(theme) => ({
         backgroundColor:
           theme.colorScheme === "dark"
@@ -139,9 +150,7 @@ export function UserForm() {
         withAsterisk
         {...form.getInputProps("role")}
       >
-        <option value={"Select Role"} disabled>
-          Select Role
-        </option>
+        <option>Select Role</option>
         {roles.map((role) => (
           <option value={role.value} key={role.value}>
             {role.label}
@@ -152,11 +161,28 @@ export function UserForm() {
         label="Referal ID"
         placeholder="Referal ID"
         withAsterisk
-        {...form.getInputProps("referalID")}
+        {...form.getInputProps("referralID")}
         className="w-1/2 mt-2"
       />
-      <Modal opened={opened} onClose={close} withCloseButton={false}>
-        The user has been created successfully!
+      <Modal
+        opened={opened}
+        onClose={close}
+        withCloseButton={false}
+        overlayProps={{
+          opacity: 0.55,
+          blur: 3,
+        }}
+      >
+        {error ? (
+          <Text className={"flex items-center "} error>
+            <IconAlertCircle /> <div className="mx-2">{error.error}</div>
+          </Text>
+        ) : (
+          <Text className={"flex items-center "} ok>
+            <IconCircleCheck />{" "}
+            <div className="mx-2">The user has been created successfully!</div>
+          </Text>
+        )}
       </Modal>
       <Group position="right" mt="md">
         <Button type="submit">Submit</Button>

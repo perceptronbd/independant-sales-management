@@ -20,7 +20,7 @@ import {
   SharedDocuments,
   UserManagement,
 } from "./pages";
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Login, UserInfo } from "./components";
 import { useState } from "react";
 import { login, logout } from "./api/auth";
@@ -30,11 +30,8 @@ export default function App() {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.stringify(storedUser) : null;
   });
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const navigate = useNavigate();
 
   const axiosJWT = axios.create();
 
@@ -70,7 +67,7 @@ export default function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await login(username, password, setIsLoggedIn);
+      const res = await login(email, password);
       setUser(res);
     } catch (error) {
       console.log("error in handleSumit", error);
@@ -99,7 +96,7 @@ export default function App() {
               <Navigate to={"/home/profile"} />
             ) : (
               <Login
-                setUsername={setUsername}
+                setEmail={setEmail}
                 setPassword={setPassword}
                 handleSubmit={handleSubmit}
               />
@@ -113,7 +110,7 @@ export default function App() {
               <Home handleLogout={handleLogout} />
             ) : (
               <Login
-                setUsername={setUsername}
+                setEmail={setEmail}
                 setPassword={setPassword}
                 handleSubmit={handleSubmit}
               />
