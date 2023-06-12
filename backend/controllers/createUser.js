@@ -1,6 +1,6 @@
 import { User } from "../model/user.js";
 
-const createUser = async (req, res) => {
+export const createUser = async (req, res) => {
   try {
     const {
       address,
@@ -14,28 +14,28 @@ const createUser = async (req, res) => {
       role,
       state,
     } = req.body;
-
     const existingUser = await User.findOne({ email });
-
     if (existingUser) {
-      return res.status(409).json({ error: "User already exists." });
+      return res.status(409).json({ error: "User already exists!" });
+    } else if (role === "Select Role") {
+      return res.status(409).json({ error: "Please select a user role!" });
     }
-
     const newUser = new User({
-      address,
-      city,
-      email,
       firstName,
       lastName,
+      email,
       password,
+      role,
+      address,
+      city,
+      state,
       postalCode,
       referralID,
-      role,
-      state,
     });
-
-    const savadUser = await newUser.save();
+    const savedUser = await newUser.save();
+    res.status(201).json(`created user succesffully: ${savedUser}`);
   } catch (error) {
     console.log("error in createUser controller", error);
+    res.status(500).json({ error: "Failed to create user" });
   }
 };

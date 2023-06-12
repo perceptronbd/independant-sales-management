@@ -1,10 +1,10 @@
 import axios from "axios";
 
-export const login = async (username, password, setIsLoggedIn) => {
+export const login = async (email, password) => {
   try {
-    const res = await axios.post("/login", { username, password });
+    const res = await axios.post("/login", { email, password });
     localStorage.setItem("user", JSON.stringify(res.data));
-    setIsLoggedIn(true);
+    console.log("res.data in login: ", res.data);
     return res.data;
   } catch (error) {
     console.log("error in login api.", error);

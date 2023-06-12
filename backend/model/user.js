@@ -44,6 +44,9 @@ const userSchema = Schema({
     type: String,
     required: true,
   },
+  refCode: {
+    type: String,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

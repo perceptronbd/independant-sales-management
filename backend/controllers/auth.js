@@ -11,16 +11,16 @@ dotenv.config();
 let refreshTokens = [];
 
 export const login = async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ username, password });
+    const user = await User.findOne({ email, password });
 
     if (user) {
       const accessToken = generateAccessToken(user);
       const refreshToken = generateRefreshToken(user);
       refreshTokens.push(refreshToken);
-      res.json({ ...user, accessToken, refreshToken });
+      res.json({ ...user._doc, accessToken, refreshToken });
     } else {
       res.status(400).json("Username or Password is incorrect!");
     }
