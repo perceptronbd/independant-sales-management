@@ -74,7 +74,7 @@ export default function App() {
 
   const handleLogout = async () => {
     try {
-      console.log("refreshToken in logout: ", user);
+      console.log("refreshToken in logout: ", user.refreshToken);
       await axios.post("/logout", { token: user.refreshToken });
       setUser(null);
       localStorage.removeItem("user");
@@ -136,9 +136,8 @@ export default function App() {
           <Route path="sales" element={<Sales />} />
           <Route path="legals-agreements" element={<LegalsAndAgreements />} />
           <Route path="shared-documents" element={<SharedDocuments />} />
-          <Route path="user-management" element={<RolesAndAccess />} />
-          <Route path="authentications" element={<Authentication />} />
           <Route path="user-management" element={<UserManagement />} />
+          <Route path="authentications" element={<Authentication />} />
           <Route path="notifications" element={<Notifications />} />
         </Route>
       </Routes>

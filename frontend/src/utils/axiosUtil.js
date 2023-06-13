@@ -4,10 +4,10 @@ import { refresh } from "../api/auth";
 
 export const axiosJWT = axios.create();
 
-const userData = localStorage.getItem("user");
-
 axiosJWT.interceptors.request.use(
   async (config) => {
+    const userData = JSON.parse(localStorage.getItem("user"));
+    console.log("accessToken in axiosUtil: ", userData.accessToken);
     let currentDate = new Date();
     const decodedToken = jwt_decode(userData.accessToken);
     if (decodedToken.exp * 1000 < currentDate.getTime()) {

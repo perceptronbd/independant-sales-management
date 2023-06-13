@@ -55,6 +55,7 @@ export const refresh = (req, res) => {
   //send error if there is no token or it's invalid
   if (!refreshToken) return res.status(401).json("You are not authenticated!");
   if (!refreshTokens.includes(refreshToken)) {
+    console.log("refreshToken: ", refreshToken);
     return res.status(403).json("Refresh token is not valid!");
   }
   jwt.verify(refreshToken, process.env.SECRET_KEY, (err, user) => {

@@ -4,7 +4,7 @@ import { IconAlertCircle, IconCircleCheck } from "@tabler/icons-react";
 import { Group, TextInput, Box, InputBase, Modal } from "@mantine/core";
 import { Button } from "../buttons/Button";
 import { Text } from "../texts/Text";
-import { createUser } from "../../api/createUser";
+import { createUser } from "../../api/crudApi";
 import { useState } from "react";
 
 export function UserForm() {
