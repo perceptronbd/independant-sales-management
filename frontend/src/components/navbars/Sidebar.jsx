@@ -77,8 +77,8 @@ const navlink = [
     icon: IconSettings,
     links: [
       {
-        link: "/home/roles-and-access",
-        label: "Roles & Access",
+        link: "/home/user-management",
+        label: "User Management",
         icon: IconUsers,
       },
       {

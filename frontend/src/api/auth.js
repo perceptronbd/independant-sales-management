@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const userData = localStorage.getItem("user");
+
 export const login = async (email, password) => {
   try {
     const res = await axios.post("/login", { email, password });
@@ -11,10 +13,17 @@ export const login = async (email, password) => {
   }
 };
 
-export const logout = async (refreshToken) => {
+export const refresh = async (refreshToken, setUser) => {
   try {
-    await axios.post("/logout", { token: refreshToken });
+    const res = await axios.post("/refresh", {
+      token: refreshToken,
+    });
+    setUser({
+      ...userData,
+      accessToken: res.data.accessToken,
+      refreshToken: res.data.refreshToken,
+    });
   } catch (error) {
-    console.log("error in logout api.", error);
+    console.error("error in refresh token", error);
   }
 };

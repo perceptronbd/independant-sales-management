@@ -49,7 +49,6 @@ export function UserForm() {
       await createUser(form.values);
       //open();
       setError("");
-      console.log(error);
     } catch (error) {
       setError(error);
       console.log(error);
