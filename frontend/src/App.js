@@ -23,6 +23,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { Login, UserInfo } from "./components";
 import { useEffect, useState } from "react";
 import { login } from "./api/auth";
+import { GridSkeleton } from "./components/skeletons/GridSkeleton";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -61,6 +62,7 @@ export default function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <Routes>
+        <Route path="/components" element={<GridSkeleton />} />
         <Route
           exact
           path="/"

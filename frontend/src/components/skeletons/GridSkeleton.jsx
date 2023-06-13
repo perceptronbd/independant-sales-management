@@ -14,37 +14,61 @@ export function GridSkeleton() {
   const SECONDARY_COL_HEIGHT = `calc(${PRIMARY_COL_HEIGHT} / 2 - ${theme.spacing.md} / 2)`;
 
   return (
-    <Container my="md">
+    <div className="w-full h-screen">
       <SimpleGrid
         cols={2}
         spacing="md"
         breakpoints={[{ maxWidth: "sm", cols: 1 }]}
       >
-        <Skeleton height={PRIMARY_COL_HEIGHT} radius="md" animate={false} />
+        <Skeleton height={PRIMARY_COL_HEIGHT} radius="md" animate={true} />
         <Grid gutter="md">
           <Grid.Col>
             <Skeleton
               height={SECONDARY_COL_HEIGHT}
               radius="md"
-              animate={false}
+              animate={true}
             />
           </Grid.Col>
           <Grid.Col span={6}>
             <Skeleton
               height={SECONDARY_COL_HEIGHT}
               radius="md"
-              animate={false}
+              animate={true}
             />
           </Grid.Col>
           <Grid.Col span={6}>
             <Skeleton
               height={SECONDARY_COL_HEIGHT}
               radius="md"
-              animate={false}
+              animate={true}
             />
           </Grid.Col>
         </Grid>
+        <Grid gutter="md">
+          <Grid.Col>
+            <Skeleton
+              height={SECONDARY_COL_HEIGHT}
+              radius="md"
+              animate={true}
+            />
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <Skeleton
+              height={SECONDARY_COL_HEIGHT}
+              radius="md"
+              animate={true}
+            />
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <Skeleton
+              height={SECONDARY_COL_HEIGHT}
+              radius="md"
+              animate={true}
+            />
+          </Grid.Col>
+        </Grid>
+        <Skeleton height={PRIMARY_COL_HEIGHT} radius="md" animate={true} />
       </SimpleGrid>
-    </Container>
+    </div>
   );
 }

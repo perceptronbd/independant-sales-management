@@ -3,6 +3,7 @@ import { Button } from "../../components";
 import { deleteUser } from "../../api/crudApi";
 import { verifyManager } from "../../api/verifyUser";
 import { useNavigate } from "react-router-dom";
+import { GridSkeleton } from "../../components/skeletons/GridSkeleton";
 
 export const UserManagement = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -27,7 +28,7 @@ export const UserManagement = () => {
   return (
     <div className="m-1 w-full h-screen flex justify-center items-center">
       {isLoading ? (
-        <div>Loading...</div>
+        <GridSkeleton c />
       ) : (
         <Button onClick={() => handleDelete("64862600c17f5dc8cd8cc607")}>
           Delete User
