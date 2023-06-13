@@ -12,12 +12,24 @@ export const createUser = async (user) => {
 };
 
 export const deleteUser = async (id, refreshToken) => {
-  console.log("deleteUser refreshToken: ", refreshToken);
   try {
     await axiosJWT.delete("/users/" + id, {
       headers: { authorization: "Bearer " + refreshToken },
     });
+  } catch (err) {
+    console.error("deleteUser Api: ", err);
+  }
+};
+
+export const verifyManager = async (refreshToken, setIsLoading) => {
+  try {
+    await axiosJWT.get("/manager-route", {
+      headers: {
+        authorization: "Bearer " + refreshToken,
+      },
+    });
+    setIsLoading(false);
   } catch (error) {
-    console.error("deleteUser: ", error);
+    console.error("verifyManager API:", error);
   }
 };

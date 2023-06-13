@@ -14,5 +14,8 @@ router.post("/refresh-token", refresh);
 router.post("/create-user", createUser);
 router.post("/generate-ref-code", checkRole, refCode);
 router.delete("/users/:userId", verifyManager, deleteUser);
+router.get("/manager-route", verifyManager, (req, res) => {
+  res.status(200).json({ message: "Access granted!" });
+});
 
 export default router;

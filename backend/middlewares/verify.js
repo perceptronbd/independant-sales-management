@@ -18,9 +18,7 @@ export const verifyManager = (req, res, next) => {
 
         //checking if the user has access to the route
         if (req.user.role !== "manager") {
-          return res
-            .status(401)
-            .json("You are not allowed to access this rouute!");
+          return res.status(401).json("Access Denied!");
         }
 
         next();

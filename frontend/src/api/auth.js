@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const userData = JSON.parse(localStorage.getItem("user"));
-
 export const login = async (email, password) => {
   try {
     const res = await axios.post("/login", { email, password });
@@ -14,6 +12,7 @@ export const login = async (email, password) => {
 
 export const refresh = async () => {
   try {
+    const userData = JSON.parse(localStorage.getItem("user"));
     const res = await axios.post("/refresh-token", {
       token: userData.refreshToken,
     });

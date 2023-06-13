@@ -1,6 +1,5 @@
 import { MantineProvider } from "@mantine/core";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
 import {
   AdminContact,
   Authentication,
@@ -15,9 +14,9 @@ import {
   OptionPage,
   Profile,
   PurchaseOrder,
-  RolesAndAccess,
   Sales,
   SharedDocuments,
+  Unauthorized,
   UserManagement,
 } from "./pages";
 import { Navigate, Route, Routes } from "react-router-dom";
@@ -29,38 +28,6 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  // const axiosJWT = axios.create();
-
-  // axiosJWT.interceptors.request.use(
-  //   async (config) => {
-  //     let currentDate = new Date();
-  //     const decodedToken = jwt_decode(user.accessToken);
-  //     if (decodedToken.exp * 1000 < currentDate.getTime()) {
-  //       const data = await refreshToken();
-  //       config.headers["Authorization"] = "Bearer " + data.accessToken;
-  //     }
-  //     return config;
-  //   },
-  //   (error) => {
-  //     return Promise.reject(error);
-  //   }
-  // );
-
-  // const refreshToken = async () => {
-  //   try {
-  //     const res = await axios("/refresh-token", { token: user.refreshToken });
-  //     setUser({
-  //       ...user,
-  //       accessToken: res.data.accessToken,
-  //       refreshToken: res.data.refreshToken,
-  //     });
-  //     return res.data;
-  //   } catch (error) {
-  //     console.error("error in refreshToken", error);
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -74,8 +41,9 @@ export default function App() {
 
   const handleLogout = async () => {
     try {
-      console.log("refreshToken in logout: ", user.refreshToken);
-      await axios.post("/logout", { token: user.refreshToken });
+      const userData = JSON.parse(localStorage.getItem("user"));
+      console.log("refreshToken in logout: ", userData.refreshToken);
+      await axios.post("/logout", { token: userData.refreshToken });
       setUser(null);
       localStorage.removeItem("user");
     } catch (error) {
@@ -139,6 +107,7 @@ export default function App() {
           <Route path="user-management" element={<UserManagement />} />
           <Route path="authentications" element={<Authentication />} />
           <Route path="notifications" element={<Notifications />} />
+          <Route path="unauthorized" element={<Unauthorized />} />
         </Route>
       </Routes>
     </MantineProvider>
