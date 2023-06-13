@@ -22,52 +22,50 @@ import {
 } from "./pages";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Login, UserInfo } from "./components";
-import { useState } from "react";
-import { login, logout } from "./api/auth";
+import { useEffect, useState } from "react";
+import { login } from "./api/auth";
 
 export default function App() {
-  const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.stringify(storedUser) : null;
-  });
+  const [user, setUser] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const axiosJWT = axios.create();
+  // const axiosJWT = axios.create();
 
-  axiosJWT.interceptors.request.use(
-    async (config) => {
-      let currentDate = new Date();
-      const decodedToken = jwt_decode(user.accessToken);
-      if (decodedToken.exp * 1000 < currentDate.getTime()) {
-        const data = await refreshToken();
-        config.headers["Authorization"] = "Bearer " + data.accessToken;
-      }
-      return config;
-    },
-    (error) => {
-      return Promise.reject(error);
-    }
-  );
+  // axiosJWT.interceptors.request.use(
+  //   async (config) => {
+  //     let currentDate = new Date();
+  //     const decodedToken = jwt_decode(user.accessToken);
+  //     if (decodedToken.exp * 1000 < currentDate.getTime()) {
+  //       const data = await refreshToken();
+  //       config.headers["Authorization"] = "Bearer " + data.accessToken;
+  //     }
+  //     return config;
+  //   },
+  //   (error) => {
+  //     return Promise.reject(error);
+  //   }
+  // );
 
-  const refreshToken = async () => {
-    try {
-      const res = await axios("/refresh-token", { token: user.refreshToken });
-      setUser({
-        ...user,
-        accessToken: res.data.accessToken,
-        refreshToken: res.data.refreshToken,
-      });
-      return res.data;
-    } catch (error) {
-      console.error("error in refreshToken", error);
-    }
-  };
+  // const refreshToken = async () => {
+  //   try {
+  //     const res = await axios("/refresh-token", { token: user.refreshToken });
+  //     setUser({
+  //       ...user,
+  //       accessToken: res.data.accessToken,
+  //       refreshToken: res.data.refreshToken,
+  //     });
+  //     return res.data;
+  //   } catch (error) {
+  //     console.error("error in refreshToken", error);
+  //   }
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await login(email, password);
+      console.log("res in login: ", res);
       setUser(res);
     } catch (error) {
       console.log("error in handleSumit", error);
@@ -76,14 +74,21 @@ export default function App() {
 
   const handleLogout = async () => {
     try {
-      console.log(user.refreshToken);
-      await logout(user.refreshToken);
+      console.log("refreshToken in logout: ", user);
+      await axios.post("/logout", { token: user.refreshToken });
       setUser(null);
       localStorage.removeItem("user");
     } catch (error) {
       console.log("error in handleLogout", error);
     }
   };
+
+  useEffect(() => {
+    setUser(() => {
+      const storedUser = localStorage.getItem("user");
+      return storedUser ? JSON.parse(storedUser) : null;
+    });
+  }, []);
 
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
@@ -131,7 +136,7 @@ export default function App() {
           <Route path="sales" element={<Sales />} />
           <Route path="legals-agreements" element={<LegalsAndAgreements />} />
           <Route path="shared-documents" element={<SharedDocuments />} />
-          <Route path="roles-and-access" element={<RolesAndAccess />} />
+          <Route path="user-management" element={<RolesAndAccess />} />
           <Route path="authentications" element={<Authentication />} />
           <Route path="user-management" element={<UserManagement />} />
           <Route path="notifications" element={<Notifications />} />
