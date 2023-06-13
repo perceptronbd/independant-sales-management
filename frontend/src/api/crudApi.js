@@ -20,16 +20,3 @@ export const deleteUser = async (id, refreshToken) => {
     console.error("deleteUser Api: ", err);
   }
 };
-
-export const verifyManager = async (refreshToken, setIsLoading) => {
-  try {
-    await axiosJWT.get("/manager-route", {
-      headers: {
-        authorization: "Bearer " + refreshToken,
-      },
-    });
-    setIsLoading(false);
-  } catch (error) {
-    console.error("verifyManager API:", error);
-  }
-};
