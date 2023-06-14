@@ -45,11 +45,7 @@ export function UserForm() {
       role.value !== "agent",
   };
 
-  const selectedRole = "manager";
-
-  const filteredRoles = roles.filter(
-    roleFilters[selectedRole] || (() => false)
-  );
+  const filteredRoles = roles.filter(roleFilters[role] || (() => false));
 
   const form = useForm({
     initialValues: {
