@@ -2,7 +2,11 @@ import express from "express";
 import { login, logout, refresh } from "../controllers/auth.js";
 import { createUser } from "../controllers/createUser.js";
 import { refCode } from "../controllers/refCode.js";
-import { verifyManager, verifyUserforRefCode } from "../middlewares/verify.js";
+import {
+  denyUserAccess,
+  verifyManager,
+  verifyUserforRefCode,
+} from "../middlewares/verify.js";
 import { deleteUser } from "../controllers/deleteUser.js";
 
 const router = express.Router();
@@ -14,6 +18,11 @@ router.post("/refresh-token", refresh);
 
 //User
 router.post("/create-user", createUser);
+
+//User restricted routes
+router.get("/deny-user-access", denyUserAccess, (req, res) => {
+  res.status(200).json({ message: "Access granted!" });
+});
 
 //Referral Code
 router.post("/generate-ref-code", refCode);

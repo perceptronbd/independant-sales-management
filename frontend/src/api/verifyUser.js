@@ -12,19 +12,29 @@ export const verifyManager = async (refreshToken, setIsLoading) => {
         setIsLoading(false);
       });
   } catch (error) {
-    // if (error.response && error.response.status === 401) {
-    //   navigate("/home/unauthorized");
-    // }
     console.error("verifyManager API:", error.response);
     throw error.response;
   }
 };
 
-export const verifyForRefCode = async (
-  refreshToken,
-  setHasRefCode,
-  hasRefCode
-) => {
+export const denyUserAccess = async (refreshToken, setIsLoading) => {
+  try {
+    await axiosJWT
+      .get("/deny-user-access", {
+        headers: {
+          authorization: "Bearer " + refreshToken,
+        },
+      })
+      .then(() => {
+        setIsLoading(false);
+      });
+  } catch (error) {
+    console.error("denyUserAccess API: ", error);
+    throw error.response;
+  }
+};
+
+export const verifyForRefCode = async (refreshToken, setHasRefCode) => {
   try {
     await axiosJWT
       .get("/verify-user-for-refcode", {
