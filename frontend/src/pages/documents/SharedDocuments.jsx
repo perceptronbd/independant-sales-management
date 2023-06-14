@@ -1,6 +1,5 @@
 import React from "react";
-import { ScrollArea } from "@mantine/core";
-import { SearchBar, DropFile, FileTable, Text } from "../../components";
+import { SearchBar, FileTable, Text } from "../../components";
 
 const data = [
   {
@@ -97,11 +96,8 @@ export const SharedDocuments = () => {
         <Text title>Shared Documents</Text>
         <SearchBar str="File" />
       </div>
-      <div className="col-span-9">
+      <div className="col-span-12">
         <FileTable data={data} />
-      </div>
-      <div className="col-span-3">
-        <DropFile />
       </div>
     </div>
   );

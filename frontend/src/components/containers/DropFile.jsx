@@ -15,7 +15,11 @@ export function DropFile(props) {
   const theme = useMantineTheme();
   const openRef = useRef(null);
   return (
-    <>
+    <div>
+      <div>
+        <Text>Drag images here or click to select files</Text>
+        <Text body>File should not exceed 5MB</Text>
+      </div>
       <Dropzone
         openRef={openRef}
         onDrop={(files) => console.log("accepted files", files)}
@@ -23,11 +27,12 @@ export function DropFile(props) {
         maxSize={3 * 1024 ** 2}
         accept={IMAGE_MIME_TYPE}
         {...props}
+        className="h-[200px]"
       >
         <Group
           position="center"
           spacing="xl"
-          style={{ minHeight: rem(500), pointerEvents: "none" }}
+          style={{ minHeight: rem(150), pointerEvents: "none" }}
         >
           <Dropzone.Accept>
             <IconUpload
@@ -42,24 +47,19 @@ export function DropFile(props) {
           </Dropzone.Accept>
           <Dropzone.Reject>
             <IconX
-              size="3.2rem"
+              size="2.1rem"
               stroke={1.5}
               color={theme.colors.red[theme.colorScheme === "dark" ? 4 : 6]}
             />
           </Dropzone.Reject>
           <Dropzone.Idle>
-            <IconPhoto size="3.2rem" stroke={1.5} />
+            <IconPhoto size="2.1rem" stroke={1.5} />
           </Dropzone.Idle>
-
-          <div>
-            <Text>Drag images here or click to select files</Text>
-            <Text body>File should not exceed 5mb</Text>
-          </div>
         </Group>
       </Dropzone>
-      <Group position="center" mt="md">
+      <Group position="center">
         <Button onClick={() => openRef.current()}>Select files</Button>
       </Group>
-    </>
+    </div>
   );
 }
