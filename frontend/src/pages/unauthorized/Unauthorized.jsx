@@ -10,7 +10,7 @@ export const Unauthorized = () => {
        w-full h-full rounded-lg flex items-center justify-center"
       >
         <Text
-          className={"text-alert-danger font-title text-2xl flex items-center"}
+          className={"!text-alert-danger font-title text-2xl flex items-center"}
         >
           <IconAlertCircle size={"26px"} className="mx-2" />
           You are not Authorized!

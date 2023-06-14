@@ -1,6 +1,6 @@
 import { axiosJWT } from "../utils/axiosUtil";
 
-export const verifyManager = async (refreshToken, setIsLoading, navigate) => {
+export const verifyManager = async (refreshToken, setIsLoading) => {
   try {
     await axiosJWT
       .get("/manager-route", {
@@ -12,10 +12,11 @@ export const verifyManager = async (refreshToken, setIsLoading, navigate) => {
         setIsLoading(false);
       });
   } catch (error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/home/unauthorized");
-    }
+    // if (error.response && error.response.status === 401) {
+    //   navigate("/home/unauthorized");
+    // }
     console.error("verifyManager API:", error.response);
+    throw error.response;
   }
 };
 

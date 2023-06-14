@@ -19,8 +19,14 @@ export const UserManagement = () => {
 
   useEffect(() => {
     const handleManagerRoute = async () => {
-      const user = JSON.parse(localStorage.getItem("user"));
-      await verifyManager(user.refreshToken, setIsLoading, navigate);
+      try {
+        const user = JSON.parse(localStorage.getItem("user"));
+        await verifyManager(user.refreshToken, setIsLoading);
+      } catch (error) {
+        if (error && error.status === 401) {
+          navigate("/home/unauthorized");
+        }
+      }
     };
     handleManagerRoute();
   }, []);
