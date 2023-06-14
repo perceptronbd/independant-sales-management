@@ -15,7 +15,7 @@ export function UserForm() {
   const [error, setError] = useState();
   const [refID, setRefID] = useState(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-    return user ? user.refCode : null;
+    return user.refCode ? user.refCode : "";
   });
   const [role, setRole] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -230,6 +230,7 @@ export function UserForm() {
             <TextInput
               label="Referal ID"
               placeholder={"refID"}
+              disabled
               {...form.getInputProps("referralID")}
               className="w-1/2 mt-2"
             />
