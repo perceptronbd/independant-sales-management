@@ -29,14 +29,16 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isInvalid, setIsInvalid] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await login(email, password);
+      const res = await login(email, password, setIsInvalid);
       console.log("res in login: ", res);
       setUser(res);
     } catch (error) {
-      console.log("error in handleSumit", error);
+      console.error("error in handleSumit", error);
     }
   };
 
@@ -74,6 +76,7 @@ export default function App() {
                 setEmail={setEmail}
                 setPassword={setPassword}
                 handleSubmit={handleSubmit}
+                isInvalid={isInvalid}
               />
             )
           }
@@ -88,6 +91,7 @@ export default function App() {
                 setEmail={setEmail}
                 setPassword={setPassword}
                 handleSubmit={handleSubmit}
+                isInvalid={isInvalid}
               />
             )
           }
