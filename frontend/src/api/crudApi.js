@@ -20,3 +20,13 @@ export const deleteUser = async (id, refreshToken) => {
     console.error("deleteUser Api: ", err);
   }
 };
+
+export const getUsers = async (refCode) => {
+  try {
+    const res = await axios.get("/get-users/" + refCode);
+    return res.data;
+  } catch (error) {
+    console.error("getUsers API: ", error);
+    throw error;
+  }
+};
