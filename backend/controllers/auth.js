@@ -31,20 +31,6 @@ export const login = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  const refreshToken = req.body.token;
-
-  if (!refreshToken) {
-    return res.status(400).json("Refresh token not provided!");
-  }
-
-  const tokenIndex = refreshTokens.indexOf(refreshToken);
-
-  if (tokenIndex == -1) {
-    return res.status(401).json("Invalid refresh token!");
-  }
-
-  refreshTokens.splice(tokenIndex, 1);
-
   res.status(200).json("Logged out successfully!");
 };
 

@@ -46,7 +46,7 @@ export default function App() {
     try {
       const userData = JSON.parse(localStorage.getItem("user"));
       console.log("refreshToken in logout: ", userData.refreshToken);
-      await axios.post("/logout", { token: userData.refreshToken });
+      await axios.post("/logout");
       setUser(null);
       localStorage.removeItem("user");
     } catch (error) {

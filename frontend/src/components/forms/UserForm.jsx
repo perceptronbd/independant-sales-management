@@ -5,17 +5,51 @@ import { Group, TextInput, Box, InputBase, Modal } from "@mantine/core";
 import { Button } from "../buttons/Button";
 import { Text } from "../texts/Text";
 import { createUser } from "../../api/crudApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { verifyManager } from "../../api/verifyUser";
 
 export function UserForm() {
   const [opened, { open, close }] = useDisclosure(false);
   const [error, setError] = useState();
+  const [role, setRole] = useState(null);
 
   const roles = [
     { value: "user", label: "User" },
     { value: "co-user", label: "CO User" },
+    { value: "agent", label: "Agent" },
+    { value: "prescriptor", label: "Prescriptor" },
     { value: "generator", label: "Generator" },
+    { value: "generator-leader", label: "Generator Leader" },
   ];
+
+  const roleFilters = {
+    manager: () => true,
+    "generator-leader": (roles) =>
+      role.value !== "generator-leader" && role.value !== "agent",
+    generator: (role) =>
+      role.value !== "generator-leader" &&
+      role.value !== "generator" &&
+      role.value !== "manager" &&
+      role.value !== "agent",
+    prescriptor: (role) =>
+      role.value !== "generator-leader" &&
+      role.value !== "generator" &&
+      role.value !== "manager" &&
+      role.value !== "prescriptor" &&
+      role.value !== "agent",
+    agent: (role) =>
+      role.value !== "generator-leader" &&
+      role.value !== "generator" &&
+      role.value !== "manager" &&
+      role.value !== "prescriptor" &&
+      role.value !== "agent",
+  };
+
+  const selectedRole = "manager";
+
+  const filteredRoles = roles.filter(
+    roleFilters[selectedRole] || (() => false)
+  );
 
   const form = useForm({
     initialValues: {
@@ -56,6 +90,11 @@ export function UserForm() {
       open();
     }
   };
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    setRole(user.role);
+  }, []);
 
   return (
     <Box
@@ -150,7 +189,7 @@ export function UserForm() {
         {...form.getInputProps("role")}
       >
         <option>Select Role</option>
-        {roles.map((role) => (
+        {filteredRoles.map((role) => (
           <option value={role.value} key={role.value}>
             {role.label}
           </option>
