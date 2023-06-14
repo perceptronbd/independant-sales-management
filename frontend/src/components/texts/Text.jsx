@@ -14,7 +14,7 @@ export const Text = ({
     <div
       className={clsx(className, [
         "text-textColor-secondary font-body text-sm",
-        title && `text-textColor-primary font-title font-semibold !text-2xl`,
+        title && `text-textColor-primary !font-title font-semibold !text-2xl`,
         header &&
           `text-textColor-primary font-special font-semibold !text-lg
         `,

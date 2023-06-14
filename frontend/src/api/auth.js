@@ -28,6 +28,7 @@ export const refresh = async () => {
         refreshToken: res.data.refreshToken,
       })
     );
+    return res.data;
   } catch (error) {
     console.error("error in refresh token", error);
   }
