@@ -16,5 +16,8 @@ router.delete("/users/:userId", verifyManager, deleteUser);
 router.get("/manager-route", verifyManager, (req, res) => {
   res.status(200).json({ message: "Access granted!" });
 });
+router.get("/verify-user-for-refcode", verifyUserforRefCode, (req, res) => {
+  res.status(200).json({ message: "Access granted!" });
+});
 
 export default router;

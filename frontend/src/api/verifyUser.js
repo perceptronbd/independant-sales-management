@@ -18,3 +18,22 @@ export const verifyManager = async (refreshToken, setIsLoading, navigate) => {
     console.error("verifyManager API:", error.response);
   }
 };
+
+export const verifyForRefCode = async (
+  refreshToken,
+  setHasRefCode,
+  hasRefCode
+) => {
+  try {
+    await axiosJWT
+      .get("/verify-user-for-refcode", {
+        headers: {
+          authorization: "Bearer " + refreshToken,
+        },
+      })
+      .then(setHasRefCode(true));
+  } catch (error) {
+    setHasRefCode(false);
+    console.error("verifyForRefCode API: ", error);
+  }
+};

@@ -3,7 +3,8 @@ import tw from "twin.macro";
 import styled from "@emotion/styled";
 import { IconAt } from "@tabler/icons-react";
 import { generateRefCode } from "../../api/generateRefCode";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { verifyForRefCode } from "../../api/verifyUser";
 
 const Text = styled.p(({ variant }) => [
   tw`text-textColor-secondary font-medium font-body text-sm`,
@@ -25,10 +26,21 @@ export function ContactInfo({
   const _id = user._id;
 
   const [reffCode, setReffCode] = useState(user.refCode);
+  const [hasRefCode, setHasRefCode] = useState(false);
 
   const handleGenerateRefCode = async () => {
     await generateRefCode(_id, setReffCode);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const user = JSON.parse(localStorage.getItem("user"));
+      console.log("refreshToken: ", user.refreshToken);
+      await verifyForRefCode(user.refreshToken, setHasRefCode, hasRefCode);
+      console.log(hasRefCode);
+    };
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -46,20 +58,24 @@ export function ContactInfo({
           />
           <Text>{email}</Text>
         </div>
-        <div>
-          {reffCode ? (
-            <p className="!text-alert-warning rounded-lg font-medium border-2 border-alert-warning px-2 my-1">
-              Refferal Code: {reffCode}
-            </p>
-          ) : (
-            <button
-              className="!bg-alert-warning text-white rounded-lg font-medium border-2 border-alert-warning px-2 py-1 my-1"
-              onClick={handleGenerateRefCode}
-            >
-              Generate Referal code
-            </button>
-          )}
-        </div>
+        {hasRefCode ? (
+          <div>
+            {reffCode ? (
+              <p className="!text-alert-warning rounded-lg font-medium border-2 border-alert-warning px-2 my-1">
+                Refferal Code: {reffCode}
+              </p>
+            ) : (
+              <button
+                className="!bg-alert-warning text-white rounded-lg font-medium border-2 border-alert-warning px-2 py-1 my-1"
+                onClick={handleGenerateRefCode}
+              >
+                Generate Referal code
+              </button>
+            )}
+          </div>
+        ) : (
+          <></>
+        )}
         {/* <div className="flex">
           <IconPhoneCall
             stroke={1.5}
