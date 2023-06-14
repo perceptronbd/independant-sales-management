@@ -55,7 +55,7 @@ export const verifyUserforRefCode = (req, res, next) => {
       res.status(401).json("You are not authenticated!");
     }
   } catch (error) {
-    console.error("Error in varifyAdmin: ", error);
+    console.error("Error in verifyUserforRefCode: ", error);
   }
 };
 

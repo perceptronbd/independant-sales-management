@@ -13,6 +13,10 @@ import { useNavigate } from "react-router-dom";
 export function UserForm() {
   const [opened, { open, close }] = useDisclosure(false);
   const [error, setError] = useState();
+  const [refID, setRefID] = useState(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    return user ? user.refCode : null;
+  });
   const [role, setRole] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
@@ -62,7 +66,7 @@ export function UserForm() {
       postalCode: "",
       state: "",
       role: "",
-      referralID: "",
+      referralID: `${refID}`,
     },
 
     validate: {
@@ -94,6 +98,7 @@ export function UserForm() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     setRole(user.role);
+    setRefID(user.refCode);
     const fetchData = async () => {
       try {
         await denyUserAccess(user.refreshToken, setIsLoading);
@@ -213,13 +218,22 @@ export function UserForm() {
               </option>
             ))}
           </InputBase>
-          <TextInput
-            label="Referal ID"
-            placeholder="Referal ID"
-            withAsterisk
-            {...form.getInputProps("referralID")}
-            className="w-1/2 mt-2"
-          />
+          {role === "agent" || refID === null ? (
+            <TextInput
+              label="Referal ID"
+              placeholder="Referal ID"
+              withAsterisk
+              {...form.getInputProps("referralID")}
+              className="w-1/2 mt-2"
+            />
+          ) : (
+            <TextInput
+              label="Referal ID"
+              placeholder={"refID"}
+              {...form.getInputProps("referralID")}
+              className="w-1/2 mt-2"
+            />
+          )}
           <Modal
             opened={opened}
             onClose={close}

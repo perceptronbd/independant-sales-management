@@ -16,7 +16,9 @@ export const createUser = async (req, res) => {
     } = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(409).json({ error: "User already exists!" });
+      return res
+        .status(409)
+        .json({ error: "User with this email already exists!" });
     } else if (role === "Select Role") {
       return res.status(409).json({ error: "Please select a user role!" });
     }
