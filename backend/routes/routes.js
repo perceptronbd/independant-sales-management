@@ -3,6 +3,7 @@ import { login, logout, refresh } from "../controllers/auth.js";
 import {
   createUser,
   deleteUser,
+  getAllProducts,
   getUsers,
 } from "../controllers/crudController.js";
 import { refCode } from "../controllers/refCode.js";
@@ -39,5 +40,8 @@ router.delete("/users/:userId", verifyManager, deleteUser);
 router.get("/manager-route", verifyManager, (req, res) => {
   res.status(200).json({ message: "Access granted!" });
 });
+
+//Products
+router.get("/products", getAllProducts);
 
 export default router;

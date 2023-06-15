@@ -1,3 +1,4 @@
+import { Product } from "../model/product.js";
 import { User } from "../model/user.js";
 
 export const createUser = async (req, res) => {
@@ -68,11 +69,21 @@ export const getUsers = async (req, res) => {
   try {
     const users = await User.find(
       { referralID: refCode },
-      { _id: 1, firstName: 1, email: 1, role: 1 }
+      { _id: 1, firstName: 1, email: 1, email: 1, role: 1 }
     );
     res.json(users);
   } catch (error) {
     console.error("Error retrieving users:", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const getAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (error) {
+    console.error("getAllProducts: ", error);
+    res.state(500).json({ error: "Internal server error" });
   }
 };
