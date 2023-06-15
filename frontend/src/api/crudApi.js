@@ -30,3 +30,14 @@ export const getUsers = async (refCode) => {
     throw error;
   }
 };
+
+export const getAllProducts = async () => {
+  try {
+    const res = await axios.get("/products");
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.error("getAllProducts:", error);
+    throw error;
+  }
+};

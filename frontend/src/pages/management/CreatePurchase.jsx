@@ -1,33 +1,42 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, SearchBar, MemberSelection } from "../../components";
-
-const userData = [
-  {
-    id: 1,
-    name: "Asif",
-    amount: 332,
-  },
-];
+import { getUsers } from "../../api/crudApi";
 
 export function CreatePurchase() {
   const [data, setData] = useState([]);
+  const [userData, setUserData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [selectedMembers, setSelectedMembers] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const fetchData = async () => {
+      try {
+        const getUserData = await getUsers(user.refCode);
+        console.log(getUserData);
+        setUserData(getUserData);
+        setData(getUserData);
+      } catch (error) {
+        console.error("Members useEffect: ", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
     setData(userData);
     const results = filterData(userData, searchQuery);
     setSearchResults(results);
-  }, [searchQuery]);
+  }, [searchQuery, userData]);
 
   const filterData = (data, query) => {
     return data.filter(
       (user) =>
-        user.name.toLowerCase().includes(query.toLowerCase()) ||
-        user.id.toString().includes(query.toLowerCase())
+        user.firstName.toLowerCase().includes(query.toLowerCase()) ||
+        user.email.includes(query.toLowerCase())
     );
   };
 

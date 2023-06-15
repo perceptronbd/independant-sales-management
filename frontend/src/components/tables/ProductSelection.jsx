@@ -5,8 +5,8 @@ import styled from "@emotion/styled";
 
 const useStyles = createStyles((theme) => ({
   rowSelected: {
-    backgroundColor: "#3D5AFE",
-    color: "#FFFFFF",
+    backgroundColor: "#F6FAFF",
+    color: "#3D5AFE",
   },
 }));
 
@@ -52,26 +52,23 @@ export const ProductSelection = ({
     );
 
   const list = data.map((item) => {
-    const selected = selection.includes(item.id);
+    const selected = selection.includes(item._id);
     return (
       <RowContainer
         className={cx("group", { [classes.rowSelected]: selected })}
         key={item.id}
       >
-        <RowItems tertiary className="w-20">
-          <Checkbox
-            checked={selection.includes(item.id)}
-            onChange={() => toggleRow(item.id)}
-            transitionDuration={0}
-            className="w-full"
-          />
-          {item.id}
-        </RowItems>
-        <RowItems className="w-1/5">{item.product}</RowItems>
+        <Checkbox
+          checked={selection.includes(item._id)}
+          onChange={() => toggleRow(item._id)}
+          transitionDuration={0}
+          className="mx-4"
+        />
+        <RowItems className="w-1/5">{item.name}</RowItems>
         <RowItems tertiary className="w-1/5">
           {item.category}
         </RowItems>
-        <RowItems className="w-24">{item.price}</RowItems>
+        <RowItems className="w-24">$ {item.price}</RowItems>
       </RowContainer>
     );
   });
@@ -79,18 +76,15 @@ export const ProductSelection = ({
   return (
     <div className="flex flex-col">
       <HeaderContainer>
-        <HeaderItems className="w-20">
-          <Checkbox
-            onChange={toggleAll}
-            checked={selection.length === data.length}
-            indeterminate={
-              selection.length > 0 && selection.length !== data.length
-            }
-            transitionDuration={0}
-            className="w-full"
-          />
-          ID
-        </HeaderItems>
+        <Checkbox
+          onChange={toggleAll}
+          checked={selection.length === data.length}
+          indeterminate={
+            selection.length > 0 && selection.length !== data.length
+          }
+          transitionDuration={0}
+          className="mx-4"
+        />
         <HeaderItems tertiary className="w-1/5">
           Product
         </HeaderItems>

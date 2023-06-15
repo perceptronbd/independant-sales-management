@@ -42,7 +42,7 @@ export function Members() {
     return data.filter(
       (user) =>
         user.firstName.toLowerCase().includes(query.toLowerCase()) ||
-        user.id.toString().includes(query.toLowerCase())
+        user.email.includes(query.toLowerCase())
     );
   };
 

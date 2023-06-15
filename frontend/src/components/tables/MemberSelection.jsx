@@ -5,8 +5,8 @@ import styled from "@emotion/styled";
 
 const useStyles = createStyles((theme) => ({
   rowSelected: {
-    backgroundColor: "#3D5AFE",
-    color: "#FFFFFF",
+    backgroundColor: "#F6FAFF",
+    color: "#3D5AFE",
   },
 }));
 
@@ -15,15 +15,15 @@ const HeaderContainer = styled.div`
 `;
 
 const HeaderItems = styled.div(() => [
-  tw`ml-6 my-0 pr-1 font-light flex justify-start items-center  text-textColor-tertiary `,
+  tw`mx-auto my-0 pr-1 font-light flex justify-start items-center  text-textColor-tertiary `,
 ]);
 
 const RowContainer = styled.div`
-  ${tw`my-0 pr-1 font-light flex justify-between items-center w-full rounded-lg h-12 hover:bg-backgroundColor-secondary`}
+  ${tw`my-0 pr-1 font-light flex justify-self-stretch items-center w-full rounded-lg h-12 hover:bg-backgroundColor-secondary`}
 `;
 
 const RowItems = styled.div(({ tertiary }) => [
-  tw`ml-6 my-0 pr-1 font-semibold flex justify-start items-center  group-hover:text-accent-primary`,
+  tw`mx-auto my-0 pr-1 font-semibold flex justify-start items-center group-hover:text-accent-primary`,
   tertiary && tw`text-textColor-tertiary`,
 ]);
 
@@ -49,26 +49,26 @@ export const MemberSelection = ({
   };
   const toggleAll = () =>
     setSelection((current) =>
-      current.length === data.length ? [] : data.map((item) => item.id)
+      current.length === data.length ? [] : data.map((item) => item.email)
     );
 
   const list = data.map((item) => {
-    const selected = selection.includes(item.id);
+    const selected = selection.includes(item.email);
     return (
       <RowContainer
         className={cx("group", { [classes.rowSelected]: selected })}
         key={item.id}
       >
-        <RowItems tertiary className="w-20">
-          <Checkbox
-            checked={selection.includes(item.id)}
-            onChange={() => toggleRow(item.id)}
-            transitionDuration={0}
-            className="w-full"
-          />
-          {item.id}
+        <Checkbox
+          checked={selection.includes(item.email)}
+          onChange={() => toggleRow(item.email)}
+          transitionDuration={0}
+          className="mx-4"
+        />
+        <RowItems className="w-10">{item.firstName}</RowItems>
+        <RowItems className="w-10 text-textColor-tertiary">
+          {item.email}
         </RowItems>
-        <RowItems className="w-1/5">{item.name}</RowItems>
         <RowItems tertiary className="w-1/5">
           {item.lastPurchase}
         </RowItems>
@@ -80,20 +80,20 @@ export const MemberSelection = ({
   return (
     <div className="flex flex-col">
       <HeaderContainer>
-        <HeaderItems className="w-20">
-          <Checkbox
-            onChange={toggleAll}
-            checked={selection.length === data.length}
-            indeterminate={
-              selection.length > 0 && selection.length !== data.length
-            }
-            transitionDuration={0}
-            className="w-full"
-          />
-          ID
+        <Checkbox
+          onChange={toggleAll}
+          checked={selection.length === data.length}
+          indeterminate={
+            selection.length > 0 && selection.length !== data.length
+          }
+          transitionDuration={0}
+          className="mx-4"
+        />
+        <HeaderItems tertiary className="w-1/5 px-8">
+          Name
         </HeaderItems>
         <HeaderItems tertiary className="w-1/5">
-          Name
+          Email
         </HeaderItems>
         <HeaderItems secondary className="w-1/5">
           Last Purchase

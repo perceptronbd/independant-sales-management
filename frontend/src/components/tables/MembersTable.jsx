@@ -24,7 +24,10 @@ export const MembersTable = ({ data }) => {
   const list = data.map((item) => {
     return (
       <RowContainer className="group" key={item._id}>
-        <RowItems className="w-1/5">{item.firstName}</RowItems>
+        <RowItems className="w-10">{item.firstName}</RowItems>
+        <RowItems className="w-1/5 text-textColor-tertiary">
+          {item.email}
+        </RowItems>
         <RowItems tertiary className="w-1/5">
           {item.lastPurchase}
         </RowItems>
@@ -36,8 +39,11 @@ export const MembersTable = ({ data }) => {
   return (
     <div className="flex flex-col">
       <HeaderContainer>
-        <HeaderItems tertiary className="w-1/5">
+        <HeaderItems tertiary className="w-10">
           Name
+        </HeaderItems>
+        <HeaderItems tertiary className="w-1/5">
+          Email
         </HeaderItems>
         <HeaderItems secondary className="w-1/5">
           Last Purchase
