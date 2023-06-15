@@ -35,11 +35,7 @@ export const MemberSelection = ({
   const { classes, cx } = useStyles();
   const [selection, setSelection] = useState(["1"]);
   const toggleRow = (id) => {
-    setSelection((current) =>
-      current.includes(id)
-        ? current.filter((item) => item !== id)
-        : [...current, id]
-    );
+    setSelection([id]);
 
     const updatedSelectedMembers = selectedMembers.includes(id)
       ? selectedMembers.filter((item) => item !== id)
@@ -81,7 +77,6 @@ export const MemberSelection = ({
     <div className="flex flex-col">
       <HeaderContainer>
         <Checkbox
-          onChange={toggleAll}
           checked={selection.length === data.length}
           indeterminate={
             selection.length > 0 && selection.length !== data.length
