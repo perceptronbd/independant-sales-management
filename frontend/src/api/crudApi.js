@@ -41,3 +41,12 @@ export const getAllProducts = async () => {
     throw error;
   }
 };
+
+export const createPurchase = async (userId, products) => {
+  try {
+    const res = await axios.post("/purchase", { userId, products });
+    console.log("createPurchase", res);
+  } catch (error) {
+    console.error("createPurchase:", error);
+  }
+};

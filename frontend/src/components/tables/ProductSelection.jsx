@@ -46,17 +46,13 @@ export const ProductSelection = ({
 
     handleProductSelection(updatedSelectedProducts);
   };
-  const toggleAll = () =>
-    setSelection((current) =>
-      current.length === data.length ? [] : data.map((item) => item.id)
-    );
 
   const list = data.map((item) => {
     const selected = selection.includes(item._id);
     return (
       <RowContainer
         className={cx("group", { [classes.rowSelected]: selected })}
-        key={item.id}
+        key={item._id}
       >
         <Checkbox
           checked={selection.includes(item._id)}
@@ -77,8 +73,8 @@ export const ProductSelection = ({
     <div className="flex flex-col">
       <HeaderContainer>
         <Checkbox
-          onChange={toggleAll}
           checked={selection.length === data.length}
+          readOnly
           indeterminate={
             selection.length > 0 && selection.length !== data.length
           }

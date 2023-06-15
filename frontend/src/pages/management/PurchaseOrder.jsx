@@ -3,7 +3,7 @@ import { useLocation, NavLink } from "react-router-dom";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import { Button, SearchBar, ProductSelection } from "../../components";
-import { getAllProducts, getUsers } from "../../api/crudApi";
+import { createPurchase, getAllProducts, getUsers } from "../../api/crudApi";
 
 export function PurchaseOrder() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -79,6 +79,18 @@ export function PurchaseOrder() {
     fetchData();
   }, []);
 
+  const handlePurchase = async () => {
+    const userId = selectedMembers[0]._id;
+    const products = selectedProduct.map((item) => item._id);
+    console.log("handlePurchase:", userId);
+    console.log("handlePurchase:", products);
+    try {
+      await createPurchase(userId, products);
+    } catch (error) {
+      console.error("handlePurchase:", error);
+    }
+  };
+
   useEffect(() => {
     setData(productData);
     const results = filterData(productData, searchQuery);
@@ -141,7 +153,7 @@ export function PurchaseOrder() {
           </div>
         </div>
         <NavLink to={-1}>
-          <Button onClick={close}>Apply</Button>
+          <Button onClick={handlePurchase}>Apply</Button>
         </NavLink>
       </Modal>
       <div>

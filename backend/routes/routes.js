@@ -1,9 +1,11 @@
 import express from "express";
 import { login, logout, refresh } from "../controllers/auth.js";
 import {
+  createPurchase,
   createUser,
   deleteUser,
   getAllProducts,
+  getLastPurchase,
   getUsers,
 } from "../controllers/crudController.js";
 import { refCode } from "../controllers/refCode.js";
@@ -41,7 +43,9 @@ router.get("/manager-route", verifyManager, (req, res) => {
   res.status(200).json({ message: "Access granted!" });
 });
 
-//Products
+//Products & Purchase
 router.get("/products", getAllProducts);
+router.post("/purchase", createPurchase);
+router.post("/last-purchase", getLastPurchase);
 
 export default router;

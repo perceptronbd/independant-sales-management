@@ -43,21 +43,18 @@ export const MemberSelection = ({
 
     onMemberSelection(updatedSelectedMembers);
   };
-  const toggleAll = () =>
-    setSelection((current) =>
-      current.length === data.length ? [] : data.map((item) => item.email)
-    );
 
   const list = data.map((item) => {
     const selected = selection.includes(item.email);
     return (
       <RowContainer
         className={cx("group", { [classes.rowSelected]: selected })}
-        key={item.id}
+        key={item._id}
       >
         <Checkbox
           checked={selection.includes(item.email)}
           onChange={() => toggleRow(item.email)}
+          readOnly
           transitionDuration={0}
           className="mx-4"
         />
@@ -77,7 +74,6 @@ export const MemberSelection = ({
     <div className="flex flex-col">
       <HeaderContainer>
         <Checkbox
-          checked={selection.length === data.length}
           indeterminate={
             selection.length > 0 && selection.length !== data.length
           }

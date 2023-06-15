@@ -1,4 +1,5 @@
 import { Product } from "../model/product.js";
+import { Purchase } from "../model/purchase.js";
 import { User } from "../model/user.js";
 
 export const createUser = async (req, res) => {
@@ -85,5 +86,67 @@ export const getAllProducts = async (req, res) => {
   } catch (error) {
     console.error("getAllProducts: ", error);
     res.state(500).json({ error: "Internal server error" });
+  }
+};
+
+export const createPurchase = async (req, res) => {
+  try {
+    const { userId, products } = req.body;
+
+    console.log("createPurchase:", products, userId);
+
+    const formattedProducts = products.map((productId) => ({
+      productId,
+      quantity: 1,
+    }));
+
+    const purchase = new Purchase({
+      userId,
+      products: formattedProducts,
+    });
+
+    const savedPurchase = await purchase.save();
+
+    res.status(201).json(savedPurchase);
+  } catch (error) {
+    console.error("Error storing purchase:", error);
+    res.status(500).json({ error: "Failed to store purchase" });
+  }
+};
+
+export const getLastPurchase = async (req, res) => {
+  try {
+    const { userIds } = req.body;
+
+    const lastPurchase = await Purchase.aggregate([
+      {
+        $match: { userId: { $in: userIds } },
+      },
+      {
+        $sort: { purchaseDate: -1 },
+      },
+      {
+        $group: {
+          _id: "$userId",
+          lastPurchase: {
+            $first: {
+              amount: "$amount",
+              purchaseDate: "$purchaseDate",
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          lastPurchase: 1,
+        },
+      },
+    ]);
+
+    res.status(200).json(lastPurchase);
+  } catch (error) {
+    console.error("Error getting users last purchases:", error);
+    res.status(500).json({ error: "Failed to get users last purchases" });
   }
 };
