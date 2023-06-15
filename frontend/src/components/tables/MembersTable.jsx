@@ -23,11 +23,8 @@ const RowItems = styled.div(({ tertiary }) => [
 export const MembersTable = ({ data }) => {
   const list = data.map((item) => {
     return (
-      <RowContainer className="group" key={item.id}>
-        <RowItems tertiary className="w-20">
-          {item.id}
-        </RowItems>
-        <RowItems className="w-1/5">{item.name}</RowItems>
+      <RowContainer className="group" key={item._id}>
+        <RowItems className="w-1/5">{item.firstName}</RowItems>
         <RowItems tertiary className="w-1/5">
           {item.lastPurchase}
         </RowItems>
@@ -39,7 +36,6 @@ export const MembersTable = ({ data }) => {
   return (
     <div className="flex flex-col">
       <HeaderContainer>
-        <HeaderItems className="w-20">ID</HeaderItems>
         <HeaderItems tertiary className="w-1/5">
           Name
         </HeaderItems>

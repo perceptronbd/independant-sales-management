@@ -68,7 +68,7 @@ export const getUsers = async (req, res) => {
   try {
     const users = await User.find(
       { referralID: refCode },
-      { _id: 1, firstName: 1, lastName: 1, email: 1, role: 1 }
+      { _id: 1, firstName: 1, email: 1, role: 1 }
     );
     res.json(users);
   } catch (error) {
