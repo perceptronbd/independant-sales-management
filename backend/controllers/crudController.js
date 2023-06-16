@@ -118,6 +118,8 @@ export const getUsersWithPurchaseInfo = async (req, res) => {
       };
     });
 
+    usersWithPurchaseInfo.sort((a, b) => a.email.localeCompare(b.email));
+
     res.json(usersWithPurchaseInfo);
   } catch (error) {
     console.error("Error retrieving users:", error);
