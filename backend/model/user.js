@@ -32,6 +32,12 @@ const userSchema = Schema({
     type: String,
     required: true,
   },
+  purchases: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Purchase",
+    },
+  ],
   state: {
     type: String,
     required: true,
