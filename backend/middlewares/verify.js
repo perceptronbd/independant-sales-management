@@ -59,7 +59,7 @@ export const verifyUserforRefCode = (req, res, next) => {
   }
 };
 
-export const denyUserAccess = (req, res, next) => {
+export const denyUserFormAccess = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
     if (authHeader) {
@@ -69,7 +69,11 @@ export const denyUserAccess = (req, res, next) => {
           console.error("denyUserAccess controller: ", err);
           return res.status(403).json("Invalid Token!");
         }
-        if (user.role === "user" || user.role === "co-user") {
+        if (
+          user.role === "user" ||
+          user.role === "co-user" ||
+          user.role === "prescriptor"
+        ) {
           return res.status(401).json("Access Denied!");
         }
         next();

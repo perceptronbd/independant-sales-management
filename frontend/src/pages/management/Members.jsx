@@ -48,27 +48,39 @@ export function Members() {
 
   return (
     <div className="flex flex-col  justify-between w-full mt-1 ml-4 mr-2">
-      <SearchBar
-        str="Member"
-        data={data}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-      />
-      <div className="flex flex-row">
-        <StatCard icon={IconUsers} str={"User"} counts={countUser} />
-        <StatCard
-          icon={IconCoin}
-          str={"Available Amount"}
-          variant="ok"
-          counts={totalAvailableAmount}
-        />
-      </div>
-      <div className="flex-grow rounded-lg">
-        <MembersTable data={searchResults} />
-      </div>
-      <NavLink to={"/home/check-out"} className="h-20 rounded-lg">
-        <Button>Check Out</Button>
-      </NavLink>
+      {data.length === 0 ? (
+        <div
+          className="bg-backgroundColor-secondary flex justify-center items-center rounded-lg w-full h-full text-textColor-tertiary
+          font-bold text-5xl
+        "
+        >
+          No user under your tree!
+        </div>
+      ) : (
+        <>
+          <SearchBar
+            str="Member"
+            data={data}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
+          <div className="flex flex-row">
+            <StatCard icon={IconUsers} str={"User"} counts={countUser} />
+            <StatCard
+              icon={IconCoin}
+              str={"Available Amount"}
+              variant="ok"
+              counts={totalAvailableAmount}
+            />
+          </div>
+          <div className="flex-grow rounded-lg">
+            <MembersTable data={searchResults} />
+          </div>
+          <NavLink to={"/home/check-out"} className="h-20 rounded-lg">
+            <Button>Check Out</Button>
+          </NavLink>
+        </>
+      )}
     </div>
   );
 }

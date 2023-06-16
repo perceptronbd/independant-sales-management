@@ -10,7 +10,7 @@ import {
 } from "../controllers/crudController.js";
 import { refCode } from "../controllers/refCode.js";
 import {
-  denyUserAccess,
+  denyUserFormAccess,
   verifyManager,
   verifyUserforRefCode,
 } from "../middlewares/verify.js";
@@ -27,7 +27,7 @@ router.post("/create-user", createUser);
 router.get("/get-users/:refCode", getUsersWithPurchaseInfo);
 
 //User restricted routes
-router.get("/deny-user-access", denyUserAccess, (req, res) => {
+router.get("/deny-user-access", denyUserFormAccess, (req, res) => {
   res.status(200).json({ message: "Access granted!" });
 });
 
