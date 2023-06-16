@@ -32,12 +32,15 @@ export function UserForm() {
 
   const roleFilters = {
     manager: () => true,
-    "generator-leader": (roles) =>
-      role.value !== "generator-leader" && role.value !== "agent",
+    "generator-leader": (role) =>
+      role.value !== "generator-leader" &&
+      role.value !== "agent" &&
+      role.value !== "user",
     generator: (role) =>
       role.value !== "generator-leader" &&
       role.value !== "generator" &&
       role.value !== "manager" &&
+      role.value !== "agent" &&
       role.value !== "agent",
     prescriptor: (role) =>
       role.value !== "generator-leader" &&
