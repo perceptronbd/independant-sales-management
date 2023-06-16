@@ -88,10 +88,15 @@ export const getUsersWithPurchaseInfo = async (req, res) => {
 
       if (purchases.length > 0) {
         // Find the last purchase date
-        lastPurchaseDate = purchases.reduce((latestDate, purchase) => {
-          const purchaseDate = purchase.purchaseDate;
-          return purchaseDate > latestDate ? purchaseDate : latestDate;
-        }, purchases[0].purchaseDate);
+        const purchaseDates = purchases.map(
+          (purchase) => purchase.purchaseDate
+        );
+        const maxDate = new Date(Math.max(...purchaseDates));
+        lastPurchaseDate = maxDate.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
 
         // Calculate total amount spent
         totalAmountSpent = purchases.reduce((total, purchase) => {
