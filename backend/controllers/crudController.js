@@ -64,15 +64,56 @@ export const deleteUser = async (req, res) => {
   }
 };
 
-export const getUsers = async (req, res) => {
+export const getUsersWithPurchaseInfo = async (req, res) => {
   const { refCode } = req.params;
 
   try {
     const users = await User.find(
       { referralID: refCode },
       { _id: 1, firstName: 1, email: 1, email: 1, role: 1 }
-    );
-    res.json(users);
+    )
+      .populate({
+        path: "purchases",
+        populate: {
+          path: "products.productId",
+          model: "Product",
+        },
+      })
+      .exec();
+
+    const usersWithPurchaseInfo = users.map((user) => {
+      const { purchases } = user;
+      let lastPurchaseDate = null;
+      let totalAmountSpent = 0;
+
+      if (purchases.length > 0) {
+        // Find the last purchase date
+        lastPurchaseDate = purchases.reduce((latestDate, purchase) => {
+          const purchaseDate = purchase.purchaseDate;
+          return purchaseDate > latestDate ? purchaseDate : latestDate;
+        }, purchases[0].purchaseDate);
+
+        // Calculate total amount spent
+        totalAmountSpent = purchases.reduce((total, purchase) => {
+          const products = purchase.products;
+          const purchaseAmount = products.reduce((amount, product) => {
+            return amount + product.quantity * product.productId.price;
+          }, 0);
+          return total + purchaseAmount;
+        }, 0);
+      }
+
+      return {
+        _id: user._id,
+        firstName: user.firstName,
+        email: user.email,
+        role: user.role,
+        lastPurchaseDate,
+        totalAmountSpent,
+      };
+    });
+
+    res.json(usersWithPurchaseInfo);
   } catch (error) {
     console.error("Error retrieving users:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -93,7 +134,7 @@ export const createPurchase = async (req, res) => {
   try {
     const { userId, products } = req.body;
 
-    console.log("createPurchase:", products, userId);
+    console.log(userId, products);
 
     const formattedProducts = products.map((productId) => ({
       productId,
@@ -107,6 +148,10 @@ export const createPurchase = async (req, res) => {
 
     const savedPurchase = await purchase.save();
 
+    await User.findByIdAndUpdate(userId, {
+      $push: { purchases: savedPurchase._id },
+    });
+
     res.status(201).json(savedPurchase);
   } catch (error) {
     console.error("Error storing purchase:", error);
@@ -115,36 +160,24 @@ export const createPurchase = async (req, res) => {
 };
 
 export const getLastPurchase = async (req, res) => {
+  const { userIds } = req.body;
   try {
-    const { userIds } = req.body;
+    const lastPurchases = [];
 
-    const lastPurchase = await Purchase.aggregate([
-      {
-        $match: { userId: { $in: userIds } },
-      },
-      {
-        $sort: { purchaseDate: -1 },
-      },
-      {
-        $group: {
-          _id: "$userId",
-          lastPurchase: {
-            $first: {
-              amount: "$amount",
-              purchaseDate: "$purchaseDate",
-            },
-          },
-        },
-      },
-      {
-        $project: {
-          _id: 0,
-          lastPurchase: 1,
-        },
-      },
-    ]);
+    for (const userId of userIds) {
+      const purchase = await Purchase.findOne({ userId })
+        .sort({ purchaseDate: -1 })
+        .exec();
 
-    res.status(200).json(lastPurchase);
+      const lastPurchase = {
+        userId,
+        lastPurchaseDate: purchase ? purchase.purchaseDate : null,
+      };
+
+      lastPurchases.push(lastPurchase);
+    }
+
+    res.status(200).json(lastPurchases);
   } catch (error) {
     console.error("Error getting users last purchases:", error);
     res.status(500).json({ error: "Failed to get users last purchases" });
