@@ -41,7 +41,7 @@ export const MemberSelection = ({
   };
 
   const list = data.map((item) => {
-    const selected = selectedMember === item.email;
+    const selected = selection.includes(item.email);
     return (
       <RowContainer
         className={cx("group", { [classes.rowSelected]: selected })}
@@ -54,14 +54,15 @@ export const MemberSelection = ({
           transitionDuration={0}
           className="mx-4"
         />
-        <RowItems className="w-1/5 px-8">{item.firstName}</RowItems>
+        <RowItems className="w-10">{item.firstName}</RowItems>
         <RowItems className="w-1/5 text-textColor-tertiary">
           {item.email}
         </RowItems>
-        <RowItems className="w-1/5 text-textColor-tertiary">
-          {item.lastPurchaseDate === null
-            ? "No Purchase"
-            : item.lastPurchaseDate}
+        <RowItems tertiary className="w-1/5">
+          {item.lastPurchaseDate}
+        </RowItems>
+        <RowItems className="w-24 !text-alert-ok">
+          ${item.totalAmountSpent}
         </RowItems>
       </RowContainer>
     );
@@ -77,7 +78,7 @@ export const MemberSelection = ({
           transitionDuration={0}
           className="mx-4"
         />
-        <HeaderItems tertiary className="w-1/5 px-8">
+        <HeaderItems tertiary className="w-10">
           Name
         </HeaderItems>
         <HeaderItems tertiary className="w-1/5">
@@ -85,6 +86,9 @@ export const MemberSelection = ({
         </HeaderItems>
         <HeaderItems secondary className="w-1/5">
           Last Purchase
+        </HeaderItems>
+        <HeaderItems secondary className="w-24">
+          Amount
         </HeaderItems>
       </HeaderContainer>
       <ScrollArea h={420} scrollbarSize={4} offsetScrollbars>
