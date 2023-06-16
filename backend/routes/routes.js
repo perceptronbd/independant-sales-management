@@ -6,7 +6,7 @@ import {
   deleteUser,
   getAllProducts,
   getLastPurchase,
-  getUsers,
+  getUsersWithPurchaseInfo,
 } from "../controllers/crudController.js";
 import { refCode } from "../controllers/refCode.js";
 import {
@@ -24,7 +24,7 @@ router.post("/refresh-token", refresh);
 
 //User
 router.post("/create-user", createUser);
-router.get("/get-users/:refCode", getUsers);
+router.get("/get-users/:refCode", getUsersWithPurchaseInfo);
 
 //User restricted routes
 router.get("/deny-user-access", denyUserAccess, (req, res) => {
