@@ -230,7 +230,6 @@ export function UserForm() {
             <TextInput
               label="Referal ID"
               placeholder={"refID"}
-              disabled
               {...form.getInputProps("referralID")}
               className="w-1/2 mt-2"
             />
