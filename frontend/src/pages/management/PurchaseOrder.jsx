@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, NavLink } from "react-router-dom";
 import { useDisclosure } from "@mantine/hooks";
+import { IconAlertCircle } from "@tabler/icons-react";
 import { Modal } from "@mantine/core";
 import { Button, SearchBar, ProductSelection } from "../../components";
 import { createPurchase, getAllProducts, getUsers } from "../../api/crudApi";
@@ -139,23 +140,32 @@ export function PurchaseOrder() {
           handleProductSelection={handleProductSelection}
         />
       </div>
-      <Modal opened={opened} onClose={close} withCloseButton={false}>
-        <div className="font-semibold">User(s): </div>
-        <div>{selectedMembersElements}</div>
-        <div className="font-semibold">Products:</div>
-        <div>{selectedProductElement}</div>{" "}
-        <div className="bg-backgroundColor-tertiary flex justify-between m-1 mt-4 rounded-md">
-          <div className="m-1 px-2 text-textColor-primary font-semibold">
-            Total Price:
+      {selectedProductElement.length === 0 ? (
+        <Modal opened={opened} onClose={close} withCloseButton={true}>
+          <div className="flex justify-center pb-10 pr-4 items-center text-center font-semibold !text-alert-danger">
+            <IconAlertCircle size={"18px"} className="m-2" />
+            Please Select Products
           </div>
-          <div className="m-1 px-2 text-textColor-primary font-semibold">
-            {totalPrice}
+        </Modal>
+      ) : (
+        <Modal opened={opened} onClose={close} withCloseButton={false}>
+          <div className="font-semibold">User(s): </div>
+          <div>{selectedMembersElements}</div>
+          <div className="font-semibold">Products:</div>
+          <div>{selectedProductElement}</div>{" "}
+          <div className="bg-backgroundColor-tertiary flex justify-between m-1 mt-4 rounded-md">
+            <div className="m-1 px-2 text-textColor-primary font-semibold">
+              Total Price:
+            </div>
+            <div className="m-1 px-2 text-textColor-primary font-semibold">
+              {totalPrice}
+            </div>
           </div>
-        </div>
-        <NavLink to={-1}>
-          <Button onClick={handlePurchase}>Apply</Button>
-        </NavLink>
-      </Modal>
+          <NavLink to={-1}>
+            <Button onClick={handlePurchase}>Apply</Button>
+          </NavLink>
+        </Modal>
+      )}
       <div>
         <Button variant="ghost" onClick={open}>
           Confirm Order

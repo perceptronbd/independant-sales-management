@@ -22,7 +22,7 @@ export function Members() {
     const fetchData = async () => {
       try {
         const getUserData = await getUsers(user.refCode);
-        console.log(getUserData);
+        console.log("Members.jsx", getUserData);
         setUserData(getUserData);
         setData(getUserData);
       } catch (error) {
@@ -66,7 +66,7 @@ export function Members() {
       <div className="flex-grow rounded-lg">
         <MembersTable data={searchResults} />
       </div>
-      <NavLink to={"/home/check-out"} className="h-20  rounded-lg">
+      <NavLink to={"/home/check-out"} className="h-20 rounded-lg">
         <Button>Check Out</Button>
       </NavLink>
     </div>

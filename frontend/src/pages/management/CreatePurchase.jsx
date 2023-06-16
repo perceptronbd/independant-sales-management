@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
+import { useDisclosure } from "@mantine/hooks";
+import { Modal } from "@mantine/core";
+import { IconAlertCircle } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { Button, SearchBar, MemberSelection } from "../../components";
 import { getUsers } from "../../api/crudApi";
 
 export function CreatePurchase() {
+  const [opened, { open, close }] = useDisclosure(false);
   const [data, setData] = useState([]);
   const [userData, setUserData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -45,7 +49,11 @@ export function CreatePurchase() {
   };
 
   const handleNavigation = () => {
-    navigate("/home/purchase-order", { state: selectedMembers });
+    if (selectedMembers.length === 0) {
+      open();
+    } else {
+      navigate("/home/purchase-order", { state: selectedMembers });
+    }
   };
 
   return (
@@ -64,11 +72,12 @@ export function CreatePurchase() {
           onMemberSelection={handleMemberSelection}
         />
       </div>
-      {/* <NavLink
-        to={{ pathname: "/home/purchase-order", state: { selectedMembers } }}
-        className="w-36"
-      >
-      </NavLink> */}
+      <Modal opened={opened} onClose={close} withCloseButton={true}>
+        <div className="flex justify-center pb-10 pr-4 items-center text-center font-semibold !text-alert-danger">
+          <IconAlertCircle size={"18px"} className="m-2" />
+          Please Select a Member
+        </div>
+      </Modal>
       <Button onClick={handleNavigation} className={"w-32"}>
         Place Order
       </Button>

@@ -29,9 +29,11 @@ export const MembersTable = ({ data }) => {
           {item.email}
         </RowItems>
         <RowItems tertiary className="w-1/5">
-          {item.lastPurchase}
+          {item.lastPurchaseDate}
         </RowItems>
-        <RowItems className="w-24">${item.amount}</RowItems>
+        <RowItems className="w-24 !text-alert-ok">
+          ${item.totalAmountSpent}
+        </RowItems>
       </RowContainer>
     );
   });

@@ -64,7 +64,7 @@ export const ProductSelection = ({
         <RowItems tertiary className="w-1/5">
           {item.category}
         </RowItems>
-        <RowItems className="w-24">$ {item.price}</RowItems>
+        <RowItems className="w-24 !text-alert-ok">$ {item.price}</RowItems>
       </RowContainer>
     );
   });

@@ -29,43 +29,40 @@ const RowItems = styled.div(({ tertiary }) => [
 
 export const MemberSelection = ({
   data,
-  selectedMembers,
+  selectedMember,
   onMemberSelection,
 }) => {
   const { classes, cx } = useStyles();
   const [selection, setSelection] = useState(["1"]);
-  const toggleRow = (id) => {
-    setSelection([id]);
-
-    const updatedSelectedMembers = selectedMembers.includes(id)
-      ? selectedMembers.filter((item) => item !== id)
-      : [...selectedMembers, id];
-
-    onMemberSelection(updatedSelectedMembers);
+  const toggleRow = (email) => {
+    const selectedMemberEmail = selectedMember === email ? null : email;
+    setSelection(selectedMemberEmail);
+    onMemberSelection(selectedMemberEmail);
   };
 
   const list = data.map((item) => {
-    const selected = selection.includes(item.email);
+    const selected = selectedMember === item.email;
     return (
       <RowContainer
         className={cx("group", { [classes.rowSelected]: selected })}
         key={item._id}
       >
         <Checkbox
+          readOnly
           checked={selection.includes(item.email)}
           onChange={() => toggleRow(item.email)}
-          readOnly
           transitionDuration={0}
           className="mx-4"
         />
-        <RowItems className="w-10">{item.firstName}</RowItems>
-        <RowItems className="w-10 text-textColor-tertiary">
+        <RowItems className="w-1/5 px-8">{item.firstName}</RowItems>
+        <RowItems className="w-1/5 text-textColor-tertiary">
           {item.email}
         </RowItems>
-        <RowItems tertiary className="w-1/5">
-          {item.lastPurchase}
+        <RowItems className="w-1/5 text-textColor-tertiary">
+          {item.lastPurchaseDate === null
+            ? "No Purchase"
+            : item.lastPurchaseDate}
         </RowItems>
-        <RowItems className="w-24">${item.amount}</RowItems>
       </RowContainer>
     );
   });
@@ -88,9 +85,6 @@ export const MemberSelection = ({
         </HeaderItems>
         <HeaderItems secondary className="w-1/5">
           Last Purchase
-        </HeaderItems>
-        <HeaderItems secondary className="w-24">
-          Amount
         </HeaderItems>
       </HeaderContainer>
       <ScrollArea h={420} scrollbarSize={4} offsetScrollbars>
