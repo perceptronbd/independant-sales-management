@@ -16,6 +16,7 @@ import {
   PurchaseOrder,
   Sales,
   SharedDocuments,
+  Tree,
   Unauthorized,
   UserManagement,
 } from "./pages";
@@ -105,6 +106,7 @@ export default function App() {
           <Route path="check-out" element={<CheckOut />} />
           <Route path="option" element={<OptionPage />} />
           <Route path="create-purchase-order" element={<CreatePurchase />} />
+          <Route path="tree" element={<Tree />} />
           <Route path="purchase-order" element={<PurchaseOrder />} />
           <Route path="create-user" element={<CreateUser />} />
           <Route path="sales" element={<Sales />} />

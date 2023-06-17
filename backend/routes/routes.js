@@ -3,6 +3,7 @@ import { login, logout, refresh } from "../controllers/auth.js";
 import {
   createUser,
   deleteUser,
+  getUserTree,
   getUsersWithPurchaseInfo,
 } from "../controllers/users.js";
 import {
@@ -10,14 +11,14 @@ import {
   getAllProducts,
   getLastPurchase,
 } from "../controllers/productsAndPurchases.js";
-import { refCode } from "../controllers/refCode.js";
-import {
-  denyUserFormAccess,
-  verifyManager,
-  verifyUserforRefCode,
-} from "../middlewares/verify.js";
+import { denyUserFormAccess, verifyManager } from "../middlewares/verify.js";
 
 const router = express.Router();
+
+// Root route request
+router.get("/", (req, res) => {
+  res.send("Hello, World!");
+});
 
 //Authentication
 router.post("/login", login);
@@ -27,15 +28,10 @@ router.post("/refresh-token", refresh);
 //User
 router.post("/create-user", createUser);
 router.get("/get-users/:refCode", getUsersWithPurchaseInfo);
+router.post("/get-user-tree", getUserTree);
 
 //User restricted routes
 router.get("/deny-user-access", denyUserFormAccess, (req, res) => {
-  res.status(200).json({ message: "Access granted!" });
-});
-
-//Referral Code
-router.post("/generate-ref-code", refCode);
-router.get("/verify-user-for-refcode", verifyUserforRefCode, (req, res) => {
   res.status(200).json({ message: "Access granted!" });
 });
 

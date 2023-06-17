@@ -11,6 +11,7 @@ export { CreatePurchase } from "./management/CreatePurchase";
 export { PurchaseOrder } from "./management/PurchaseOrder";
 export { CheckOut } from "./management/CheckOut";
 export { OptionPage } from "./management/OptionPage";
+export { Tree } from "./management/Tree";
 //reports
 export { Sales } from "./reports/Sales";
 export { LegalsAndAgreements } from "./reports/LegalsAndAgreements";

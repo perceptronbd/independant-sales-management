@@ -60,3 +60,13 @@ export const createPurchase = async (
     console.error("createPurchase:", error);
   }
 };
+
+export const getUserTree = async (userId) => {
+  try {
+    const res = await axios.post("/get-user-tree", { userId });
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.error("getUserTree:", error);
+  }
+};

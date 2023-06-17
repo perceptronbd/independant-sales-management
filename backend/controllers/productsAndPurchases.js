@@ -1,6 +1,7 @@
 import { User } from "../model/user.js";
 import { Product } from "../model/product.js";
 import { COP } from "../model/COP.js";
+import { Purchase } from "../model/purchase.js";
 
 export const getAllProducts = async (req, res) => {
   try {

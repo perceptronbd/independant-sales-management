@@ -15,6 +15,7 @@ import {
   IconShoppingBag,
   IconUserPlus,
   IconGavel,
+  IconGitBranch,
   IconTableAlias,
 } from "@tabler/icons-react";
 
@@ -59,6 +60,7 @@ export const navlink = [
     links: [
       { label: "Members", link: "/home/members", icon: IconAffiliate },
       { label: "Check Out", link: "/home/check-out", icon: IconChecklist },
+      { label: "Tree", link: "/home/tree", icon: IconGitBranch },
       {
         label: "Purchase Order",
         link: "/home/create-purchase-order",

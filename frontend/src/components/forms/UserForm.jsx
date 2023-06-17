@@ -113,7 +113,7 @@ export function UserForm() {
       }
     };
     fetchData();
-  }, []);
+  }, [navigate]);
 
   return (
     <>

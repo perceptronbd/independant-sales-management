@@ -1,10 +1,7 @@
 import { Avatar } from "@mantine/core";
 import tw from "twin.macro";
 import styled from "@emotion/styled";
-import { IconAt } from "@tabler/icons-react";
-import { generateRefCode } from "../../api/generateRefCode";
 import { useEffect, useState } from "react";
-import { verifyForRefCode } from "../../api/verifyUser";
 
 const Text = styled.p(({ variant }) => [
   tw`text-textColor-secondary font-medium font-body text-sm`,
@@ -25,19 +22,10 @@ export function ContactInfo({
   const user = data;
   const _id = user._id;
 
-  const [reffCode, setReffCode] = useState(user.refCode);
-  const [hasRefCode, setHasRefCode] = useState(false);
-
-  const handleGenerateRefCode = async () => {
-    await generateRefCode(_id, setReffCode);
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       const user = JSON.parse(localStorage.getItem("user"));
       console.log("refreshToken: ", user.refreshToken);
-      await verifyForRefCode(user.refreshToken, setHasRefCode, hasRefCode);
-      console.log(hasRefCode);
     };
     fetchData();
   }, []);
@@ -51,27 +39,13 @@ export function ContactInfo({
         <Text variant="title">{name}</Text>
 
         <div className="flex">
-          <IconAt
-            stroke={1.5}
-            size="1rem"
-            className="text-textColor-secondary mr-1"
-          />
           <Text>{email}</Text>
         </div>
-        {hasRefCode ? (
+        {user.refCode ? (
           <div>
-            {reffCode ? (
-              <p className="!text-alert-warning rounded-lg font-medium border-2 border-alert-warning px-2 my-1">
-                Refferal Code: {reffCode}
-              </p>
-            ) : (
-              <button
-                className="!bg-alert-warning text-white rounded-lg font-medium border-2 border-alert-warning px-2 py-1 my-1"
-                onClick={handleGenerateRefCode}
-              >
-                Generate Referal code
-              </button>
-            )}
+            <p className="!text-alert-warning rounded-lg font-medium border-2 border-alert-warning px-2 my-1">
+              Refferal Code: {user.refCode}
+            </p>
           </div>
         ) : (
           <></>

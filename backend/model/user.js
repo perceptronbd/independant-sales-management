@@ -59,6 +59,12 @@ const userSchema = Schema({
       ref: "COP",
     },
   ],
+  checkoutCOPs: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "CheckoutCOP",
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,

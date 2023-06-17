@@ -1,4 +1,6 @@
 import { User } from "../model/user.js";
+import { generateRefCode } from "../helpers/generateRefCode.js";
+import { getUserSubtree } from "../helpers/getUsersTree.js";
 
 export const createUser = async (req, res) => {
   try {
@@ -22,20 +24,43 @@ export const createUser = async (req, res) => {
     } else if (role === "Select Role") {
       return res.status(409).json({ error: "Please select a user role!" });
     }
-    const newUser = new User({
-      firstName,
-      lastName,
-      email,
-      password,
-      role,
-      address,
-      city,
-      state,
-      postalCode,
-      referralID,
-    });
-    const savedUser = await newUser.save();
-    res.status(201).json(`created user succesffully: ${savedUser}`);
+    if (role === "user" || role === "co-user" || role === "agent") {
+      const newUser = new User({
+        firstName,
+        lastName,
+        email,
+        password,
+        role,
+        address,
+        city,
+        state,
+        postalCode,
+        referralID,
+      });
+      const savedUser = await newUser.save();
+      return res.status(201).json(`created user succesffully: ${savedUser}`);
+    } else {
+      const newUser = new User({
+        firstName,
+        lastName,
+        email,
+        password,
+        role,
+        address,
+        city,
+        state,
+        postalCode,
+        referralID,
+      });
+      const savedUser = await newUser.save();
+      const referralCode = generateRefCode(savedUser._id.toString());
+      console.log(savedUser._id);
+
+      savedUser.refCode = referralCode;
+
+      await savedUser.save();
+      return res.status(201).json(`created user succesffully: ${savedUser}`);
+    }
   } catch (error) {
     console.log("error in createUser controller", error);
     res.status(500).json({ error: "Failed to create user" });
@@ -131,5 +156,22 @@ export const getUsersWithPurchaseInfo = async (req, res) => {
   } catch (error) {
     console.error("Error retrieving users:", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+};
+export const getUserTree = async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const userTree = await getUserSubtree(user);
+
+    res.status(200).json(userTree);
+  } catch (error) {
+    console.error("Error retrieving user tree:", error);
+    res.status(500).json({ error: "Failed to retrieve user tree" });
   }
 };
