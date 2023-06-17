@@ -42,9 +42,19 @@ export const getAllProducts = async () => {
   }
 };
 
-export const createPurchase = async (userId, products) => {
+export const createPurchase = async (
+  userId,
+  products,
+  referralID,
+  userRole
+) => {
   try {
-    const res = await axios.post("/purchase", { userId, products });
+    const res = await axios.post("/purchase", {
+      userId,
+      products,
+      referralID,
+      userRole,
+    });
     console.log("createPurchase", res);
   } catch (error) {
     console.error("createPurchase:", error);

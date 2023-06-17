@@ -4,7 +4,7 @@ import clsx from "clsx";
 export const StatCard = ({
   icon: Icon,
   counts = 100,
-  className,
+
   str,
   variant = "default",
 }) => {

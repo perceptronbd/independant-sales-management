@@ -53,6 +53,12 @@ const userSchema = Schema({
   refCode: {
     type: String,
   },
+  earnedCOPs: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "COP",
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,

@@ -14,11 +14,6 @@ export function Members() {
 
   const countUser = userData.length;
 
-  const totalAvailableAmount = userData.reduce(
-    (total, user) => total + user._id,
-    0
-  );
-
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     const fetchData = async () => {
@@ -77,7 +72,7 @@ export function Members() {
               icon={IconCoin}
               str={"Available Amount"}
               variant="ok"
-              counts={totalAvailableAmount}
+              counts={0}
             />
           </div>
           <div className="flex-grow rounded-lg">

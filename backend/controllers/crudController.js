@@ -1,3 +1,4 @@
+import { COP } from "../model/COP.js";
 import { Product } from "../model/product.js";
 import { Purchase } from "../model/purchase.js";
 import { User } from "../model/user.js";
@@ -64,13 +65,21 @@ export const deleteUser = async (req, res) => {
   }
 };
 
+export const getUserForManager = async (req, res) => {
+  try {
+  } catch (error) {
+    console.error("getUserForManger:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 export const getUsersWithPurchaseInfo = async (req, res) => {
   const { refCode } = req.params;
 
   try {
     const users = await User.find(
       { referralID: refCode },
-      { _id: 1, firstName: 1, email: 1, email: 1, role: 1 }
+      { _id: 1, firstName: 1, email: 1, email: 1, role: 1, referralID: 1 }
     )
       .populate({
         path: "purchases",
@@ -113,6 +122,7 @@ export const getUsersWithPurchaseInfo = async (req, res) => {
         firstName: user.firstName,
         email: user.email,
         role: user.role,
+        referralID: user.referralID,
         lastPurchaseDate,
         totalAmountSpent,
       };
@@ -139,9 +149,9 @@ export const getAllProducts = async (req, res) => {
 
 export const createPurchase = async (req, res) => {
   try {
-    const { userId, products } = req.body;
+    const { userId, products, referralID, userRole } = req.body;
 
-    console.log(userId, products);
+    console.log("createPurchase:", req.body);
 
     const formattedProducts = products.map((productId) => ({
       productId,
@@ -158,6 +168,38 @@ export const createPurchase = async (req, res) => {
     await User.findByIdAndUpdate(userId, {
       $push: { purchases: savedPurchase._id },
     });
+
+    if (referralID) {
+      const user = await User.findOne({ refCode: referralID });
+      if (userRole === "user" && user.role === "prescriptor") {
+        const cop = new COP({
+          refCode: referralID,
+          earnedPoints: 25 * products.length,
+          user: user._id,
+        });
+        await cop.save();
+        await User.findByIdAndUpdate(user._id, {
+          $push: { earnedCOPs: cop._id },
+        });
+      } else if (
+        userRole === "co-user" &&
+        (user.role === "generator" || user.role === "generator-leader")
+      ) {
+        const cop = new COP({
+          refCode: referralID,
+          earnedPoints: 5 * products.length,
+          user: user._id,
+        });
+        await cop.save();
+        await User.findByIdAndUpdate(user._id, {
+          $push: { earnedCOPs: cop._id },
+        });
+      } else {
+        return res.status(400).json({
+          message: `user.role: ${user.role}, userRole: ${userRole}`,
+        });
+      }
+    }
 
     res.status(201).json(savedPurchase);
   } catch (error) {
