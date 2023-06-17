@@ -1,13 +1,15 @@
 import express from "express";
 import { login, logout, refresh } from "../controllers/auth.js";
 import {
-  createPurchase,
   createUser,
   deleteUser,
+  getUsersWithPurchaseInfo,
+} from "../controllers/users.js";
+import {
+  createPurchase,
   getAllProducts,
   getLastPurchase,
-  getUsersWithPurchaseInfo,
-} from "../controllers/crudController.js";
+} from "../controllers/productsAndPurchases.js";
 import { refCode } from "../controllers/refCode.js";
 import {
   denyUserFormAccess,

@@ -38,7 +38,7 @@ export function Login({ setEmail, setPassword, handleSubmit, isInvalid }) {
           }}
         />
         {isInvalid ? (
-          <Text className={`m-0 mt-2 text-alert-danger font-medium`}>
+          <Text className={`m-0 mt-2 !text-alert-danger font-medium`}>
             Invalid username or password!
           </Text>
         ) : (
