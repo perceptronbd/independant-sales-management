@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation, NavLink } from "react-router-dom";
 import { useDisclosure } from "@mantine/hooks";
 import { IconAlertCircle } from "@tabler/icons-react";
-import { Modal } from "@mantine/core";
+import { Modal, Loader } from "@mantine/core";
 import { Button, SearchBar, ProductSelection } from "../../components";
 import { createPurchase, getAllProducts, getUsers } from "../../api/crudApi";
 
@@ -15,6 +15,7 @@ export function PurchaseOrder() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
 
   const selectedMembersIds = location.state;
@@ -67,7 +68,7 @@ export function PurchaseOrder() {
     const fetchData = async () => {
       try {
         const getUserData = await getUsers(user.refCode);
-        const getProducts = await getAllProducts();
+        const getProducts = await getAllProducts().then(setLoading(false));
         console.log(getProducts);
         setProductData(getProducts);
         console.log(getUserData);
@@ -137,13 +138,19 @@ export function PurchaseOrder() {
         setSearchQuery={setSearchQuery}
       />
       <div className="flex">{selectedMembersElements}</div>
-      <div className="flex-grow rounded-lg mt-4">
-        <ProductSelection
-          data={searchResults}
-          selectedProducts={selectedProducts}
-          handleProductSelection={handleProductSelection}
-        />
-      </div>
+      {loading ? (
+        <div className="w-full h-full flex justify-center items-center">
+          <Loader color="gray" />
+        </div>
+      ) : (
+        <div className="flex-grow rounded-lg mt-4">
+          <ProductSelection
+            data={searchResults}
+            selectedProducts={selectedProducts}
+            handleProductSelection={handleProductSelection}
+          />
+        </div>
+      )}
       {selectedProductElement.length === 0 ? (
         <Modal opened={opened} onClose={close} withCloseButton={true}>
           <div className="flex justify-center pb-10 pr-4 items-center text-center font-semibold !text-alert-danger">
