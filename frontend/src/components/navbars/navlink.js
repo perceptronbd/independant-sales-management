@@ -32,30 +32,30 @@ export const navlink = [
       "user",
     ],
   },
+  // {
+  //   label: "Dashboard",
+  //   icon: IconLayoutDashboard,
+  //   initiallyOpened: false,
+  //   links: [
+  //     { label: "CRM", link: "/home/crm", icon: IconTableAlias },
+  //     {
+  //       label: "Admin Contact",
+  //       link: "/home/admin-contact",
+  //       icon: IconAddressBook,
+  //     },
+  //   ],
+  //   roles: [
+  //     "manager",
+  //     "generator-leader",
+  //     "generator",
+  //     "prescriptor",
+  //     "agent",
+  //     "user",
+  //   ],
+  // },
   {
     label: "Dashboard",
     icon: IconLayoutDashboard,
-    initiallyOpened: false,
-    links: [
-      { label: "CRM", link: "/home/crm", icon: IconTableAlias },
-      {
-        label: "Admin Contact",
-        link: "/home/admin-contact",
-        icon: IconAddressBook,
-      },
-    ],
-    roles: [
-      "manager",
-      "generator-leader",
-      "generator",
-      "prescriptor",
-      "agent",
-      "user",
-    ],
-  },
-  {
-    label: "Management",
-    icon: IconAdjustments,
     links: [
       { label: "Members", link: "/home/members", icon: IconAffiliate },
       { label: "Check Out", link: "/home/check-out", icon: IconChecklist },
