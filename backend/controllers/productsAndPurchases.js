@@ -1,7 +1,7 @@
 import { User } from "../model/user.js";
 import { Product } from "../model/product.js";
-import { COP } from "../model/COP.js";
 import { Purchase } from "../model/purchase.js";
+import { createAndSaveCOP } from "../helpers/createSaveCOP.js";
 
 export const getAllProducts = async (req, res) => {
   try {
@@ -12,12 +12,23 @@ export const getAllProducts = async (req, res) => {
     res.state(500).json({ error: "Internal server error" });
   }
 };
-
 export const createPurchase = async (req, res) => {
   try {
     const { userId, products, referralID, userRole } = req.body;
 
     console.log("createPurchase:", req.body);
+
+    // Validate input data
+    if (
+      !userId ||
+      !products ||
+      !Array.isArray(products) ||
+      products.length === 0 ||
+      !referralID ||
+      !userRole
+    ) {
+      return res.status(400).json({ error: "Invalid request data" });
+    }
 
     const formattedProducts = products.map((productId) => ({
       productId,
@@ -37,29 +48,45 @@ export const createPurchase = async (req, res) => {
 
     if (referralID) {
       const user = await User.findOne({ refCode: referralID });
+
+      const userLinkUp = await User.findOne({ refCode: user.referralID });
+      const userLinkUpTo = await User.findOne({
+        refCode: userLinkUp?.referralID,
+      });
+
+      console.log("user role:", user.role);
+
+      if (
+        user.role === "prescriptor" &&
+        (userLinkUp?.role === "generator" ||
+          userLinkUp?.role === "generator-leader")
+      ) {
+        await createAndSaveCOP(
+          user.referralID,
+          10 * products.length,
+          userLinkUp._id
+        );
+      }
+
+      if (
+        user.role === "prescriptor" &&
+        userLinkUp?.role === "generator" &&
+        userLinkUpTo?.role === "generator-leader"
+      ) {
+        await createAndSaveCOP(
+          user.referralID,
+          5 * products.length,
+          userLinkUp._id
+        );
+      }
+
       if (userRole === "user" && user.role === "prescriptor") {
-        const cop = new COP({
-          refCode: referralID,
-          earnedPoints: 25 * products.length,
-          user: user._id,
-        });
-        await cop.save();
-        await User.findByIdAndUpdate(user._id, {
-          $push: { earnedCOPs: cop._id },
-        });
+        await createAndSaveCOP(referralID, 25 * products.length, user._id);
       } else if (
         userRole === "co-user" &&
         (user.role === "generator" || user.role === "generator-leader")
       ) {
-        const cop = new COP({
-          refCode: referralID,
-          earnedPoints: 5 * products.length,
-          user: user._id,
-        });
-        await cop.save();
-        await User.findByIdAndUpdate(user._id, {
-          $push: { earnedCOPs: cop._id },
-        });
+        await createAndSaveCOP(referralID, 5 * products.length, user._id);
       } else {
         return res.status(400).json({
           message: `user.role: ${user.role}, userRole: ${userRole}`,

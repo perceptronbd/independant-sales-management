@@ -12,6 +12,7 @@ import {
   getLastPurchase,
 } from "../controllers/productsAndPurchases.js";
 import { denyUserFormAccess, verifyManager } from "../middlewares/verify.js";
+import { getAllEarnedCOPs } from "../controllers/cop.js";
 
 const router = express.Router();
 
@@ -45,5 +46,8 @@ router.get("/manager-route", verifyManager, (req, res) => {
 router.get("/products", getAllProducts);
 router.post("/purchase", createPurchase);
 router.post("/last-purchase", getLastPurchase);
+
+//COPs
+router.get("/users/:userId/earnedCOPs", getAllEarnedCOPs);
 
 export default router;

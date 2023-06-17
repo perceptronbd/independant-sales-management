@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { IconCoin, IconUsers } from "@tabler/icons-react";
 import { Button, StatCard, SearchBar, MembersTable } from "../../components";
@@ -8,6 +9,7 @@ import { getUsers } from "../../api/crudApi";
 export function Members() {
   const [data, setData] = useState([]);
   const [userData, setUserData] = useState([]);
+  const [count, setCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,6 +21,18 @@ export function Members() {
     const fetchData = async () => {
       try {
         const getUserData = await getUsers(user.refCode);
+        axios
+          .get("/users/" + user._id + "/earnedCOPs")
+          .then((response) => {
+            // Handle the response data
+            const earnedCOPs = response.data;
+            console.log(earnedCOPs);
+            setCount(earnedCOPs);
+          })
+          .catch((error) => {
+            // Handle any errors
+            console.error(error);
+          });
         console.log("Members.jsx", getUserData);
         setUserData(getUserData);
         setData(getUserData);
@@ -72,7 +86,7 @@ export function Members() {
               icon={IconCoin}
               str={"Available Amount"}
               variant="ok"
-              counts={0}
+              counts={count}
             />
           </div>
           <div className="flex-grow rounded-lg">
