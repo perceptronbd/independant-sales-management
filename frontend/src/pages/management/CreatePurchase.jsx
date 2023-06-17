@@ -4,6 +4,7 @@ import { Modal } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { Button, SearchBar, MemberSelection } from "../../components";
+import { GridSkeleton } from "../../components/skeletons/GridSkeleton";
 import { getUsers } from "../../api/crudApi";
 
 export function CreatePurchase() {
@@ -13,6 +14,7 @@ export function CreatePurchase() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [selectedMembers, setSelectedMembers] = useState([]);
+  const [loading, setLoading] = useState(true); // Introduce loading state
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +25,7 @@ export function CreatePurchase() {
         console.log(getUserData);
         setUserData(getUserData);
         setData(getUserData);
+        setLoading(false); // Update loading state after data is fetched
       } catch (error) {
         console.error("Members useEffect: ", error);
       }
@@ -57,30 +60,46 @@ export function CreatePurchase() {
   };
 
   return (
-    <div className="flex flex-col w-full m-1">
-      <SearchBar
-        str="Member"
-        data={data}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-      />
-
-      <div className="flex-grow rounded-lg mt-4">
-        <MemberSelection
-          data={searchResults}
-          selectedMembers={selectedMembers}
-          onMemberSelection={handleMemberSelection}
-        />
-      </div>
-      <Modal opened={opened} onClose={close} withCloseButton={true}>
-        <div className="flex justify-center pb-10 pr-4 items-center text-center font-semibold !text-alert-danger">
-          <IconAlertCircle size={"18px"} className="m-2" />
-          Please Select a Member
+    <div className="flex flex-col  justify-between w-full mt-1 ml-4 mr-2">
+      {loading ? ( // Render loading state UI while data is being fetched
+        <div className="flex justify-center items-center h-full">
+          <GridSkeleton />
         </div>
-      </Modal>
-      <Button onClick={handleNavigation} className={"w-32"}>
-        Place Order
-      </Button>
+      ) : data.length === 0 ? (
+        <div
+          className="bg-backgroundColor-secondary flex justify-center items-center rounded-lg w-full h-full text-textColor-tertiary
+        font-bold text-5xl
+      "
+        >
+          No user under your tree!
+        </div>
+      ) : (
+        <>
+          <SearchBar
+            str="Member"
+            data={data}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
+
+          <div className="flex-grow rounded-lg mt-4">
+            <MemberSelection
+              data={searchResults}
+              selectedMembers={selectedMembers}
+              onMemberSelection={handleMemberSelection}
+            />
+          </div>
+          <Modal opened={opened} onClose={close} withCloseButton={true}>
+            <div className="flex justify-center pb-10 pr-4 items-center text-center font-semibold !text-alert-danger">
+              <IconAlertCircle size={"18px"} className="m-2" />
+              Please Select a Member
+            </div>
+          </Modal>
+          <Button onClick={handleNavigation} className={"w-32"}>
+            Place Order
+          </Button>
+        </>
+      )}
     </div>
   );
 }

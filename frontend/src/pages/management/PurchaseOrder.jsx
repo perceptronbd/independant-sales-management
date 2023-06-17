@@ -82,11 +82,15 @@ export function PurchaseOrder() {
 
   const handlePurchase = async () => {
     const userId = selectedMembers[0]._id;
+    const userRole = selectedMembers[0].role;
+    const referralID = selectedMembers[0].referralID;
     const products = selectedProduct.map((item) => item._id);
     console.log("handlePurchase:", userId);
     console.log("handlePurchase:", products);
+    console.log("handlePurchase:", referralID);
+    console.log("handlePurchase:", userRole);
     try {
-      await createPurchase(userId, products);
+      await createPurchase(userId, products, referralID, userRole);
     } catch (error) {
       console.error("handlePurchase:", error);
     }

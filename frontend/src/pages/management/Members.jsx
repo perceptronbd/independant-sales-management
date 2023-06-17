@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { IconCoin, IconUsers } from "@tabler/icons-react";
 import { Button, StatCard, SearchBar, MembersTable } from "../../components";
+import { GridSkeleton } from "../../components/skeletons/GridSkeleton";
 import { getUsers } from "../../api/crudApi";
 
 export function Members() {
@@ -9,6 +10,7 @@ export function Members() {
   const [userData, setUserData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const countUser = userData.length;
 
@@ -25,6 +27,7 @@ export function Members() {
         console.log("Members.jsx", getUserData);
         setUserData(getUserData);
         setData(getUserData);
+        setLoading(false);
       } catch (error) {
         console.error("Members useEffect: ", error);
       }
@@ -48,7 +51,11 @@ export function Members() {
 
   return (
     <div className="flex flex-col  justify-between w-full mt-1 ml-4 mr-2">
-      {data.length === 0 ? (
+      {loading ? ( // Render loading state UI while data is being fetched
+        <div className="flex justify-center items-center h-full">
+          <GridSkeleton />
+        </div>
+      ) : data.length === 0 ? (
         <div
           className="bg-backgroundColor-secondary flex justify-center items-center rounded-lg w-full h-full text-textColor-tertiary
           font-bold text-5xl
