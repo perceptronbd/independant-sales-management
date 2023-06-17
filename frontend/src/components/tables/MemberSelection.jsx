@@ -58,6 +58,9 @@ export const MemberSelection = ({
         <RowItems className="w-1/5 text-textColor-tertiary">
           {item.email}
         </RowItems>
+        <RowItems className="w-1/5 text-textColor-tertiary">
+          {item.role}
+        </RowItems>
         <RowItems tertiary className="w-1/5">
           {item.lastPurchaseDate}
         </RowItems>
@@ -83,6 +86,9 @@ export const MemberSelection = ({
         </HeaderItems>
         <HeaderItems tertiary className="w-1/5">
           Email
+        </HeaderItems>
+        <HeaderItems tertiary className="w-1/5">
+          Role
         </HeaderItems>
         <HeaderItems secondary className="w-1/5">
           Last Purchase
