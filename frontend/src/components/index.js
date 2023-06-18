@@ -46,3 +46,8 @@ export { Components } from "./Components";
 export { UserList } from "./list/UserList";
 //userTree
 export { UserTree } from "./userTree/UserTree";
+//transactions
+export { Bancaria } from "./transactions/Bancaria";
+export { Mercado } from "./transactions/Mercado";
+export { Nequi } from "./transactions/Nequi";
+export { Sodexo } from "./transactions/Sodexo";

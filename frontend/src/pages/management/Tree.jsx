@@ -26,6 +26,14 @@ export const Tree = () => {
     <div className="w-full">
       {loading ? (
         <div>loading...</div>
+      ) : userTreeData.role === "agent" ? (
+        <div
+          className="bg-backgroundColor-secondary flex justify-center items-center rounded-lg m-1 w-full h-full text-textColor-tertiary
+          font-bold text-5xl
+        "
+        >
+          No user under your tree!
+        </div>
       ) : (
         <div className="flex flex-col items-center bg-backgroundColor-secondary m-1 p-2 rounded-lg">
           <h1>Branch & Level</h1>

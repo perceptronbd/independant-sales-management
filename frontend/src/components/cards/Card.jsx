@@ -10,7 +10,7 @@ export const Card = ({
   return (
     <div
       class={clsx(
-        "flex flex-col p-4 bg-backgroundColor-secondary rounded-lg m-1 hover:text-white h-full",
+        "flex flex-col p-4 bg-backgroundColor-secondary rounded-lg m-1 hover:text-white h-44",
         {
           "hover:bg-alert-highLight ": variant === "highlight",
           "hover:bg-accent-primary ": variant === "default",
