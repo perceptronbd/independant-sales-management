@@ -70,3 +70,12 @@ export const getUserTree = async (userId) => {
     console.error("getUserTree:", error);
   }
 };
+
+export const getAllUsers = async () => {
+  try {
+    const res = await axios.get("/get-users");
+    return res.data;
+  } catch (error) {
+    console.error("getAllUsers:", error);
+  }
+};

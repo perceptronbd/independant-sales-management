@@ -89,8 +89,25 @@ export const deleteUser = async (req, res) => {
 
 export const getUserForManager = async (req, res) => {
   try {
+    const users = await User.find();
+
+    const referredUsers = users.map((user) => {
+      const referredBy = users.filter((u) => u.refCode === user.referralID);
+      const referredByData = referredBy.map(({ role, _id, firstName }) => ({
+        role,
+        id: _id,
+        firstName,
+      }));
+
+      return {
+        ...user._doc,
+        referredBy: referredByData,
+      };
+    });
+
+    res.status(200).json(referredUsers);
   } catch (error) {
-    console.error("getUserForManger:", error);
+    console.error("getUserForManager:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };

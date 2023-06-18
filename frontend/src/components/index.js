@@ -41,5 +41,7 @@ export { Divider } from "./containers/Divider";
 export { DropFile } from "./containers/DropFile";
 //components
 export { Components } from "./Components";
+//list
+export { UserList } from "./list/UserList";
 //userTree
 export { UserTree } from "./userTree/UserTree";
