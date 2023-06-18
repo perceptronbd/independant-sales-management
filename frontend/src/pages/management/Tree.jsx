@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ScrollArea } from "@mantine/core";
 import { UserTree } from "../../components/userTree/UserTree";
 import { getUserTree } from "../../api/crudApi";
 
@@ -22,13 +23,19 @@ export const Tree = () => {
   }, []);
 
   return (
-    <div>
+    <div className="w-full">
       {loading ? (
         <div>loading...</div>
       ) : (
-        <div>
-          <h1>User Tree</h1>
-          <UserTree user={userTreeData} depth={0} />
+        <div className="flex flex-col items-center bg-backgroundColor-secondary m-1 p-2 rounded-lg">
+          <h1>Branch & Level</h1>
+          <div className="w-full bg-white rounded-lg">
+            <ScrollArea h={600} scrollbarSize={0} offsetScrollbars>
+              <div className="px-2 ">
+                <UserTree user={userTreeData} depth={0} />
+              </div>
+            </ScrollArea>
+          </div>
         </div>
       )}
     </div>

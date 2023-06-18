@@ -1,10 +1,11 @@
 import { User } from "../model/user.js";
 
 export async function getUserSubtree(user) {
+  const name = `${user.firstName} ${user.lastName}`;
   const subtree = {
     id: user.id,
+    name: name,
     email: user.email,
-    password: user.password,
     role: user.role,
     refCode: user.refCode,
     linksTo: [],
