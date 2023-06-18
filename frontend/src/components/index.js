@@ -4,6 +4,7 @@ export { ContactBar } from "./navbars/ContactBar";
 //forms
 export { Login } from "./forms/Login";
 export { UserForm } from "./forms/UserForm";
+export { EditUser } from "./forms/EditUser";
 //buttons
 export { Button } from "./buttons/Button";
 export { ButtonSwitcher } from "./buttons/ButtonSwitcher";

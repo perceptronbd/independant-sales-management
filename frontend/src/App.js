@@ -21,7 +21,7 @@ import {
   UserManagement,
 } from "./pages";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Login, UserInfo } from "./components";
+import { EditUser, Login, UserInfo } from "./components";
 import { useEffect, useState } from "react";
 import { login } from "./api/auth";
 import { GridSkeleton } from "./components/skeletons/GridSkeleton";
@@ -113,6 +113,7 @@ export default function App() {
           <Route path="legals-agreements" element={<LegalsAndAgreements />} />
           <Route path="shared-documents" element={<SharedDocuments />} />
           <Route path="user-management" element={<UserManagement />} />
+          <Route path="edit-user" element={<EditUser />} />
           <Route path="authentications" element={<Authentication />} />
           <Route path="notifications" element={<Notifications />} />
           <Route path="unauthorized" element={<Unauthorized />} />

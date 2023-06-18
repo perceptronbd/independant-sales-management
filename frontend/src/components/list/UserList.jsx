@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { IconCircleCheckFilled } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import {
@@ -35,6 +36,7 @@ const roleColors = {
 
 export function UserList({ data, refreshToken }) {
   const [opened, { open, close }] = useDisclosure(false);
+  const navigate = useNavigate();
 
   const sortedData = data.sort((a, b) =>
     a.firstName.localeCompare(b.firstName)
@@ -50,6 +52,10 @@ export function UserList({ data, refreshToken }) {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleEdit = (userId) => {
+    navigate("/home/edit-user", { state: userId });
   };
 
   const rows = sortedData.map((item) => {
@@ -88,7 +94,11 @@ export function UserList({ data, refreshToken }) {
 
             <div className="col-end-13 ">
               <Group spacing={0} position="right">
-                <ActionIcon onClick={() => {}}>
+                <ActionIcon
+                  onClick={() => {
+                    handleEdit(item._id);
+                  }}
+                >
                   <IconPencil size="1rem" stroke={1.5} />
                 </ActionIcon>
                 <ActionIcon
@@ -139,7 +149,9 @@ export function UserList({ data, refreshToken }) {
         </div>
       </HeaderContainer>
       <ScrollArea h={520} scrollbarSize={4} offsetScrollbars>
-        <div>{rows}</div>
+        <>
+          <div>{rows}</div>
+        </>
       </ScrollArea>
     </div>
   );

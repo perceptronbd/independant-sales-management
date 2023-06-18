@@ -5,12 +5,12 @@ import { Group, TextInput, Box, InputBase, Modal } from "@mantine/core";
 import { Button } from "../buttons/Button";
 import { Text } from "../texts/Text";
 import { GridSkeleton } from "../skeletons/GridSkeleton";
-import { createUser } from "../../api/crudApi";
+import { findUser, updateUser } from "../../api/crudApi";
 import { useEffect, useState } from "react";
 import { denyUserAccess } from "../../api/verifyUser";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, NavLink } from "react-router-dom";
 
-export function UserForm() {
+export function EditUser() {
   const [opened, { open, close }] = useDisclosure(false);
   const [error, setError] = useState();
   const [refID, setRefID] = useState(() => {
@@ -20,6 +20,8 @@ export function UserForm() {
   const [role, setRole] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+  const selectedMember = location.state;
 
   const roles = [
     { value: "user", label: "User" },
@@ -69,7 +71,7 @@ export function UserForm() {
       postalCode: "",
       state: "",
       role: "",
-      referralID: `${refID}`,
+      referralID: "",
     },
 
     validate: {
@@ -85,10 +87,9 @@ export function UserForm() {
     },
   });
 
-  const handleSubmit = async () => {
+  const handleUpdate = async () => {
     try {
-      await createUser(form.values);
-      //open();
+      await updateUser(selectedMember, form.values);
       setError("");
     } catch (error) {
       setError(error);
@@ -115,6 +116,34 @@ export function UserForm() {
     fetchData();
   }, [navigate]);
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await findUser(selectedMember);
+        setIsLoading(false);
+        console.log(response);
+
+        // Set the form field values with the fetched user data
+        form.setValues({
+          firstName: response.firstName,
+          lastName: response.lastName,
+          email: response.email,
+          password: response.password,
+          address: response.address,
+          city: response.city,
+          postalCode: response.postalCode,
+          state: response.state,
+          role: response.role,
+          referralID: response.referralID,
+        });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [selectedMember]);
+
   return (
     <>
       {isLoading ? (
@@ -125,7 +154,7 @@ export function UserForm() {
         <Box
           component="form"
           className="mx-auto"
-          onSubmit={form.onSubmit(handleSubmit)}
+          onSubmit={form.onSubmit(handleUpdate)}
           sx={(theme) => ({
             backgroundColor:
               theme.colorScheme === "dark"
@@ -138,7 +167,7 @@ export function UserForm() {
             width: "60%",
           })}
         >
-          <Text title>Create User</Text>
+          <Text title>Edit User</Text>
           <div className="flex w-full mt-2">
             <TextInput
               label="Fist Name"
@@ -250,16 +279,23 @@ export function UserForm() {
                 <IconAlertCircle /> <div className="mx-2">{error.error}</div>
               </Text>
             ) : (
-              <Text className={"flex items-center "} ok>
-                <IconCircleCheck />{" "}
-                <div className="mx-2">
-                  The user has been created successfully!
-                </div>
-              </Text>
+              <div className="flex flex-col">
+                <Text className={"flex items-center "} ok>
+                  <IconCircleCheck />{" "}
+                  <div className="mx-2">
+                    The user has been update successfully!
+                  </div>
+                </Text>
+                <NavLink to={-1}>
+                  <Button variant="ghost" className={`rounded-3xl px-8`}>
+                    OK
+                  </Button>
+                </NavLink>
+              </div>
             )}
           </Modal>
           <Group position="right" mt="md">
-            <Button type="submit">Submit</Button>
+            <Button type="submit">Update</Button>
           </Group>
         </Box>
       )}

@@ -3,9 +3,11 @@ import { login, logout, refresh } from "../controllers/auth.js";
 import {
   createUser,
   deleteUser,
+  findUser,
   getUserForManager,
   getUserTree,
   getUsersWithPurchaseInfo,
+  updateUser,
 } from "../controllers/users.js";
 import {
   createPurchase,
@@ -32,6 +34,7 @@ router.post("/create-user", createUser);
 router.get("/get-users/:refCode", getUsersWithPurchaseInfo);
 router.post("/get-user-tree", getUserTree);
 router.get("/get-user-by-refCode/:refCode");
+router.get("/find-user/:userId", findUser);
 
 //User restricted routes
 router.get("/deny-user-access", denyUserFormAccess, (req, res) => {
@@ -44,6 +47,7 @@ router.get("/manager-route", verifyManager, (req, res) => {
   res.status(200).json({ message: "Access granted!" });
 });
 router.get("/get-users", getUserForManager);
+router.put("/update-user/:userId", updateUser);
 
 //Products & Purchase
 router.get("/products", getAllProducts);

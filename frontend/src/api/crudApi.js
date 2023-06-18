@@ -81,3 +81,22 @@ export const getAllUsers = async () => {
     console.error("getAllUsers:", error);
   }
 };
+
+export const findUser = async (userId) => {
+  try {
+    const res = await axios.get("/find-user/" + userId);
+    return res.data;
+  } catch (error) {
+    console.error("findUser:", error);
+  }
+};
+
+export const updateUser = async (userId, updateUser) => {
+  try {
+    const res = await axios.put("/update-user/" + userId, updateUser);
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.error("updateUser:", error);
+  }
+};

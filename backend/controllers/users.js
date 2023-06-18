@@ -67,6 +67,19 @@ export const createUser = async (req, res) => {
   }
 };
 
+export const findUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const user = await User.findById(userId);
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("findUser", error);
+    res.status(500).json({ error: "Failed to retrieve user" });
+  }
+};
+
 export const deleteUser = async (req, res) => {
   try {
     const userId = req.params.userId;
@@ -190,5 +203,20 @@ export const getUserTree = async (req, res) => {
   } catch (error) {
     console.error("Error retrieving user tree:", error);
     res.status(500).json({ error: "Failed to retrieve user tree" });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const updateUser = req.body;
+    console.log(updateUser);
+
+    const user = await User.findByIdAndUpdate(userId, updateUser, {
+      new: true,
+    });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update user" });
   }
 };
