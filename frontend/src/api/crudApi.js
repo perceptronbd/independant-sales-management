@@ -13,9 +13,11 @@ export const createUser = async (user) => {
 
 export const deleteUser = async (id, refreshToken) => {
   try {
-    await axiosJWT.delete("/users/" + id, {
+    const res = await axiosJWT.delete("/users/" + id, {
       headers: { authorization: "Bearer " + refreshToken },
     });
+    console.log(res.status);
+    return res.status;
   } catch (err) {
     console.error("deleteUser Api: ", err);
   }

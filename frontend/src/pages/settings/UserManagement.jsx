@@ -64,7 +64,10 @@ export const UserManagement = () => {
             setSearchQuery={setSearchQuery}
           />
           <div className="w-full">
-            <UserList data={searchResults} />
+            <UserList
+              data={searchResults}
+              refreshToken={userData.refreshToken}
+            />
           </div>
         </div>
       )}
