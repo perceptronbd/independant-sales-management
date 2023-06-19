@@ -1,10 +1,17 @@
 import { useRef } from "react";
 import { Group, useMantineTheme, rem } from "@mantine/core";
-import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
-import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import {
+  IconUpload,
+  IconPdf,
+  IconTable,
+  IconBaselineDensitySmall,
+  IconX,
+} from "@tabler/icons-react";
+import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { Button } from "../buttons/Button";
 import tw from "twin.macro";
 import styled from "@emotion/styled";
+import axios from "axios";
 
 const Text = styled.p(({ body }) => [
   tw`font-title font-bold text-center`,
@@ -14,18 +21,38 @@ const Text = styled.p(({ body }) => [
 export function DropFile(props) {
   const theme = useMantineTheme();
   const openRef = useRef(null);
+
+  const handleFileUpload = async (files) => {
+    try {
+      const formData = new FormData();
+      Array.from(files).forEach((file) => {
+        formData.append("file", file);
+      });
+
+      await axios.post("/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("Files uploaded successfully");
+    } catch (error) {
+      console.error("Error uploading files:", error);
+    }
+  };
+
   return (
     <div>
       <div>
-        <Text>Drag images here or click to select files</Text>
+        <Text>Drag files here or click to select files</Text>
         <Text body>File should not exceed 5MB</Text>
       </div>
       <Dropzone
         openRef={openRef}
-        onDrop={(files) => console.log("accepted files", files)}
+        onDrop={handleFileUpload}
         onReject={(files) => console.log("rejected files", files)}
-        maxSize={3 * 1024 ** 2}
-        accept={IMAGE_MIME_TYPE}
+        maxSize={5 * 1024 ** 2}
+        accept=".pdf,.xls,.xlsx,.txt"
         {...props}
         className="h-[200px]"
       >
@@ -52,9 +79,11 @@ export function DropFile(props) {
               color={theme.colors.red[theme.colorScheme === "dark" ? 4 : 6]}
             />
           </Dropzone.Reject>
-          <Dropzone.Idle>
-            <IconPhoto size="2.1rem" stroke={1.5} />
-          </Dropzone.Idle>
+          {/* <Dropzone.Idle>
+            <IconPdf size="2.1rem" stroke={1.5} />
+            <IconTable size="2.1rem" stroke={1.5} />
+            <IconBaselineDensitySmall size="2.1rem" stroke={1.5} />
+          </Dropzone.Idle> */}
         </Group>
       </Dropzone>
       <Group position="center">
