@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { ScrollArea } from "@mantine/core";
 import { ButtonIcon } from "../buttons/ButtonIcon";
 import tw from "twin.macro";
@@ -25,14 +26,57 @@ const RowGridItems = styled.div(({ icon, secondary, tertiary }) => [
   tertiary && tw`text-textColor-tertiary  group-hover:text-textColor-tertiary`,
 ]);
 
-export const FileTable = ({ data }) => {
-  const files = data.map((item) => (
+export const FileTable = () => {
+  const [filedata, setFiledata] = useState([]);
+
+  useEffect(() => {
+    const getAllFiles = async () => {
+      try {
+        const response = await axios.get("/get-files");
+        const files = response.data;
+        console.log("Files:", files);
+        setFiledata(files);
+        // Process the files as needed
+      } catch (error) {
+        console.error("Error retrieving files:", error);
+      }
+    };
+    getAllFiles();
+  }, []);
+
+  const downloadFile = async (filename) => {
+    try {
+      const response = await axios.get(`/download/${filename}`, {
+        responseType: "blob",
+      });
+
+      // Create a temporary URL for the downloaded file
+      const url = window.URL.createObjectURL(new Blob([response.data.type]));
+
+      // Create a link element to trigger the file download
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Release the object URL
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    }
+  };
+
+  const files = filedata.map((item) => (
     <RowGrid className="group" key={item.id}>
-      <RowGridItems>{item.file}</RowGridItems>
-      <RowGridItems tertiary>{item.date}</RowGridItems>
-      <RowGridItems secondary>{item.username}</RowGridItems>
+      <RowGridItems>{item.originalname}</RowGridItems>
+      <RowGridItems tertiary>{item.createdAt}</RowGridItems>
+      <RowGridItems secondary>{item.uploadedBy}</RowGridItems>
       <RowGridItems icon>
-        <ButtonIcon variant="ghost">Download</ButtonIcon>
+        <ButtonIcon variant="ghost" onClick={() => downloadFile(item.id)}>
+          Download
+        </ButtonIcon>
       </RowGridItems>
     </RowGrid>
   ));

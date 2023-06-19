@@ -22,7 +22,12 @@ import {
   getAvailableCOPs,
 } from "../controllers/cop.js";
 import { checkoutCOP } from "../middlewares/checkoutCOP.js";
-import { upload, uploadFile } from "../controllers/fileController.js";
+import {
+  downloadFile,
+  getAllFiles,
+  upload,
+  uploadFile,
+} from "../controllers/fileController.js";
 
 const router = express.Router();
 
@@ -69,5 +74,7 @@ router.post("/req-checkout", checkoutCOP, createCheckoutRequest);
 
 //files
 router.post("/upload", upload.single("file"), uploadFile);
+router.get("/get-files", getAllFiles);
+router.get("/download/:fileId", downloadFile);
 
 export default router;

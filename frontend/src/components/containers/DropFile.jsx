@@ -1,14 +1,7 @@
-import { useRef } from "react";
-import { Group, useMantineTheme, rem } from "@mantine/core";
-import {
-  IconUpload,
-  IconPdf,
-  IconTable,
-  IconBaselineDensitySmall,
-  IconX,
-} from "@tabler/icons-react";
-import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
-import { Button } from "../buttons/Button";
+import { useRef, useState } from "react";
+import { Group, useMantineTheme, rem, Progress } from "@mantine/core";
+import { IconUpload, IconX } from "@tabler/icons-react";
+import { Dropzone } from "@mantine/dropzone";
 import tw from "twin.macro";
 import styled from "@emotion/styled";
 import axios from "axios";
@@ -20,18 +13,30 @@ const Text = styled.p(({ body }) => [
 
 export function DropFile(props) {
   const theme = useMantineTheme();
-  const openRef = useRef(null);
+  //  const openRef = useRef(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const handleFileUpload = async (files) => {
     try {
+      const user = JSON.parse(localStorage.getItem("user"));
       const formData = new FormData();
       Array.from(files).forEach((file) => {
         formData.append("file", file);
       });
 
+      // Add userId and name to the form data
+      formData.append("userId", user._id); // Replace `userId` with the actual user ID
+      formData.append("name", user.firstName); // Replace `name` with the actual user name
+
       await axios.post("/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+        },
+        onUploadProgress: (progressEvent) => {
+          const progress = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setUploadProgress(progress);
         },
       });
 
@@ -43,23 +48,16 @@ export function DropFile(props) {
 
   return (
     <div>
-      <div>
-        <Text>Drag files here or click to select files</Text>
-        <Text body>File should not exceed 5MB</Text>
-      </div>
       <Dropzone
-        openRef={openRef}
         onDrop={handleFileUpload}
         onReject={(files) => console.log("rejected files", files)}
-        maxSize={5 * 1024 ** 2}
+        maxSize={3 * 1024 ** 2}
         accept=".pdf,.xls,.xlsx,.txt"
-        {...props}
-        className="h-[200px]"
       >
         <Group
           position="center"
           spacing="xl"
-          style={{ minHeight: rem(150), pointerEvents: "none" }}
+          style={{ minHeight: rem(220), pointerEvents: "none" }}
         >
           <Dropzone.Accept>
             <IconUpload
@@ -74,21 +72,26 @@ export function DropFile(props) {
           </Dropzone.Accept>
           <Dropzone.Reject>
             <IconX
-              size="2.1rem"
+              size="3.2rem"
               stroke={1.5}
               color={theme.colors.red[theme.colorScheme === "dark" ? 4 : 6]}
             />
           </Dropzone.Reject>
-          {/* <Dropzone.Idle>
-            <IconPdf size="2.1rem" stroke={1.5} />
-            <IconTable size="2.1rem" stroke={1.5} />
-            <IconBaselineDensitySmall size="2.1rem" stroke={1.5} />
-          </Dropzone.Idle> */}
+          <Dropzone.Idle>
+            <IconUpload size="3.2rem" stroke={1.5} />
+          </Dropzone.Idle>
+
+          <div>
+            <Text size="xl" inline>
+              Drag images here or click to select files
+            </Text>
+            <Text body>
+              Attach as many files as you like, each file should not exceed 5mb
+            </Text>
+          </div>
         </Group>
       </Dropzone>
-      <Group position="center">
-        <Button onClick={() => openRef.current()}>Select files</Button>
-      </Group>
+      <Progress value={uploadProgress} style={{ marginTop: rem(16) }} />
     </div>
   );
 }
