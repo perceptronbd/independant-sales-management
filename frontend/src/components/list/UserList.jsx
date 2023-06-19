@@ -65,7 +65,7 @@ export function UserList({ data, refreshToken }) {
           ""
         ) : (
           <RowContainer key={item._id}>
-            <div className="col-start-1 col-span-2 pl-4">
+            <div className="col-start-1 col-span-2 pl-4 bg-backgroundColor-secondary p-2 rounded-lg">
               <Text fz="sm" fw={500}>
                 {item.firstName}
               </Text>
@@ -81,7 +81,7 @@ export function UserList({ data, refreshToken }) {
             </div>
             <div className="col-span-3 pl-4">
               {item.referredBy[0] ? (
-                <div className="flex  justify-between items-center">
+                <div className="flex  justify-between items-center bg-backgroundColor-secondary p-2 rounded-lg">
                   {item.referredBy[0].firstName}
                   <Badge color={roleColors[item.role.toLowerCase()]}>
                     {item.referredBy[0].role}
@@ -92,12 +92,13 @@ export function UserList({ data, refreshToken }) {
               )}
             </div>
 
-            <div className="col-end-13 ">
+            <div className="col-end-13 bg-backgroundColor-secondary p-2 rounded-lg ">
               <Group spacing={0} position="right">
                 <ActionIcon
                   onClick={() => {
                     handleEdit(item._id);
                   }}
+                  className="hover:bg-backgroundColor-primary"
                 >
                   <IconPencil size="1rem" stroke={1.5} />
                 </ActionIcon>
