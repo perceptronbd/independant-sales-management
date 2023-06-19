@@ -44,9 +44,9 @@ export const FileTable = () => {
     getAllFiles();
   }, []);
 
-  const downloadFile = async (filename) => {
+  const downloadFile = async (filedata) => {
     try {
-      const response = await axios.get(`/download/${filename}`, {
+      const response = await axios.get(`/download/${filedata.id}`, {
         responseType: "blob",
       });
 
@@ -56,7 +56,7 @@ export const FileTable = () => {
       // Create a link element to trigger the file download
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", filename);
+      link.setAttribute("download", filedata.originalname);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -74,7 +74,7 @@ export const FileTable = () => {
       <RowGridItems tertiary>{item.createdAt}</RowGridItems>
       <RowGridItems secondary>{item.uploadedBy}</RowGridItems>
       <RowGridItems icon>
-        <ButtonIcon variant="ghost" onClick={() => downloadFile(item.id)}>
+        <ButtonIcon variant="ghost" onClick={() => downloadFile(item)}>
           Download
         </ButtonIcon>
       </RowGridItems>
