@@ -81,6 +81,14 @@ export const getAllUsers = async () => {
     console.error("getAllUsers:", error);
   }
 };
+export const getAllUsersForAgent = async (userId) => {
+  try {
+    const res = await axios.get("/get-users/" + userId);
+    return res.data;
+  } catch (error) {
+    console.error("getAllUsersForAgent:", error);
+  }
+};
 
 export const findUser = async (userId) => {
   try {
@@ -98,5 +106,22 @@ export const updateUser = async (userId, updateUser) => {
     return res;
   } catch (error) {
     console.error("updateUser:", error);
+  }
+};
+
+export const makeCheckoutRequest = async (userId, reqCheckoutCOP, comment) => {
+  try {
+    const checkoutData = {
+      userId,
+      reqCheckoutCOP,
+      comment,
+    };
+
+    const response = await axios.post("/req-checkout", checkoutData);
+
+    return response.data;
+  } catch (error) {
+    console.error("Error during checkout:", error);
+    throw error;
   }
 };

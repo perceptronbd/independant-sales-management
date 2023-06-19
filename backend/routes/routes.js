@@ -4,6 +4,7 @@ import {
   createUser,
   deleteUser,
   findUser,
+  getUserForAgent,
   getUserForManager,
   getUserTree,
   getUsersWithPurchaseInfo,
@@ -15,7 +16,12 @@ import {
   getLastPurchase,
 } from "../controllers/productsAndPurchases.js";
 import { denyUserFormAccess, verifyManager } from "../middlewares/verify.js";
-import { getAllEarnedCOPs } from "../controllers/cop.js";
+import {
+  createCheckoutRequest,
+  getAllEarnedCOPs,
+  getAvailableCOPs,
+} from "../controllers/cop.js";
+import { checkoutCOP } from "../middlewares/checkoutCOP.js";
 
 const router = express.Router();
 
@@ -35,6 +41,7 @@ router.get("/get-users/:refCode", getUsersWithPurchaseInfo);
 router.post("/get-user-tree", getUserTree);
 router.get("/get-user-by-refCode/:refCode");
 router.get("/find-user/:userId", findUser);
+router.get("/get-user/:userId", getUserForAgent);
 
 //User restricted routes
 router.get("/deny-user-access", denyUserFormAccess, (req, res) => {
@@ -56,5 +63,7 @@ router.post("/last-purchase", getLastPurchase);
 
 //COPs
 router.get("/users/:userId/earnedCOPs", getAllEarnedCOPs);
+router.get("/users/:userId/availableCOPs", getAvailableCOPs);
+router.post("/req-checkout", checkoutCOP, createCheckoutRequest);
 
 export default router;

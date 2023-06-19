@@ -2,23 +2,14 @@ import { Bancaria, Mercado, Nequi, Sodexo } from "../../components";
 import { StatCard } from "../../components";
 import { Tab } from "@headlessui/react";
 import clsx from "clsx";
-import {
-  IconReceipt2,
-  IconCoin,
-  IconDotsCircleHorizontal,
-} from "@tabler/icons-react";
+import { IconReceipt2, IconCoin } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getUsers } from "../../api/crudApi";
 
-const someLongText = `lisi. Nulla facilisi. Nulla facilisi. Nulla facilisi.
-  Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla`;
-
 export function CheckOut() {
-  const [data, setData] = useState([]);
   const [userData, setUserData] = useState([]);
   const [count, setCount] = useState(0);
-  const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState(0);
 
   const getTabClassName = (index) => {
@@ -50,8 +41,6 @@ export function CheckOut() {
           });
         console.log("Members.jsx", getUserData);
         setUserData(getUserData);
-        setData(getUserData);
-        setLoading(false);
       } catch (error) {
         console.error("Members useEffect: ", error);
       }
@@ -82,7 +71,7 @@ export function CheckOut() {
                 className={getTabClassName(0)}
                 onClick={() => setSelectedTab(0)}
               >
-                Mercado pago
+                Mercado Pago
               </Tab>
               <Tab
                 className={getTabClassName(1)}

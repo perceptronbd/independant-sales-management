@@ -1,4 +1,6 @@
+import { CheckoutRequest } from "../model/checkoutReq.js";
 import { User } from "../model/user.js";
+import { subMonths } from "date-fns";
 
 export const getAllEarnedCOPs = async (req, res) => {
   try {
@@ -28,5 +30,82 @@ export const getAllEarnedCOPs = async (req, res) => {
   } catch (error) {
     console.error("Error retrieving earnedCOPs:", error);
     res.status(500).json({ error: "Failed to retrieve earnedCOPs" });
+  }
+};
+export const getAvailableCOPs = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    console.log("getAllEarnedCOPs:", userId);
+
+    const user = await User.findById(userId).populate(
+      "earnedCOPs checkoutCOPs"
+    );
+    console.log("User:", user);
+
+    if (!user) {
+      console.log("User not found");
+      return res.status(404).json({ error: "User not found" });
+    }
+    // Calculate the total earnedCOPs of the user
+    let totalEarnedCOPs = 0;
+    for (const earnedCOP of user.earnedCOPs) {
+      totalEarnedCOPs += earnedCOP.earnedPoints;
+    }
+
+    // Calculate total checkoutCOPs
+    let totalCheckoutCOPs = 0;
+    for (const checkoutCOP of user.checkoutCOPs) {
+      totalCheckoutCOPs += checkoutCOP.withdrawnCOPs;
+    }
+
+    console.log("Total Earned COPs:", totalEarnedCOPs);
+    console.log("Total Checkout COPs:", totalCheckoutCOPs);
+
+    // Calculate the remaining COPs after deducting checkoutCOPs
+    const remainingCOPs = totalEarnedCOPs - totalCheckoutCOPs;
+
+    res.status(200).json(remainingCOPs);
+  } catch (error) {
+    console.error("Error retrieving earnedCOPs:", error);
+    res.status(500).json({ error: "Failed to retrieve earnedCOPs" });
+  }
+};
+
+export const createCheckoutRequest = async (req, res) => {
+  try {
+    const { userId, reqCheckoutCOP, comment } = req.body;
+
+    // Validate input data
+    if (!userId || !reqCheckoutCOP) {
+      return res.status(400).json({ error: "Invalid request data" });
+    }
+
+    // Check if the user has made a request within the last month
+    const lastMonth = subMonths(new Date(), 1);
+    const existingRequest = await CheckoutRequest.findOne({
+      user: userId,
+      createdAt: { $gte: lastMonth },
+    });
+    console.log("existingRequest: ", existingRequest);
+
+    if (existingRequest || existingRequest === null) {
+      return res.status(403).json({
+        error: "You have made a request within the last month",
+      });
+    }
+
+    // Create a new checkout request
+    const checkoutRequest = new CheckoutRequest({
+      checkoutCOP: reqCheckoutCOP,
+      comment,
+      user: userId,
+    });
+
+    await checkoutRequest.save();
+
+    res.status(200).json({ message: "Checkout request has been made" });
+  } catch (error) {
+    console.error("Error creating checkout request:", error);
+    res.status(500).json({ error: "Failed to create checkout request" });
   }
 };
