@@ -83,7 +83,7 @@ export const getAllUsers = async () => {
 };
 export const getAllUsersForAgent = async (userId) => {
   try {
-    const res = await axios.get("/get-users/" + userId);
+    const res = await axios.get("/get-user-for-agent/" + userId);
     return res.data;
   } catch (error) {
     console.error("getAllUsersForAgent:", error);

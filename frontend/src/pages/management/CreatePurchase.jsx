@@ -5,7 +5,7 @@ import { IconAlertCircle } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { Button, SearchBar, MemberSelection } from "../../components";
 import { GridSkeleton } from "../../components/skeletons/GridSkeleton";
-import { getUsers } from "../../api/crudApi";
+import { getAllUsersForAgent, getUsers } from "../../api/crudApi";
 
 export function CreatePurchase() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -17,12 +17,18 @@ export function CreatePurchase() {
   const [loading, setLoading] = useState(true); // Introduce loading state
   const navigate = useNavigate();
 
+  const user = JSON.parse(localStorage.getItem("user"));
+  const role = user.role;
+
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     const fetchData = async () => {
       try {
-        const getUserData = await getUsers(user.refCode);
-        console.log(getUserData);
+        const getUserData =
+          (await getUsers(user.refCode)).length === 0
+            ? await getAllUsersForAgent(user._id)
+            : await getUsers(user.refCode);
+        console.log(await getUserData);
         setUserData(getUserData);
         setData(getUserData);
         setLoading(false); // Update loading state after data is fetched
@@ -65,7 +71,7 @@ export function CreatePurchase() {
         <div className="flex justify-center items-center h-full">
           <GridSkeleton />
         </div>
-      ) : data.length === 0 ? (
+      ) : data.length === 0 && role !== "agent" ? (
         <div
           className="bg-backgroundColor-secondary flex justify-center items-center rounded-lg w-full h-full text-textColor-tertiary
         font-bold text-5xl

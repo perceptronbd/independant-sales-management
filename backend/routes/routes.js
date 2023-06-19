@@ -41,7 +41,7 @@ router.get("/get-users/:refCode", getUsersWithPurchaseInfo);
 router.post("/get-user-tree", getUserTree);
 router.get("/get-user-by-refCode/:refCode");
 router.get("/find-user/:userId", findUser);
-router.get("/get-user/:userId", getUserForAgent);
+router.get("/get-user-for-agent/:userId", getUserForAgent);
 
 //User restricted routes
 router.get("/deny-user-access", denyUserFormAccess, (req, res) => {
