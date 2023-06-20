@@ -20,6 +20,8 @@ import {
   createCheckoutRequest,
   getAllEarnedCOPs,
   getAvailableCOPs,
+  getCheckoutReq,
+  updateCheckout,
 } from "../controllers/cop.js";
 import { checkoutCOP } from "../middlewares/checkoutCOP.js";
 import {
@@ -71,6 +73,8 @@ router.post("/last-purchase", getLastPurchase);
 router.get("/users/:userId/earnedCOPs", getAllEarnedCOPs);
 router.get("/users/:userId/availableCOPs", getAvailableCOPs);
 router.post("/req-checkout", checkoutCOP, createCheckoutRequest);
+router.get("/get-checkout-req", getCheckoutReq);
+router.post("/update-checkout", updateCheckout);
 
 //files
 router.post("/upload", upload.single("file"), uploadFile);

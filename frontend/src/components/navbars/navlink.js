@@ -106,11 +106,11 @@ export const navlink = [
         label: "User Management",
         icon: IconUsers,
       },
-      {
-        link: "/home/authentications",
-        label: "Users & Authentications",
-        icon: IconKey,
-      },
+      // {
+      //   link: "/home/authentications",
+      //   label: "Users & Authentications",
+      //   icon: IconKey,
+      // },
       {
         link: "/home/notifications",
         label: "Notifications",

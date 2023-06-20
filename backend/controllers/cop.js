@@ -1,4 +1,5 @@
 import { CheckoutRequest } from "../model/checkoutReq.js";
+import { CheckoutCOP } from "../model/checkoutCOP.js";
 import { User } from "../model/user.js";
 import { subMonths } from "date-fns";
 
@@ -107,5 +108,56 @@ export const createCheckoutRequest = async (req, res) => {
   } catch (error) {
     console.error("Error creating checkout request:", error);
     res.status(500).json({ error: "Failed to create checkout request" });
+  }
+};
+
+export const getCheckoutReq = async (req, res) => {
+  try {
+    // Retrieve checkout requests and populate user information
+    const requests = await CheckoutRequest.find({
+      checked: { $in: [false, null] },
+    })
+      .populate("user", "firstName lastName role")
+      .exec();
+
+    res.json(requests);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export const updateCheckout = async (req, res) => {
+  const { userId } = req.body;
+
+  try {
+    console.log("Updating checkout request...");
+    // Find the checkout request by userId and update the checked value
+    const checkoutRequest = await CheckoutRequest.findOneAndUpdate(
+      { user: userId },
+      { checked: true },
+      { new: true }
+    );
+
+    console.log("Updated checkoutRequest:", checkoutRequest);
+
+    if (!checkoutRequest) {
+      console.log("Checkout request not found");
+      return res.status(404).json({ message: "Checkout request not found" });
+    }
+
+    console.log("Creating checkout COP...");
+    // Create a new checkout COP based on the checkout request
+    const checkoutCOP = new CheckoutCOP({
+      userId: checkoutRequest.user,
+      withdrawnCOPs: checkoutRequest.checkoutCOP,
+    });
+    await checkoutCOP.save();
+
+    console.log("Checkout request and COP updated successfully");
+    res.json({ message: "Requested checkout has been grandted succefully" });
+  } catch (error) {
+    console.error("Error updating checkout:", error);
+    res.status(500).json({ message: "Server Error" });
   }
 };

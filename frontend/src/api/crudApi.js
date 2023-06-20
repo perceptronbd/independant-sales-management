@@ -125,3 +125,32 @@ export const makeCheckoutRequest = async (userId, reqCheckoutCOP, comment) => {
     throw error;
   }
 };
+
+export const getCheckoutReq = () => {
+  return axios
+    .get("/get-checkout-req")
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.error(error);
+      throw error;
+    });
+};
+
+export const updateCheckoutStatus = async (userId) => {
+  try {
+    // Send a POST request to the Express API endpoint
+    const response = await axios.post("/update-checkout", {
+      userId,
+    });
+
+    // Handle the response data
+    const { message } = response.data;
+    console.log(message);
+    return message;
+  } catch (error) {
+    // Handle any errors
+    console.error(error);
+  }
+};

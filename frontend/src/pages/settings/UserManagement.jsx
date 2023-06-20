@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { UserList } from "../../components";
 import { SearchBar } from "../../components";
-import { deleteUser, getAllUsers } from "../../api/crudApi";
+import { getAllUsers } from "../../api/crudApi";
 import { verifyManager } from "../../api/verifyUser";
 import { useNavigate } from "react-router-dom";
 import { GridSkeleton } from "../../components/skeletons/GridSkeleton";
