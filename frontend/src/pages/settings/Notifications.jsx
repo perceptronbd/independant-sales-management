@@ -44,10 +44,7 @@ export const Notifications = () => {
       console.log(res);
       setMsg(res);
       await verifyManager(user.refreshToken, setIsLoading);
-      const response = await getCheckoutReq();
-      console.log(response);
       open();
-      setReqCheckout(response);
     } catch (error) {
       console.error("Notification:", error);
     }
@@ -94,9 +91,20 @@ export const Notifications = () => {
           <div className="font-body font-semibold w-full p-2">
             Requested Checkouts
           </div>
-          <ScrollArea h={520} scrollbarSize={4} offsetScrollbars>
-            <div>{notificationComponents}</div>
-          </ScrollArea>
+          {reqCheckout.length === 0 ? (
+            <div
+              className="bg-backgroundColor-secondary flex justify-center items-center rounded-lg m-1 w-full h-full text-textColor-tertiary
+            font-bold text-5xl
+          "
+            >
+              No Notifications
+            </div>
+          ) : (
+            <ScrollArea h={520} scrollbarSize={4} offsetScrollbars>
+              <div>{notificationComponents}</div>
+            </ScrollArea>
+          )}
+
           <Modal opened={opened} onClose={close} withCloseButton={true}>
             <div className="flex justify-center pb-10 pr-4 items-center text-center font-semibold !text-alert-highLight">
               {msg}

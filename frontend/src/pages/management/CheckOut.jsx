@@ -48,76 +48,66 @@ export function CheckOut() {
 
   return (
     <div className="flex flex-col w-full mt-1 ml-4 mr-2 ">
-      {userData.role === "manager" || "user" || "co-user" ? (
-        <div
-          className="bg-backgroundColor-secondary flex justify-center items-center rounded-lg m-1 w-full h-full text-textColor-tertiary
-        font-bold text-5xl
-      "
-        >
-          You don't have access!
+      <>
+        <div className="flex flex-row">
+          <StatCard
+            icon={IconCoin}
+            variant="ok"
+            str={"Available Amount"}
+            counts={count}
+          />
         </div>
-      ) : (
-        <>
-          <div className="flex flex-row">
-            <StatCard
-              icon={IconCoin}
-              variant="ok"
-              str={"Available Amount"}
-              counts={count}
-            />
+        <div className="flex flex-col flex-grow">
+          <div className="m-1 font-title font-semibold text-xl">
+            Select checkout method
           </div>
-          <div className="flex flex-col flex-grow">
-            <div className="m-1 font-title font-semibold text-xl">
-              Select checkout method
-            </div>
 
-            <div className="flex flex-col h-full">
-              <Tab.Group>
-                <Tab.List className="flex bg-backgroundColor-secondary w-full h-14 p-2 rounded ">
-                  <Tab
-                    className={getTabClassName(0)}
-                    onClick={() => setSelectedTab(0)}
-                  >
-                    Mercado Pago
-                  </Tab>
-                  <Tab
-                    className={getTabClassName(1)}
-                    onClick={() => setSelectedTab(1)}
-                  >
-                    Nequi - Daviplata
-                  </Tab>
-                  <Tab
-                    className={getTabClassName(2)}
-                    onClick={() => setSelectedTab(2)}
-                  >
-                    Sodexo Pass
-                  </Tab>
-                  <Tab
-                    className={getTabClassName(3)}
-                    onClick={() => setSelectedTab(3)}
-                  >
-                    Transferencia Bancaria
-                  </Tab>
-                </Tab.List>
-                <Tab.Panels className="flex-grow bg-backgroundColor-secondary rounded-b h-full">
-                  <Tab.Panel>
-                    <Mercado />
-                  </Tab.Panel>
-                  <Tab.Panel>
-                    <Nequi />
-                  </Tab.Panel>
-                  <Tab.Panel>
-                    <Sodexo />
-                  </Tab.Panel>
-                  <Tab.Panel>
-                    <Bancaria />
-                  </Tab.Panel>
-                </Tab.Panels>
-              </Tab.Group>
-            </div>
+          <div className="flex flex-col h-full">
+            <Tab.Group>
+              <Tab.List className="flex bg-backgroundColor-secondary w-full h-14 p-2 rounded ">
+                <Tab
+                  className={getTabClassName(0)}
+                  onClick={() => setSelectedTab(0)}
+                >
+                  Mercado Pago
+                </Tab>
+                <Tab
+                  className={getTabClassName(1)}
+                  onClick={() => setSelectedTab(1)}
+                >
+                  Nequi - Daviplata
+                </Tab>
+                <Tab
+                  className={getTabClassName(2)}
+                  onClick={() => setSelectedTab(2)}
+                >
+                  Sodexo Pass
+                </Tab>
+                <Tab
+                  className={getTabClassName(3)}
+                  onClick={() => setSelectedTab(3)}
+                >
+                  Transferencia Bancaria
+                </Tab>
+              </Tab.List>
+              <Tab.Panels className="flex-grow bg-backgroundColor-secondary rounded-b h-full">
+                <Tab.Panel>
+                  <Mercado />
+                </Tab.Panel>
+                <Tab.Panel>
+                  <Nequi />
+                </Tab.Panel>
+                <Tab.Panel>
+                  <Sodexo />
+                </Tab.Panel>
+                <Tab.Panel>
+                  <Bancaria />
+                </Tab.Panel>
+              </Tab.Panels>
+            </Tab.Group>
           </div>
-        </>
-      )}
+        </div>
+      </>
     </div>
   );
 }
