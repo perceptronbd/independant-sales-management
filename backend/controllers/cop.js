@@ -153,6 +153,10 @@ export const updateCheckout = async (req, res) => {
     });
     await checkoutCOP.save();
 
+    await User.findByIdAndUpdate(userId, {
+      $push: { checkoutCOPs: checkoutCOP._id },
+    });
+
     console.log("Checkout request and COP updated successfully");
     res.json({ message: "Requested checkout has been grandted succefully" });
   } catch (error) {
