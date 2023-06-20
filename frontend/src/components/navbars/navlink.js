@@ -58,7 +58,7 @@ export const navlink = [
     label: "Dashboard",
     icon: IconLayoutDashboard,
     links: [
-      { label: "Members", link: "/home/members", icon: IconAffiliate },
+      // { label: "Members", link: "/home/members", icon: IconAffiliate },
       { label: "Check Out", link: "/home/check-out", icon: IconChecklist },
       { label: "Tree", link: "/home/tree", icon: IconGitBranch },
       {
@@ -74,7 +74,7 @@ export const navlink = [
     label: "Reports & Analytics",
     icon: IconNotes,
     links: [
-      { label: "Sales Report", link: "/home/sales", icon: IconReportAnalytics },
+      // { label: "Sales Report", link: "/home/sales", icon: IconReportAnalytics },
       {
         label: "Legals Agreements",
         link: "/home/legals-agreements",

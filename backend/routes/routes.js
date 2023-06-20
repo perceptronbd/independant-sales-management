@@ -15,7 +15,11 @@ import {
   getAllProducts,
   getLastPurchase,
 } from "../controllers/productsAndPurchases.js";
-import { denyUserFormAccess, verifyManager } from "../middlewares/verify.js";
+import {
+  denyUserFormAccess,
+  getAccess,
+  verifyManager,
+} from "../middlewares/verify.js";
 import {
   createCheckoutRequest,
   getAllEarnedCOPs,
@@ -38,7 +42,7 @@ router.get("/", (req, res) => {
   res.send("Hello, World!");
 });
 
-//Authentication
+//Authentication & Authorization
 router.post("/login", login);
 router.post("/logout", logout);
 router.post("/refresh-token", refresh);

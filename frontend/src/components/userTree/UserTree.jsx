@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IconSquareRoundedMinus,
   IconCornerDownRight,
@@ -98,8 +98,8 @@ export const UserTree = ({ user, depth = 0 }) => {
           leaveFrom="opacity-100 transform translate-y-0"
           leaveTo="opacity-0 transform translate-y-4"
         >
-          {(ref) => (
-            <div ref={ref} className="pb-2">
+          {() => (
+            <div className="pb-2">
               {sortedLinksTo.map((childUser) => {
                 return (
                   <UserTree

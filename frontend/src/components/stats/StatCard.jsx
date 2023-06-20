@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import clsx from "clsx";
+import { Highlight } from "@mantine/core";
 
 export const StatCard = ({
   icon: Icon,
@@ -31,22 +32,38 @@ export const StatCard = ({
   }, [counts]);
 
   return (
-    <div className="flex w-60 justify-between bg-backgroundColor-secondary rounded-md p-4 pt-2 pb-2 m-1">
-      <div className="flex flex-col">
+    <div
+      className={clsx(
+        "flex w-52 justify-between bg-backgroundColor-secondary rounded-xl p-4 pt-2 pb-2 mx-1 h-24"
+      )}
+    >
+      <div className="flex flex-col w-full">
         <div
           className={clsx("font-bold text-4xl", {
-            "text-alert-highLight": variant === "highlight",
+            "text-alert-highLight ": variant === "highlight",
             "text-alert-ok": variant === "ok",
             "text-textColor-primary": variant === "default",
           })}
         >
-          {animatedCount}
+          <span className="flex justify-between items-center">
+            {animatedCount}
+            <Icon
+              size="1.5rem"
+              className="mb-0 pb-0 text-textColor-secondary"
+            />
+          </span>
         </div>
-        <h2 className=" font-semibold text-textColor-secondary">{str}</h2>
+        <h2
+          className={clsx(" text-white", {
+            "bg-alert-highLight px-3 rounded-xl": variant === "highlight",
+            "bg-alert-ok px-3 rounded-xl": variant === "ok",
+            "bg-alert-black px-3 rounded-xl": variant === "default",
+          })}
+        >
+          {str}
+        </h2>
       </div>
-      <div className="flex justify-center items-center ">
-        <Icon size="1.5rem" className="mb-0 pb-0 text-textColor-secondary" />
-      </div>
+      <div className="flex justify-center items-center "></div>
     </div>
   );
 };

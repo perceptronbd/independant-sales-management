@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { User } from "../model/user.js";
 
 dotenv.config();
 
@@ -55,5 +56,26 @@ export const denyUserFormAccess = (req, res, next) => {
     }
   } catch (error) {
     console.error("denyUserAccess controller: ", error);
+  }
+};
+
+export const getAccess = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    const user = await User.findById(userId);
+
+    if (
+      user.role === "manager" ||
+      user.role === "user" ||
+      user.role === "co-user"
+    ) {
+      return res.status(401).json("Access deneid!");
+    }
+
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong!" });
   }
 };

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { ScrollArea } from "@mantine/core";
 import { UserTree } from "../../components/userTree/UserTree";
 import { getUserTree } from "../../api/crudApi";
+import { StatCard } from "../../components";
+import { IconUser } from "@tabler/icons-react";
 
 export const Tree = () => {
   const [userTreeData, setUserTreeData] = useState({});
@@ -22,6 +24,27 @@ export const Tree = () => {
     fetchData();
   }, []);
 
+  const getTotalUserCount = (user) => {
+    let count = 0;
+
+    const countUsers = (user) => {
+      count++; // Increment the count for the current user
+
+      // Recursively count users in the nested linksTo array
+      if (user.linksTo && user.linksTo.length > 0) {
+        user.linksTo.forEach((nestedUser) => {
+          countUsers(nestedUser);
+        });
+      }
+    };
+
+    countUsers(user); // Start counting from the top-level user
+
+    return count;
+  };
+
+  const totalUserCount = getTotalUserCount(userTreeData);
+
   return (
     <div className="w-full">
       {loading ? (
@@ -36,7 +59,6 @@ export const Tree = () => {
         </div>
       ) : (
         <div className="flex flex-col items-center bg-backgroundColor-secondary m-1 p-2 rounded-lg">
-          <h1>Branch & Level</h1>
           <div className="w-full bg-white rounded-lg">
             <ScrollArea h={600} scrollbarSize={0} offsetScrollbars>
               <div className="px-2 ">
