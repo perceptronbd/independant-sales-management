@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
-import { IconCoin, IconUsers } from "@tabler/icons-react";
+import { IconCoin } from "@tabler/icons-react";
 import { Button, StatCard, SearchBar, MembersTable } from "../../components";
 import { GridSkeleton } from "../../components/skeletons/GridSkeleton";
 import { getUsers } from "../../api/crudApi";
@@ -13,8 +13,6 @@ export function Members() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const countUser = userData.length;
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -81,10 +79,9 @@ export function Members() {
             setSearchQuery={setSearchQuery}
           />
           <div className="flex flex-row">
-            <StatCard icon={IconUsers} str={"User"} counts={countUser} />
             <StatCard
               icon={IconCoin}
-              str={"Available Amount"}
+              str={"Total Earned"}
               variant="ok"
               counts={count}
             />

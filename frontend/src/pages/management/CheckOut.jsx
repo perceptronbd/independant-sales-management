@@ -2,13 +2,12 @@ import { Bancaria, Mercado, Nequi, Sodexo } from "../../components";
 import { StatCard } from "../../components";
 import { Tab } from "@headlessui/react";
 import clsx from "clsx";
-import { IconReceipt2, IconCoin } from "@tabler/icons-react";
+import { IconCoin } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getUsers } from "../../api/crudApi";
 
 export function CheckOut() {
-  const [userData, setUserData] = useState([]);
   const [count, setCount] = useState(0);
   const [selectedTab, setSelectedTab] = useState(0);
 
@@ -18,8 +17,6 @@ export function CheckOut() {
       "bg-backgroundColor-tertiary": selectedTab !== index,
     });
   };
-
-  const countUser = userData.length;
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -40,7 +37,6 @@ export function CheckOut() {
             console.error(error);
           });
         console.log("Members.jsx", getUserData);
-        setUserData(getUserData);
       } catch (error) {
         console.error("Members useEffect: ", error);
       }
@@ -51,7 +47,6 @@ export function CheckOut() {
   return (
     <div className="flex flex-col w-full mt-1 ml-4 mr-2 ">
       <div className="flex flex-row">
-        <StatCard icon={IconReceipt2} str={"Accumulated"} counts={countUser} />
         <StatCard
           icon={IconCoin}
           variant="ok"
