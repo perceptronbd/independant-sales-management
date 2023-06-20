@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  IconSquareRoundedPlusFilled,
   IconSquareRoundedMinus,
   IconCornerDownRight,
 } from "@tabler/icons-react";
@@ -16,6 +15,8 @@ export const UserTree = ({ user, depth = 0 }) => {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+
+  const immediateChildrenCount = linksTo.length;
 
   const roleColors = {
     manager: "bg-blue-500",
@@ -70,13 +71,19 @@ export const UserTree = ({ user, depth = 0 }) => {
               <div className="text-sm opacity-50">{email}</div>
             </div>
             {hasChildren && (
-              <span
-                className={`w-4 text-backgroundColor-tertiary bg-backgroundColor-secondary rounded-xl`}
-              >
+              <span className="w-4 text-backgroundColor-tertiary  rounded-xl">
                 {isOpen ? (
                   <IconSquareRoundedMinus />
                 ) : (
-                  <IconSquareRoundedPlusFilled className="text-alert-warning" />
+                  <div className="flex">
+                    {/* <IconSquareRoundedPlusFilled className="text-alert-warning" /> */}
+                    <span
+                      className="text-sm font-semibold bg-alert-warning text-white py-1 px-2 ml-1 rounded-lg transition-all
+                    "
+                    >
+                      {immediateChildrenCount}
+                    </span>
+                  </div>
                 )}
               </span>
             )}
@@ -93,13 +100,15 @@ export const UserTree = ({ user, depth = 0 }) => {
         >
           {(ref) => (
             <div ref={ref} className="pb-2">
-              {sortedLinksTo.map((childUser) => (
-                <UserTree
-                  key={childUser.id}
-                  user={childUser}
-                  depth={depth + 1}
-                />
-              ))}
+              {sortedLinksTo.map((childUser) => {
+                return (
+                  <UserTree
+                    key={childUser.id}
+                    user={childUser}
+                    depth={depth + 1}
+                  />
+                );
+              })}
             </div>
           )}
         </Transition>
