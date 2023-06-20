@@ -1,7 +1,17 @@
 import React, { useState } from "react";
-import { ScrollArea, Checkbox, createStyles } from "@mantine/core";
+import { ScrollArea, Checkbox, createStyles, Badge } from "@mantine/core";
 import tw from "twin.macro";
 import styled from "@emotion/styled";
+
+const roleColors = {
+  manager: "blue",
+  "generator-leader": "teal",
+  generator: "red",
+  prescriptor: "emerald",
+  agent: "yellow",
+  "co-user": "black",
+  user: "gray",
+};
 
 const useStyles = createStyles((theme) => ({
   rowSelected: {
@@ -34,14 +44,14 @@ export const MemberSelection = ({
 }) => {
   const { classes, cx } = useStyles();
   const [selection, setSelection] = useState(["1"]);
-  const toggleRow = (email) => {
-    const selectedMemberEmail = selectedMember === email ? null : email;
+  const toggleRow = (_id) => {
+    const selectedMemberEmail = selectedMember === _id ? null : _id;
     setSelection(selectedMemberEmail);
     onMemberSelection(selectedMemberEmail);
   };
 
   const list = data.map((item) => {
-    const selected = selection.includes(item.email);
+    const selected = selection.includes(item._id);
     return (
       <RowContainer
         className={cx("group", { [classes.rowSelected]: selected })}
@@ -49,8 +59,8 @@ export const MemberSelection = ({
       >
         <Checkbox
           readOnly
-          checked={selection.includes(item.email)}
-          onChange={() => toggleRow(item.email)}
+          checked={selection.includes(item._id)}
+          onChange={() => toggleRow(item._id)}
           transitionDuration={0}
           className="mx-4"
         />
@@ -59,7 +69,7 @@ export const MemberSelection = ({
           {item.email}
         </RowItems>
         <RowItems className="w-1/5 text-textColor-tertiary">
-          {item.role}
+          <Badge color={roleColors[item.role.toLowerCase()]}>{item.role}</Badge>
         </RowItems>
         <RowItems tertiary className="w-1/5">
           {item.lastPurchaseDate}

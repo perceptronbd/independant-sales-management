@@ -45,7 +45,7 @@ router.post("/refresh-token", refresh);
 
 //User
 router.post("/create-user", createUser);
-router.get("/get-users/:refCode", getUsersWithPurchaseInfo);
+router.get("/get-users-for-purchase", getUsersWithPurchaseInfo);
 router.post("/get-user-tree", getUserTree);
 router.get("/get-user-by-refCode/:refCode");
 router.get("/find-user/:userId", findUser);

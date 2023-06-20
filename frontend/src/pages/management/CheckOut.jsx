@@ -28,7 +28,7 @@ export function CheckOut() {
       try {
         const getUserData = await getUsers(user.refCode);
         axios
-          .get("/users/" + user._id + "/earnedCOPs")
+          .get("/users/" + user._id + "/availableCOPs")
           .then((response) => {
             // Handle the response data
             const earnedCOPs = response.data;

@@ -73,8 +73,8 @@ export function UserForm() {
     },
 
     validate: {
-      firstName: hasLength({ min: 2, max: 10 }),
-      lastName: hasLength({ min: 2, max: 10 }),
+      firstName: hasLength({ min: 2, max: 20 }),
+      lastName: hasLength({ min: 2, max: 20 }),
       email: isEmail(),
       password: isNotEmpty(),
       address: isNotEmpty(),
@@ -141,7 +141,7 @@ export function UserForm() {
           <Text title>Create User</Text>
           <div className="flex w-full mt-2">
             <TextInput
-              label="Fist Name"
+              label="First Name"
               placeholder="First Name"
               withAsterisk
               width={50}

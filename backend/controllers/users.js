@@ -148,13 +148,8 @@ export const getUserForManager = async (req, res) => {
 };
 
 export const getUsersWithPurchaseInfo = async (req, res) => {
-  const { refCode } = req.params;
-
   try {
-    const users = await User.find(
-      { referralID: refCode },
-      { _id: 1, firstName: 1, email: 1, email: 1, role: 1, referralID: 1 }
-    )
+    const users = await User.find({ role: { $in: ["co-user", "user"] } })
       .populate({
         path: "purchases",
         populate: {
@@ -210,6 +205,7 @@ export const getUsersWithPurchaseInfo = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 export const getUserTree = async (req, res) => {
   try {
     const { userId } = req.body;

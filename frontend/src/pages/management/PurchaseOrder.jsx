@@ -21,7 +21,7 @@ export function PurchaseOrder() {
   const selectedMembersIds = location.state;
 
   const selectedMembers = userData.filter((user) => {
-    return selectedMembersIds.includes(user.email);
+    return selectedMembersIds.includes(user._id);
   });
 
   const selectedMembersElements = selectedMembers.map((member) => {
@@ -67,7 +67,7 @@ export function PurchaseOrder() {
     const user = JSON.parse(localStorage.getItem("user"));
     const fetchData = async () => {
       try {
-        const getUserData = await getUsers(user.refCode);
+        const getUserData = await getUsers();
         const getProducts = await getAllProducts().then(setLoading(false));
         console.log(getProducts);
         setProductData(getProducts);
@@ -82,6 +82,7 @@ export function PurchaseOrder() {
   }, []);
 
   const handlePurchase = async () => {
+    console.log(selectedMembers);
     const userId = selectedMembers[0]._id;
     const userRole = selectedMembers[0].role;
     const referralID = selectedMembers[0].referralID;

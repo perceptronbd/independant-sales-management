@@ -75,8 +75,8 @@ export function EditUser() {
     },
 
     validate: {
-      firstName: hasLength({ min: 2, max: 10 }),
-      lastName: hasLength({ min: 2, max: 10 }),
+      firstName: hasLength({ min: 2, max: 20 }),
+      lastName: hasLength({ min: 2, max: 20 }),
       email: isEmail(),
       password: isNotEmpty(),
       address: isNotEmpty(),

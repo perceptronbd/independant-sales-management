@@ -23,9 +23,9 @@ export const deleteUser = async (id, refreshToken) => {
   }
 };
 
-export const getUsers = async (refCode) => {
+export const getUsers = async () => {
   try {
-    const res = await axios.get("/get-users/" + refCode);
+    const res = await axios.get("/get-users-for-purchase");
     return res.data;
   } catch (error) {
     console.error("getUsers API: ", error);

@@ -1,6 +1,4 @@
 import { User } from "../model/user.js";
-import { CheckoutCOP } from "../model/checkoutCOP.js";
-import { COP } from "../model/COP.js";
 
 export const checkoutCOP = async (req, res, next) => {
   try {
@@ -38,9 +36,9 @@ export const checkoutCOP = async (req, res, next) => {
     console.log("Requested COPs:", reqCheckoutCOP);
 
     // Check if the checkoutCOP is greater than the remainingCOPs or greater than or equal to 500
-    if (reqCheckoutCOP < 500) {
-      return res.status(400).json({ error: "The amount is lower than 500" });
-    }
+    // if (reqCheckoutCOP < 500) {
+    //   return res.status(400).json({ error: "The amount is lower than 500" });
+    // }
     if (reqCheckoutCOP > remainingCOPs) {
       return res.status(400).json({ error: "Your balance is low" });
     }
