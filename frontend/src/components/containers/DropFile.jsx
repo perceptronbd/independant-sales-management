@@ -91,7 +91,17 @@ export function DropFile(props) {
           </div>
         </Group>
       </Dropzone>
-      <Progress value={uploadProgress} style={{ marginTop: rem(16) }} />
+      {uploadProgress === 100 ? (
+        <div className="font-semibold text-blue-400 flex justify-center">
+          Done, please refresh the page!
+        </div>
+      ) : (
+        <Progress
+          value={uploadProgress}
+          style={{ marginTop: rem(16) }}
+          color="blue"
+        />
+      )}
     </div>
   );
 }
