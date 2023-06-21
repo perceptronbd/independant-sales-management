@@ -27,15 +27,15 @@ export const login = async (req, res) => {
         res.json({ ...user._doc, accessToken, refreshToken });
       } else {
         console.log("Invalid password for user:", user);
-        res.status(400).json({ mesage: "Password is incorrect!" });
+        res.status(400).json({ message: "Password is incorrect!" });
       }
     } else {
       console.log("User not found for email:", email);
-      res.status(400).json({ mesage: "Username is incorrect!" });
+      res.status(400).json({ message: "Username is incorrect!" });
     }
   } catch (error) {
     console.error("Error retrieving user from the database:", error);
-    res.status(500).json({ mesage: "Internal server error" });
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
