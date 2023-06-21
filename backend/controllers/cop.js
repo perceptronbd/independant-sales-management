@@ -115,6 +115,7 @@ export const getCheckoutReq = async (req, res) => {
   try {
     // Retrieve checkout requests and populate user information
     const requests = await CheckoutRequest.find({ checked: false })
+      .sort({ date: -1 })
       .populate("user", "firstName lastName role")
       .exec();
 
