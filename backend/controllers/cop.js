@@ -82,18 +82,18 @@ export const createCheckoutRequest = async (req, res) => {
     }
 
     // Check if the user has made a request within the last month
-    // const lastMonth = subMonths(new Date(), 1);
-    // const existingRequest = await CheckoutRequest.findOne({
-    //   user: userId,
-    //   createdAt: { $gte: lastMonth },
-    // });
-    // console.log("existingRequest: ", existingRequest);
+    const lastMonth = subMonths(new Date(), 1);
+    const existingRequest = await CheckoutRequest.findOne({
+      user: userId,
+      createdAt: { $gte: lastMonth },
+    });
+    console.log("existingRequest: ", existingRequest);
 
-    // if (existingRequest) {
-    //   return res.status(403).json({
-    //     error: "You have made a request within the last month",
-    //   });
-    // }
+    if (existingRequest) {
+      return res.status(403).json({
+        error: "You have made a request within the last month",
+      });
+    }
 
     // Create a new checkout request
     const checkoutRequest = new CheckoutRequest({
@@ -127,6 +127,7 @@ export const getCheckoutReq = async (req, res) => {
 
 export const updateCheckout = async (req, res) => {
   const { checkoutreqIs } = req.body;
+  const { userId } = req.params;
 
   try {
     console.log("Updating checkout request...");

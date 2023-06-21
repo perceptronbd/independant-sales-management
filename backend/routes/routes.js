@@ -78,7 +78,7 @@ router.get("/users/:userId/earnedCOPs", getAllEarnedCOPs);
 router.get("/users/:userId/availableCOPs", getAvailableCOPs);
 router.post("/req-checkout", checkoutCOP, createCheckoutRequest);
 router.get("/get-checkout-req", getCheckoutReq);
-router.post("/update-checkout", updateCheckout);
+router.post("/update-checkout/:userId", updateCheckout);
 
 //files
 router.post("/upload", upload.single("file"), uploadFile);
