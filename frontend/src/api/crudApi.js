@@ -138,11 +138,11 @@ export const getCheckoutReq = () => {
     });
 };
 
-export const updateCheckoutStatus = async (userId) => {
+export const updateCheckoutStatus = async (checkoutreqIs) => {
   try {
     // Send a POST request to the Express API endpoint
     const response = await axios.post("/update-checkout", {
-      userId,
+      checkoutreqIs,
     });
 
     // Handle the response data

@@ -82,18 +82,18 @@ export const createCheckoutRequest = async (req, res) => {
     }
 
     // Check if the user has made a request within the last month
-    const lastMonth = subMonths(new Date(), 1);
-    const existingRequest = await CheckoutRequest.findOne({
-      user: userId,
-      createdAt: { $gte: lastMonth },
-    });
-    console.log("existingRequest: ", existingRequest);
+    // const lastMonth = subMonths(new Date(), 1);
+    // const existingRequest = await CheckoutRequest.findOne({
+    //   user: userId,
+    //   createdAt: { $gte: lastMonth },
+    // });
+    // console.log("existingRequest: ", existingRequest);
 
-    if (existingRequest) {
-      return res.status(403).json({
-        error: "You have made a request within the last month",
-      });
-    }
+    // if (existingRequest) {
+    //   return res.status(403).json({
+    //     error: "You have made a request within the last month",
+    //   });
+    // }
 
     // Create a new checkout request
     const checkoutRequest = new CheckoutRequest({
@@ -114,9 +114,7 @@ export const createCheckoutRequest = async (req, res) => {
 export const getCheckoutReq = async (req, res) => {
   try {
     // Retrieve checkout requests and populate user information
-    const requests = await CheckoutRequest.find({
-      checked: { $in: [false, null] },
-    })
+    const requests = await CheckoutRequest.find({ checked: false })
       .populate("user", "firstName lastName role")
       .exec();
 
@@ -128,15 +126,14 @@ export const getCheckoutReq = async (req, res) => {
 };
 
 export const updateCheckout = async (req, res) => {
-  const { userId } = req.body;
+  const { checkoutreqIs } = req.body;
 
   try {
     console.log("Updating checkout request...");
     // Find the checkout request by userId and update the checked value
-    const checkoutRequest = await CheckoutRequest.findOneAndUpdate(
-      { user: userId },
-      { $set: { checked: true } },
-      { new: true }
+    const checkoutRequest = await CheckoutRequest.findByIdAndUpdate(
+      checkoutreqIs,
+      { checked: true }
     );
 
     console.log("Updated checkoutRequest:", checkoutRequest);

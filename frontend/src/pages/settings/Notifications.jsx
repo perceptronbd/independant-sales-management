@@ -37,10 +37,12 @@ export const Notifications = () => {
     handleManagerRout();
   }, []);
 
-  const handleCheckout = async (userId) => {
+  const handleCheckout = async (checkoutreqIs) => {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
-      const res = await updateCheckoutStatus(userId);
+      const res = await updateCheckoutStatus(checkoutreqIs);
+      const resonse = await getCheckoutReq();
+      setReqCheckout(resonse);
       console.log(res);
       setMsg(res);
       await verifyManager(user.refreshToken, setIsLoading);
@@ -71,7 +73,7 @@ export const Notifications = () => {
       <button
         className="col-end-13 bg-accent-primary p-1 mx-1 text-white rounded-lg hover:bg-opacity-80"
         onClick={() => {
-          handleCheckout(item.user._id);
+          handleCheckout(item._id);
         }}
       >
         Check
