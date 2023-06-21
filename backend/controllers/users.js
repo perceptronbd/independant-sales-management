@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import { User } from "../model/user.js";
 import { generateRefCode } from "../helpers/generateRefCode.js";
 import { getUserSubtree } from "../helpers/getUsersTree.js";
@@ -39,28 +40,30 @@ export const createUser = async (req, res) => {
       });
       const savedUser = await newUser.save();
       return res.status(201).json(`created user succesffully: ${savedUser}`);
-    } else {
-      const newUser = new User({
-        firstName,
-        lastName,
-        email,
-        password,
-        role,
-        address,
-        city,
-        state,
-        postalCode,
-        referralID,
-      });
-      const savedUser = await newUser.save();
-      const referralCode = generateRefCode(savedUser._id.toString());
-      console.log(savedUser._id);
-
-      savedUser.refCode = referralCode;
-
-      await savedUser.save();
-      return res.status(201).json(`created user succesffully: ${savedUser}`);
     }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new User({
+      firstName,
+      lastName,
+      email,
+      password: hashedPassword,
+      role,
+      address,
+      city,
+      state,
+      postalCode,
+      referralID,
+    });
+    const savedUser = await newUser.save();
+    const referralCode = generateRefCode(savedUser._id.toString());
+    console.log(savedUser._id);
+
+    savedUser.refCode = referralCode;
+
+    await savedUser.save();
+    return res.status(201).json(`created user succesffully: ${savedUser}`);
   } catch (error) {
     console.log("error in createUser controller", error);
     res.status(500).json({ error: "Failed to create user" });

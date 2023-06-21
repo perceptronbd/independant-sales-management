@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
 import { User } from "../model/user.js";
 import {
@@ -11,22 +12,30 @@ dotenv.config();
 let refreshTokens = [];
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
-
   try {
-    const user = await User.findOne({ email, password });
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
 
     if (user) {
-      const accessToken = generateAccessToken(user);
-      const refreshToken = generateRefreshToken(user);
-      refreshTokens.push(refreshToken);
-      res.json({ ...user._doc, accessToken, refreshToken });
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (isMatch) {
+        const accessToken = generateAccessToken(user);
+        const refreshToken = generateRefreshToken(user);
+        refreshTokens.push(refreshToken);
+        console.log("Login successful for user:", user);
+        res.json({ ...user._doc, accessToken, refreshToken });
+      } else {
+        console.log("Invalid password for user:", user);
+        res.status(400).json("Username or Password is incorrect!");
+      }
     } else {
+      console.log("User not found for email:", email);
       res.status(400).json("Username or Password is incorrect!");
     }
   } catch (error) {
-    console.error("Error retrieving user from the database", error);
-    res.status(500).json("internal server error");
+    console.error("Error retrieving user from the database:", error);
+    res.status(500).json("Internal server error");
   }
 };
 
