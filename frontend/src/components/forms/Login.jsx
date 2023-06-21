@@ -1,8 +1,28 @@
 import { TextInput, PasswordInput, Title, Container } from "@mantine/core";
 import { Button } from "../buttons/Button";
 import { Text } from "../texts/Text";
+import { useState } from "react";
+import axios from "axios";
 
-export function Login({ setEmail, setPassword, handleSubmit, isInvalid }) {
+export function Login({ setUser }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errMsg, setErrMsg] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("/login", { email, password });
+      localStorage.setItem("user", JSON.stringify(res.data));
+      console.log(res.data);
+      setUser(res.data);
+      return res.data;
+    } catch (error) {
+      console.log("error in login api.", error.response.status);
+      setErrMsg(error.response.data.message);
+      console.log(errMsg);
+    }
+  };
   return (
     <Container size={420} my={40}>
       <Title
@@ -37,12 +57,12 @@ export function Login({ setEmail, setPassword, handleSubmit, isInvalid }) {
             setPassword(e.target.value);
           }}
         />
-        {isInvalid ? (
-          <Text className={`m-0 mt-2 !text-alert-danger font-medium`}>
-            Invalid username or password!
-          </Text>
-        ) : (
+        {errMsg === null ? (
           <></>
+        ) : (
+          <Text className={`m-0 mt-2 !text-alert-danger font-medium`}>
+            {errMsg}
+          </Text>
         )}
         <Button className={`w-full`} type="submit">
           Sign in

@@ -1,15 +1,14 @@
 import axios from "axios";
 
-export const login = async (email, password, setIsInvalid, isInvalid) => {
+export const login = async (email, password, setErrMsg, errMsg) => {
   try {
     const res = await axios.post("/login", { email, password });
     localStorage.setItem("user", JSON.stringify(res.data));
     return res.data;
   } catch (error) {
     console.log("error in login api.", error.response.status);
-    if (error.response && error.response.status === 400) {
-      setIsInvalid(true);
-    }
+    setErrMsg(error.response.data.message);
+    console.log(errMsg);
   }
 };
 

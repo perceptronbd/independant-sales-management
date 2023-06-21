@@ -30,18 +30,18 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isInvalid, setIsInvalid] = useState(false);
+  const [errMsg, setErrMsg] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await login(email, password, setIsInvalid);
-      console.log("res in login: ", res);
-      setUser(res);
-    } catch (error) {
-      console.error("error in handleSumit", error);
-    }
-  };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const res = await login(email, password, setErrMsg, errMsg);
+  //     console.log("res in login: ", errMsg);
+  //     setUser(res);
+  //   } catch (error) {
+  //     console.error("error in handleSumit", error);
+  //   }
+  // };
 
   const handleLogout = async () => {
     try {
@@ -73,12 +73,7 @@ export default function App() {
             user ? (
               <Navigate to={"/home/profile"} />
             ) : (
-              <Login
-                setEmail={setEmail}
-                setPassword={setPassword}
-                handleSubmit={handleSubmit}
-                isInvalid={isInvalid}
-              />
+              <Login setUser={setUser} />
             )
           }
         />
@@ -88,12 +83,7 @@ export default function App() {
             user ? (
               <Home handleLogout={handleLogout} />
             ) : (
-              <Login
-                setEmail={setEmail}
-                setPassword={setPassword}
-                handleSubmit={handleSubmit}
-                isInvalid={isInvalid}
-              />
+              <Login setUser={setUser} />
             )
           }
         >
