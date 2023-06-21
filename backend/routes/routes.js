@@ -12,6 +12,7 @@ import {
 } from "../controllers/users.js";
 import {
   createPurchase,
+  generateHistoryReport,
   getAllProducts,
   getLastPurchase,
 } from "../controllers/productsAndPurchases.js";
@@ -72,6 +73,7 @@ router.put("/update-user/:userId", updateUser);
 router.get("/products", getAllProducts);
 router.post("/purchase", createPurchase);
 router.post("/last-purchase", getLastPurchase);
+router.get("/get-purchase-history", generateHistoryReport);
 
 //COPs
 router.get("/users/:userId/earnedCOPs", getAllEarnedCOPs);

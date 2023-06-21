@@ -25,12 +25,15 @@ export const createUser = async (req, res) => {
     } else if (role === "Select Role") {
       return res.status(409).json({ error: "Please select a user role!" });
     }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     if (role === "user" || role === "co-user" || role === "agent") {
       const newUser = new User({
         firstName,
         lastName,
         email,
-        password,
+        password: hashedPassword,
         role,
         address,
         city,
@@ -41,8 +44,6 @@ export const createUser = async (req, res) => {
       const savedUser = await newUser.save();
       return res.status(201).json(`created user succesffully: ${savedUser}`);
     }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
       firstName,
@@ -58,9 +59,10 @@ export const createUser = async (req, res) => {
     });
     const savedUser = await newUser.save();
     const referralCode = generateRefCode(savedUser._id.toString());
-    console.log(savedUser._id);
 
     savedUser.refCode = referralCode;
+
+    console.log(savedUser);
 
     await savedUser.save();
     return res.status(201).json(`created user succesffully: ${savedUser}`);

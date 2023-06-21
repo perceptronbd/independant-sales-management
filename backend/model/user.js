@@ -48,7 +48,6 @@ const userSchema = Schema({
   },
   referralID: {
     type: String,
-    required: true,
   },
   refCode: {
     type: String,

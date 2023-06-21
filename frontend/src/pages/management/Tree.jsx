@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { ScrollArea } from "@mantine/core";
 import { UserTree } from "../../components/userTree/UserTree";
 import { getUserTree } from "../../api/crudApi";
-import { StatCard } from "../../components";
-import { IconUser } from "@tabler/icons-react";
 
 export const Tree = () => {
   const [userTreeData, setUserTreeData] = useState({});

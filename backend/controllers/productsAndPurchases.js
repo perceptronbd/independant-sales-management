@@ -123,6 +123,45 @@ export const createPurchase = async (req, res) => {
   }
 };
 
+export const generateHistoryReport = async (req, res) => {
+  try {
+    const purchases = await Purchase.find()
+      .populate("userId", "firstName email")
+      .populate("products.productId", "name price");
+
+    if (purchases.length === 0) {
+      return res.json("No purchase record");
+    }
+
+    const report = purchases.map((purchase) => {
+      const { userId, products } = purchase;
+
+      const totalProductsBought = products.reduce((total, product) => {
+        return total + product.quantity;
+      }, 0);
+
+      const totalAmountMade = products.reduce((total, product) => {
+        const productPrice = product.productId.price;
+        return total + product.quantity * productPrice;
+      }, 0);
+
+      return {
+        firstName: userId.firstName,
+        email: userId.email,
+        totalProductsBought,
+        totalAmountMade,
+      };
+    });
+
+    console.log("History Report:", report);
+
+    res.json(report);
+  } catch (error) {
+    console.error("Error generating history report:", error);
+    res.status(500).json({ error: "Failed to generate history report" });
+  }
+};
+
 export const getLastPurchase = async (req, res) => {
   const { userIds } = req.body;
   try {
