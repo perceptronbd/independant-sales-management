@@ -69,7 +69,7 @@ export function Sales() {
 
   return (
     <div className="m-1 w-full">
-      <div className="font-title font-semibold text-3xl mx-2 mb-10">
+      <div className="font-title font-semibold text-4xl mx-2 mb-10">
         Sales Report
       </div>
       <StatCard

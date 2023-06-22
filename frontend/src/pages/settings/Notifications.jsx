@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { verifyManager } from "../../api/verifyUser";
-import { Badge, ScrollArea, Modal } from "@mantine/core";
-
+import { Badge, ScrollArea, Modal, ActionIcon, Tooltip } from "@mantine/core";
+import { IconTrash, IconCircleCheck } from "@tabler/icons-react";
 import { getCheckoutReq, updateCheckoutStatus } from "../../api/crudApi";
 import { useDisclosure } from "@mantine/hooks";
 import { GridSkeleton } from "../../components/skeletons/GridSkeleton";
@@ -70,14 +70,28 @@ export const Notifications = () => {
       <div className="col-span-4 bg-backgroundColor-primary rounded-lg p-1">
         {item.comment}
       </div>
-      <button
-        className="col-end-13 bg-accent-primary p-1 mx-1 text-white rounded-lg hover:bg-opacity-80"
-        onClick={() => {
-          handleCheckout(item.user._id, item._id);
-        }}
-      >
-        Check
-      </button>
+      <div className="col-end-13 flex">
+        <Tooltip label="Delete Request" withArrow>
+          <ActionIcon
+            onClick={() => {
+              handleCheckout(item.user._id, item._id);
+            }}
+            className="hover:bg-backgroundColor-primary text-alert-danger"
+          >
+            <IconTrash size="1.2rem" stroke={1.5} />
+          </ActionIcon>
+        </Tooltip>
+        <Tooltip withArrow label="Grant Request">
+          <ActionIcon
+            onClick={() => {
+              handleCheckout(item.user._id, item._id);
+            }}
+            className="hover:bg-backgroundColor-primary text-alert-ok"
+          >
+            <IconCircleCheck size="1.2rem" stroke={1.5} />
+          </ActionIcon>
+        </Tooltip>
+      </div>
     </div>
   ));
 
