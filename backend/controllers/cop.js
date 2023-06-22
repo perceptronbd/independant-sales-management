@@ -166,22 +166,21 @@ export const updateCheckout = async (req, res) => {
 };
 
 export const deleteCheckoutRequest = async (req, res) => {
-  const { id } = req.params;
-
   try {
-    // Find the checkout request by ID
-    const checkoutRequest = await CheckoutRequest.findById(id);
+    const { id } = req.params;
 
-    if (!checkoutRequest) {
+    // Find and delete the checkout request
+    const deletedRequest = await CheckoutRequest.findOneAndDelete({ _id: id });
+
+    if (!deletedRequest) {
       return res.status(404).json({ message: "Checkout request not found" });
     }
 
-    // Delete the checkout request
-    await checkoutRequest.remove();
-
-    res.json({ message: "Checkout request deleted successfully" });
+    return res
+      .status(200)
+      .json({ message: "Checkout request deleted successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };

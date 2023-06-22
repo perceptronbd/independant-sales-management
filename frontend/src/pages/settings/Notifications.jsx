@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { verifyManager } from "../../api/verifyUser";
 import { Badge, ScrollArea, Modal, ActionIcon, Tooltip } from "@mantine/core";
 import { IconTrash, IconCircleCheck } from "@tabler/icons-react";
@@ -37,6 +38,23 @@ export const Notifications = () => {
     handleManagerRout();
   }, []);
 
+  const handleDelete = async (id) => {
+    try {
+      axios
+        .delete("/deleteCheckoutReq/" + id)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.error("Error retrieving purchases:", error);
+        });
+      const res = await getCheckoutReq();
+      setReqCheckout(res);
+    } catch (error) {
+      console.error("error:", error);
+    }
+  };
+
   const handleCheckout = async (userId, checkoutreqIs) => {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
@@ -74,7 +92,7 @@ export const Notifications = () => {
         <Tooltip label="Delete Request" withArrow>
           <ActionIcon
             onClick={() => {
-              handleCheckout(item.user._id, item._id);
+              handleDelete(item._id);
             }}
             className="hover:bg-backgroundColor-primary text-alert-danger"
           >
