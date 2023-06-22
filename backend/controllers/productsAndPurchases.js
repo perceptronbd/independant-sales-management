@@ -1,7 +1,26 @@
+import moment from "moment";
 import { User } from "../model/user.js";
 import { Product } from "../model/product.js";
 import { Purchase } from "../model/purchase.js";
 import { createAndSaveCOP } from "../helpers/createSaveCOP.js";
+
+export const createProduct = async (req, res) => {
+  try {
+    const { name, category, price } = req.body;
+
+    const product = new Product({
+      name,
+      category,
+      price,
+    });
+
+    await product.save();
+
+    res.status(201).json({ success: true, product });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
 
 export const getAllProducts = async (req, res) => {
   try {
@@ -123,7 +142,7 @@ export const createPurchase = async (req, res) => {
   }
 };
 
-export const generateHistoryReport = async (req, res) => {
+export const getOrderHistory = async (req, res) => {
   try {
     const purchases = await Purchase.find()
       .populate("userId", "firstName email")
@@ -184,5 +203,117 @@ export const getLastPurchase = async (req, res) => {
   } catch (error) {
     console.error("Error getting users last purchases:", error);
     res.status(500).json({ error: "Failed to get users last purchases" });
+  }
+};
+
+export const getTotalPurchasesToday = async (req, res) => {
+  try {
+    const today = moment().startOf("day");
+    const purchases = await Purchase.aggregate([
+      {
+        $match: {
+          purchaseDate: { $gte: today.toDate() },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          total: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const totalPurchases = purchases.length > 0 ? purchases[0].total : 0;
+
+    res.json({ totalPurchases });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to retrieve total purchases" });
+  }
+};
+
+export async function getRecentPurchases(req, res) {
+  try {
+    // Fetch the recent 10 purchases with their user and product details
+    const recentPurchases = await Purchase.find()
+      .sort({ purchaseDate: -1 }) // Sort in descending order by purchaseDate
+      .limit(10)
+      .populate({
+        path: "userId",
+        select: "firstName lastName email", // Select the required user fields
+      })
+      .populate({
+        path: "products.productId",
+        select: "name price", // Select the required product fields
+      });
+
+    // Calculate the total purchase amount for each purchase
+    const purchasesWithTotalAmount = recentPurchases.map((purchase) => {
+      const totalAmount = purchase.products.reduce(
+        (acc, product) => acc + product.quantity * product.productId.price,
+        0
+      );
+      return {
+        _id: purchase._id,
+        user: {
+          username: `${purchase.userId.firstName} ${purchase.userId.lastName}`,
+          email: purchase.userId.email,
+        },
+        totalAmount,
+      };
+    });
+
+    res.json(purchasesWithTotalAmount);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+export const getWeeklySum = async (req, res) => {
+  try {
+    // Get the current date
+    const currentDate = moment();
+
+    // Calculate the start date of the seven-day period
+    const startDate = currentDate.clone().subtract(6, "days").startOf("day");
+
+    // Create an array of all dates within the seven-day period
+    const allDates = [];
+    let date = startDate.clone();
+    while (date.isSameOrBefore(currentDate, "day")) {
+      allDates.push(date.format("YY-MM-DD"));
+      date.add(1, "day");
+    }
+
+    // Find purchases within the seven-day period
+    const purchases = await Purchase.find({
+      purchaseDate: { $gte: startDate.toDate(), $lte: currentDate.toDate() },
+    }).populate("products.productId");
+
+    // Calculate the sum of purchases for each day
+    const dailySums = purchases.reduce((result, purchase) => {
+      const purchaseDate = moment(purchase.purchaseDate).format("YY-MM-DD");
+      const totalQuantity = purchase.products.reduce((sum, product) => {
+        return sum + product.quantity;
+      }, 0);
+      result[purchaseDate] = (result[purchaseDate] || 0) + totalQuantity;
+      return result;
+    }, {});
+
+    // Calculate the expected total sum for the seven-day period
+    const expectedTotalSum = 10 * allDates.length; // 100 sales per day for all dates
+
+    // Calculate the percentage for each day and format the result
+    const dailyPercentages = allDates.map((date) => ({
+      percentage: dailySums[date]
+        ? Math.ceil((dailySums[date] / expectedTotalSum) * 100)
+        : 0,
+      date,
+    }));
+
+    res.json(dailyPercentages);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };

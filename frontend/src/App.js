@@ -12,6 +12,7 @@ import {
   Members,
   Notifications,
   OptionPage,
+  Products,
   Profile,
   PurchaseOrder,
   Sales,
@@ -28,9 +29,6 @@ import { GridSkeleton } from "./components/skeletons/GridSkeleton";
 
 export default function App() {
   const [user, setUser] = useState(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errMsg, setErrMsg] = useState(null);
 
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
@@ -107,6 +105,7 @@ export default function App() {
           <Route path="authentications" element={<Authentication />} />
           <Route path="notifications" element={<Notifications />} />
           <Route path="unauthorized" element={<Unauthorized />} />
+          <Route path="products" element={<Products />} />
         </Route>
       </Routes>
     </MantineProvider>

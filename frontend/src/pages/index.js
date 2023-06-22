@@ -22,5 +22,6 @@ export { RolesAndAccess } from "./settings/RolesAndAccess";
 export { Authentication } from "./settings/Authentication";
 export { Notifications } from "./settings/Notifications";
 export { UserManagement } from "./settings/UserManagement";
+export { Products } from "./settings/Products";
 //unauthorized
 export { Unauthorized } from "./unauthorized/Unauthorized";

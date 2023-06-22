@@ -11,16 +11,16 @@ import {
   updateUser,
 } from "../controllers/users.js";
 import {
+  createProduct,
   createPurchase,
-  generateHistoryReport,
   getAllProducts,
   getLastPurchase,
+  getOrderHistory,
+  getTotalPurchasesToday,
+  getRecentPurchases,
+  getWeeklySum,
 } from "../controllers/productsAndPurchases.js";
-import {
-  denyUserFormAccess,
-  getAccess,
-  verifyManager,
-} from "../middlewares/verify.js";
+import { denyUserFormAccess, verifyManager } from "../middlewares/verify.js";
 import {
   createCheckoutRequest,
   getAllEarnedCOPs,
@@ -73,7 +73,11 @@ router.put("/update-user/:userId", updateUser);
 router.get("/products", getAllProducts);
 router.post("/purchase", createPurchase);
 router.post("/last-purchase", getLastPurchase);
-router.get("/get-purchase-history", generateHistoryReport);
+router.get("/get-order-history", getOrderHistory);
+router.post("/create-products", createProduct);
+router.get("/purchases/recent", getRecentPurchases);
+router.get("/purchases/sum", getTotalPurchasesToday);
+router.get("/weekly-result", getWeeklySum);
 
 //COPs
 router.get("/users/:userId/earnedCOPs", getAllEarnedCOPs);

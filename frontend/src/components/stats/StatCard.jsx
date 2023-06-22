@@ -54,10 +54,10 @@ export const StatCard = ({
           </span>
         </div>
         <h2
-          className={clsx(" text-white", {
-            "bg-alert-highLight px-3 rounded-xl": variant === "highlight",
-            "bg-alert-ok px-3 rounded-xl": variant === "ok",
-            "bg-alert-black px-3 rounded-xl": variant === "default",
+          className={clsx(" text-white rounded-md bg-opacity-60", {
+            "bg-alert-highLight px-3 ": variant === "highlight",
+            "bg-alert-ok px-3 ": variant === "ok",
+            "bg-alert-black px-3": variant === "default",
           })}
         >
           {str}

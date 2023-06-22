@@ -9,7 +9,7 @@ import {
   IconKey,
   IconBellCog,
   IconReportAnalytics,
-  IconAddressBook,
+  IconShoppingCart,
   IconAffiliate,
   IconChecklist,
   IconShoppingBag,
@@ -64,7 +64,7 @@ export const navlink = [
       {
         label: "Purchase Order",
         link: "/home/create-purchase-order",
-        icon: IconShoppingBag,
+        icon: IconShoppingCart,
       },
       { label: "Create User", link: "/home/create-user", icon: IconUserPlus },
     ],
@@ -74,7 +74,7 @@ export const navlink = [
     label: "Reports & Analytics",
     icon: IconNotes,
     links: [
-      // { label: "Sales Report", link: "/home/sales", icon: IconReportAnalytics },
+      { label: "Sales Report", link: "/home/sales", icon: IconReportAnalytics },
       {
         label: "Legals Agreements",
         link: "/home/legals-agreements",
@@ -106,11 +106,11 @@ export const navlink = [
         label: "User Management",
         icon: IconUsers,
       },
-      // {
-      //   link: "/home/authentications",
-      //   label: "Users & Authentications",
-      //   icon: IconKey,
-      // },
+      {
+        link: "/home/products",
+        label: "Create Products",
+        icon: IconShoppingBag,
+      },
       {
         link: "/home/notifications",
         label: "Notifications",

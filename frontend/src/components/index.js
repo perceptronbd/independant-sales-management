@@ -51,3 +51,5 @@ export { Bancaria } from "./transactions/Bancaria";
 export { Mercado } from "./transactions/Mercado";
 export { Nequi } from "./transactions/Nequi";
 export { Sodexo } from "./transactions/Sodexo";
+//graph
+export { Bargraph } from "./graph/Bargraph";
