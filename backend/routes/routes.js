@@ -86,7 +86,7 @@ router.get("/users/:userId/availableCOPs", getAvailableCOPs);
 router.post("/req-checkout", checkoutCOP, createCheckoutRequest);
 router.get("/get-checkout-req", getCheckoutReq);
 router.post("/update-checkout/:userId", updateCheckout);
-router.delete("deleteCheckoutReq/:id", deleteCheckoutRequest);
+router.delete("/deleteCheckoutReq/:id", deleteCheckoutRequest);
 
 //files
 router.post("/upload", upload.single("file"), uploadFile);
