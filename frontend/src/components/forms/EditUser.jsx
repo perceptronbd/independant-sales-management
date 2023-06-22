@@ -18,6 +18,7 @@ export function EditUser() {
     return user.refCode ? user.refCode : "";
   });
   const [role, setRole] = useState(null);
+  const [fetchedUserRole, setFetchedUserRole] = "";
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
@@ -71,6 +72,7 @@ export function EditUser() {
       postalCode: "",
       state: "",
       role: "",
+      copValue: "",
       referralID: "",
     },
 
@@ -90,6 +92,7 @@ export function EditUser() {
   const handleUpdate = async () => {
     try {
       await updateUser(selectedMember, form.values);
+      console.log("form values", form.values);
       setError("");
     } catch (error) {
       setError(error);
@@ -122,6 +125,8 @@ export function EditUser() {
         const response = await findUser(selectedMember);
         setIsLoading(false);
         console.log(response);
+
+        setFetchedUserRole(response.role);
 
         // Set the form field values with the fetched user data
         form.setValues({
@@ -227,6 +232,7 @@ export function EditUser() {
               {...form.getInputProps("postalCode")}
               className="w-1/2 mr-2"
             />
+
             <TextInput
               label="State"
               placeholder="State"
@@ -249,6 +255,17 @@ export function EditUser() {
               </option>
             ))}
           </InputBase>
+          {fetchedUserRole === "agent" || "user" || "co-user" ? (
+            <></>
+          ) : (
+            <TextInput
+              label="Add COP"
+              placeholder="Add COP"
+              {...form.getInputProps("copValue")}
+              className="w-1/2 mr-2"
+            />
+          )}
+
           {role === "agent" || refID === null ? (
             <TextInput
               label="Referal ID"

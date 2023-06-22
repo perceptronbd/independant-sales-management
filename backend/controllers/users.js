@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import { User } from "../model/user.js";
+import { COP } from "../model/COP.js";
 import { generateRefCode } from "../helpers/generateRefCode.js";
 import { getUserSubtree } from "../helpers/getUsersTree.js";
 
@@ -235,11 +236,38 @@ export const updateUser = async (req, res) => {
     const updateUser = req.body;
     console.log(updateUser);
 
+    const password = updateUser.password;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    updateUser.password = hashedPassword;
+
     const user = await User.findByIdAndUpdate(userId, updateUser, {
       new: true,
     });
+    console.log("Updated user:", user);
+
+    if (updateUser.copValue) {
+      // Create a new COP document
+      const newCOP = new COP({
+        refCode: user.refCode, // Make sure to provide the refCode value
+        earnedPoints: updateUser.copValue,
+      });
+
+      console.log("New COP:", newCOP);
+
+      // Save the new COP document
+      await newCOP.save();
+
+      // Add the newly created COP to the user's earnedCOPs array
+      user.earnedCOPs.push(newCOP._id);
+
+      // Save the updated user object
+      await user.save();
+      console.log("Updated user with COP:", user);
+    }
+
     res.status(200).json(user);
   } catch (error) {
+    console.error("updateUser Error:", error);
     res.status(500).json({ error: "Failed to update user" });
   }
 };
