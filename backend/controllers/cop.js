@@ -164,3 +164,24 @@ export const updateCheckout = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+
+export const deleteCheckoutRequest = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Find the checkout request by ID
+    const checkoutRequest = await CheckoutRequest.findById(id);
+
+    if (!checkoutRequest) {
+      return res.status(404).json({ message: "Checkout request not found" });
+    }
+
+    // Delete the checkout request
+    await checkoutRequest.remove();
+
+    res.json({ message: "Checkout request deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
