@@ -14,16 +14,16 @@ const HeaderContainer = styled.div`
   ${tw`flex justify-between w-full py-2 h-12 border-b-2`}
 `;
 
-const HeaderItems = styled.div(() => [
-  tw`ml-6 my-0 pr-1 font-light flex justify-start items-center  text-textColor-tertiary `,
-]);
+const HeaderItems = styled.div`
+  ${tw`ml-6 my-0 pr-1 font-light flex justify-start items-center text-textColor-tertiary`}
+`;
 
 const RowContainer = styled.div`
-  ${tw`my-0 pr-1 font-light flex justify-between items-center w-full rounded-lg h-12 hover:bg-backgroundColor-secondary`}
+  ${tw`my-0 pr-1 font-light flex justify-between items-center w-full rounded-lg h-12 hover:bg-backgroundColor-secondary cursor-pointer`}
 `;
 
 const RowItems = styled.div(({ tertiary }) => [
-  tw`ml-6 my-0 pr-1 font-semibold flex justify-start items-center  group-hover:text-accent-primary`,
+  tw`ml-6 my-0 pr-1 font-semibold flex justify-start items-center group-hover:text-accent-primary`,
   tertiary && tw`text-textColor-tertiary`,
 ]);
 
@@ -33,18 +33,19 @@ export const ProductSelection = ({
   handleProductSelection,
 }) => {
   const { classes, cx } = useStyles();
-  const [selection, setSelection] = useState([""]);
-  const toggleRow = (id) => {
-    setSelection((current) =>
-      current.includes(id)
-        ? current.filter((item) => item !== id)
-        : [...current, id]
-    );
-    const updatedSelectedProducts = selectedProducts.includes(id)
-      ? selectedProducts.filter((item) => item !== id)
-      : [...selectedProducts, id];
+  const [selection, setSelection] = useState([]);
 
-    handleProductSelection(updatedSelectedProducts);
+  const toggleRow = (id) => {
+    const updatedSelection = [...selection];
+
+    if (updatedSelection.includes(id)) {
+      updatedSelection.splice(updatedSelection.indexOf(id), 1);
+    } else {
+      updatedSelection.push(id);
+    }
+
+    setSelection(updatedSelection);
+    handleProductSelection(updatedSelection);
   };
 
   const list = data.map((item) => {
@@ -53,9 +54,10 @@ export const ProductSelection = ({
       <RowContainer
         className={cx("group", { [classes.rowSelected]: selected })}
         key={item._id}
+        onClick={() => toggleRow(item._id)}
       >
         <Checkbox
-          checked={selection.includes(item._id)}
+          checked={selected}
           onChange={() => toggleRow(item._id)}
           transitionDuration={0}
           className="mx-4"
@@ -69,15 +71,22 @@ export const ProductSelection = ({
     );
   });
 
+  const toggleAllRows = () => {
+    const updatedSelection =
+      selection.length === data.length ? [] : data.map((item) => item._id);
+    setSelection(updatedSelection);
+    handleProductSelection(updatedSelection);
+  };
+
   return (
     <div className="flex flex-col">
       <HeaderContainer>
         <Checkbox
           checked={selection.length === data.length}
-          readOnly
           indeterminate={
             selection.length > 0 && selection.length !== data.length
           }
+          onChange={toggleAllRows}
           transitionDuration={0}
           className="mx-4"
         />
