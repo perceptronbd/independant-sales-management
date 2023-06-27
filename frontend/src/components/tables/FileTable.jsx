@@ -28,6 +28,7 @@ const RowGridItems = styled.div(({ icon, secondary, tertiary }) => [
 
 export const FileTable = () => {
   const [filedata, setFiledata] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getAllFiles = async () => {
@@ -36,7 +37,7 @@ export const FileTable = () => {
         const files = response.data;
         console.log("Files:", files);
         setFiledata(files);
-        // Process the files as needed
+        setLoading(false);
       } catch (error) {
         console.error("Error retrieving files:", error);
       }
@@ -91,9 +92,15 @@ export const FileTable = () => {
           Action
         </HeadGridItems>
       </HeadGrid>
-      <ScrollArea h={500} scrollbarSize={4}>
-        {files}
-      </ScrollArea>
+      {loading ? (
+        <div className="flex justify-center items-center font-semibold text-lg">
+          Loading...
+        </div>
+      ) : (
+        <ScrollArea h={500} scrollbarSize={4}>
+          {files}
+        </ScrollArea>
+      )}
     </div>
   );
 };
