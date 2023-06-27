@@ -28,6 +28,8 @@ db;
 // });
 // newUser.save();
 
+// console.log("User has been created successfully!");
+
 app.use(express.json());
 app.use(cors());
 
