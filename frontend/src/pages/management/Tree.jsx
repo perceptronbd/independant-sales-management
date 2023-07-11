@@ -22,25 +22,6 @@ export const Tree = () => {
     fetchData();
   }, []);
 
-  const getTotalUserCount = (user) => {
-    let count = 0;
-
-    const countUsers = (user) => {
-      count++; // Increment the count for the current user
-
-      // Recursively count users in the nested linksTo array
-      if (user.linksTo && user.linksTo.length > 0) {
-        user.linksTo.forEach((nestedUser) => {
-          countUsers(nestedUser);
-        });
-      }
-    };
-
-    countUsers(user); // Start counting from the top-level user
-
-    return count;
-  };
-
   return (
     <div className="w-full">
       {loading ? (
