@@ -32,12 +32,12 @@ db;
 // console.log("User has been created successfully!");
 //some changes
 
-const product = new Product({
-  name: "Product 10",
-  category: "Category D",
-  price: 30,
-});
-product.save();
+// const product = new Product({
+//   name: "Product 10",
+//   category: "Category D",
+//   price: 30,
+// });
+// product.save();
 
 app.use(express.json());
 app.use(cors());
