@@ -1,7 +1,7 @@
 import { Avatar, Badge } from "@mantine/core";
 import tw from "twin.macro";
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const Text = styled.p(({ variant }) => [
   tw`text-textColor-secondary font-medium font-body text-sm`,

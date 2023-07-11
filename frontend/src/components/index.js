@@ -7,7 +7,6 @@ export { UserForm } from "./forms/UserForm";
 export { EditUser } from "./forms/EditUser";
 //buttons
 export { Button } from "./buttons/Button";
-export { ButtonSwitcher } from "./buttons/ButtonSwitcher";
 export { LinkButton } from "./buttons/LinkButton";
 export { ButtonIcon } from "./buttons/ButtonIcon";
 //text

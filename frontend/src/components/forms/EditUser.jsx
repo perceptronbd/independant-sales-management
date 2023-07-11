@@ -147,7 +147,7 @@ export function EditUser() {
     };
 
     fetchUserData();
-  }, [selectedMember]);
+  }, [selectedMember, form]);
 
   return (
     <>

@@ -41,8 +41,6 @@ export const Tree = () => {
     return count;
   };
 
-  const totalUserCount = getTotalUserCount(userTreeData);
-
   return (
     <div className="w-full">
       {loading ? (

@@ -1,6 +1,6 @@
 import React from "react";
 import { FileTable } from "../../components";
-import { Text, SearchBar, DropFile } from "../../components";
+import { SearchBar, DropFile } from "../../components";
 
 const data = [];
 

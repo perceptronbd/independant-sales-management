@@ -41,7 +41,7 @@ export const UserManagement = () => {
       }
     };
     handleManagerRoute();
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     if (Array.isArray(data)) {

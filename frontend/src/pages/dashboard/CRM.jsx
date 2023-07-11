@@ -1,5 +1,5 @@
 import React from "react";
-import { Skeleton, Container } from "@mantine/core";
+import { Skeleton } from "@mantine/core";
 
 export const CRM = () => {
   return (

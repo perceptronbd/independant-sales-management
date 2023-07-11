@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { RingProgress, Center } from "@mantine/core";
-import { IconArrowUpRight, IconArrowDownRight } from "@tabler/icons-react";
+import { IconArrowUpRight } from "@tabler/icons-react";
 import tw from "twin.macro";
 
 const Text = styled.p(({ variant, color }) => [

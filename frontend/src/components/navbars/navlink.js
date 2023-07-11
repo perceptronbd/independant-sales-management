@@ -1,22 +1,18 @@
 import {
   IconUserCircle,
   IconLayoutDashboard,
-  IconAdjustments,
   IconNotes,
   IconSettings,
   IconFolder,
   IconUsers,
-  IconKey,
   IconBellCog,
   IconReportAnalytics,
   IconShoppingCart,
-  IconAffiliate,
   IconChecklist,
   IconShoppingBag,
   IconUserPlus,
   IconGavel,
   IconGitBranch,
-  IconTableAlias,
 } from "@tabler/icons-react";
 
 export const navlink = [

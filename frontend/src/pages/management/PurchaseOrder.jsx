@@ -64,7 +64,6 @@ export function PurchaseOrder() {
     );
   });
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
     const fetchData = async () => {
       try {
         const getUserData = await getUsers();

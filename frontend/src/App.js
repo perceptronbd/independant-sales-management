@@ -24,22 +24,10 @@ import {
 import { Navigate, Route, Routes } from "react-router-dom";
 import { EditUser, Login, UserInfo } from "./components";
 import { useEffect, useState } from "react";
-import { login } from "./api/auth";
 import { GridSkeleton } from "./components/skeletons/GridSkeleton";
 
 export default function App() {
   const [user, setUser] = useState(null);
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const res = await login(email, password, setErrMsg, errMsg);
-  //     console.log("res in login: ", errMsg);
-  //     setUser(res);
-  //   } catch (error) {
-  //     console.error("error in handleSumit", error);
-  //   }
-  // };
 
   const handleLogout = async () => {
     try {

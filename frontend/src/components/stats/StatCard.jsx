@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import clsx from "clsx";
-import { Highlight } from "@mantine/core";
 
 export const StatCard = ({
   icon: Icon,

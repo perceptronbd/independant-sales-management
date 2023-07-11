@@ -1,5 +1,5 @@
 import React from "react";
-import { SearchBar, FileTable, Text } from "../../components";
+import { SearchBar, FileTable } from "../../components";
 
 const data = [
   {

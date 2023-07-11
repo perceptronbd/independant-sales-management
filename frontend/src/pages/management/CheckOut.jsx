@@ -10,7 +10,7 @@ import { getUsers } from "../../api/crudApi";
 export function CheckOut() {
   const [count, setCount] = useState(0);
   const [selectedTab, setSelectedTab] = useState(0);
-  const [userData, setUserData] = useState();
+  // const [userData, setUserData] = useState();
 
   const getTabClassName = (index) => {
     return clsx("mr-2 py-2 px-4 w-2/6 rounded", {
@@ -21,7 +21,7 @@ export function CheckOut() {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-    setUserData(user);
+    //    setUserData(user);
     console.log(user);
     const fetchData = async () => {
       try {

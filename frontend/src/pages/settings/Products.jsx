@@ -31,6 +31,7 @@ export function Products() {
       const response = await axios.post("/create-products", form.values);
       console.log(response.data);
       setError("");
+      setIsLoading(false);
     } catch (error) {
       setError(error);
       console.log(error);

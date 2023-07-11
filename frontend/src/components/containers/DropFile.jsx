@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Group, useMantineTheme, rem, Progress } from "@mantine/core";
 import { IconUpload, IconX } from "@tabler/icons-react";
 import { Dropzone } from "@mantine/dropzone";
