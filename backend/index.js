@@ -6,6 +6,10 @@ import router from "./routes/routes.js";
 import { User } from "./model/user.js";
 import bcrypt from "bcrypt";
 import { Product } from "./model/product.js";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 5000;
@@ -31,7 +35,7 @@ db;
 // newUser.save();
 
 // console.log("User has been created successfully!");
-//some changes
+// some changes
 
 // const product = new Product({
 //   name: "Product 10",
@@ -40,7 +44,7 @@ db;
 // });
 // product.save();
 
-//static
+// static
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 app.get("*", (req, res) => {
