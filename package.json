@@ -1,0 +1,13 @@
+{
+  "name": "pluto-2023",
+  "version": "1.0.0",
+  "description": "MLM Web App",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd backend && npm install  && cd ../frontend && npm install && npm run build",
+    "start": "node backend/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+}
