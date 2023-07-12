@@ -57,5 +57,5 @@
   "devDependencies": {
     "tailwindcss": "^3.3.2"
   },
-  "proxy": "https://pluto-2023.onrender.com/"
+  "proxy": "http://localhost:5000"
 }
