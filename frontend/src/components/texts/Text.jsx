@@ -1,6 +1,5 @@
 import React from "react";
 import clsx from "clsx";
-
 export const Text = ({
   children,
   title,
@@ -13,8 +12,9 @@ export const Text = ({
   return (
     <div
       className={clsx(className, [
-        "text-textColor-secondary font-body text-sm",
-        title && `text-textColor-primary !font-title font-semibold !text-2xl`,
+        "text-textColor-secondary font-body text-sm ",
+        title &&
+          `text-textColor-primary !font-title font-semibold !text-2xl mobile:!text-lg`,
         header &&
           `text-textColor-primary font-special font-semibold !text-lg
         `,

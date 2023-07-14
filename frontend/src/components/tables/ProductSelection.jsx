@@ -62,11 +62,11 @@ export const ProductSelection = ({
           transitionDuration={0}
           className="mx-4"
         />
-        <RowItems className="w-1/5">{item.name}</RowItems>
-        <RowItems tertiary className="w-1/5">
+        <RowItems className="w-1/5 mobile:!w-1/3">{item.name}</RowItems>
+        <RowItems tertiary className="w-1/5  mobile:!hidden">
           {item.category}
         </RowItems>
-        <RowItems className="w-24 !text-alert-ok">$ {item.price}</RowItems>
+        <RowItems className="w-24 !text-alert-ok ">$ {item.price}</RowItems>
       </RowContainer>
     );
   });
@@ -79,7 +79,7 @@ export const ProductSelection = ({
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mobile:w-[80vw]">
       <HeaderContainer>
         <Checkbox
           checked={selection.length === data.length}
@@ -90,10 +90,10 @@ export const ProductSelection = ({
           transitionDuration={0}
           className="mx-4"
         />
-        <HeaderItems tertiary className="w-1/5">
+        <HeaderItems tertiary className="w-1/5 mobile:!w-1/3">
           Product
         </HeaderItems>
-        <HeaderItems secondary className="w-1/5">
+        <HeaderItems secondary className="w-1/5 mobile:!hidden">
           Category
         </HeaderItems>
         <HeaderItems secondary className="w-24">

@@ -13,10 +13,14 @@ export function CheckOut() {
   // const [userData, setUserData] = useState();
 
   const getTabClassName = (index) => {
-    return clsx("mr-2 py-2 px-4 w-2/6 rounded", {
-      "bg-accent-primary text-white focus:outline-none": selectedTab === index,
-      "bg-backgroundColor-tertiary": selectedTab !== index,
-    });
+    return clsx(
+      "mr-2 py-2 px-4 w-2/6 rounded mobile:text-xs mobile:px-2 mobile:py-1 ",
+      {
+        "bg-accent-primary text-white focus:outline-none":
+          selectedTab === index,
+        "bg-backgroundColor-tertiary": selectedTab !== index,
+      }
+    );
   };
 
   useEffect(() => {
@@ -47,7 +51,7 @@ export function CheckOut() {
   }, []);
 
   return (
-    <div className="flex flex-col w-full mt-1 ml-4 mr-2 ">
+    <div className="flex flex-col w-full mt-1 ml-4 mr-2 mobile:w-[80vw]">
       <>
         <div className="flex flex-row">
           <StatCard
@@ -58,36 +62,38 @@ export function CheckOut() {
           />
         </div>
         <div className="flex flex-col flex-grow">
-          <div className="m-1 font-title font-semibold text-xl">
+          <div className="m-1 font-title font-semibold text-xl mobile:text-sm">
             Select checkout method
           </div>
 
           <div className="flex flex-col h-full">
             <Tab.Group>
-              <Tab.List className="flex bg-backgroundColor-secondary w-full h-14 p-2 rounded ">
+              <Tab.List className="flex bg-backgroundColor-secondary w-full h-14 p-2 rounded mobile:w-[80vw]">
                 <Tab
                   className={getTabClassName(0)}
                   onClick={() => setSelectedTab(0)}
                 >
-                  Mercado Pago
+                  Mercado
+                  <span className="mobile:hidden"> Pago</span>
                 </Tab>
                 <Tab
                   className={getTabClassName(1)}
                   onClick={() => setSelectedTab(1)}
                 >
-                  Nequi - Daviplata
+                  Nequi <span className="mobile:hidden"> - Daviplata</span>
                 </Tab>
                 <Tab
                   className={getTabClassName(2)}
                   onClick={() => setSelectedTab(2)}
                 >
-                  Sodexo Pass
+                  Sodexo
+                  <span className="mobile:hidden"> Pass</span>
                 </Tab>
                 <Tab
                   className={getTabClassName(3)}
                   onClick={() => setSelectedTab(3)}
                 >
-                  Transferencia Bancaria
+                  <span className="mobile:hidden">Transferencia </span> Bancaria
                 </Tab>
               </Tab.List>
               <Tab.Panels className="flex-grow bg-backgroundColor-secondary rounded-b h-full">

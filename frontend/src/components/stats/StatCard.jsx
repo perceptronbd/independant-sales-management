@@ -33,7 +33,7 @@ export const StatCard = ({
   return (
     <div
       className={clsx(
-        "flex w-52 justify-between bg-backgroundColor-secondary rounded-xl p-4 pt-2 pb-2 mx-1 h-24"
+        "flex w-52 justify-between bg-backgroundColor-secondary rounded-xl p-4 pt-2 pb-2 mx-1 h-24 mobile:my-2"
       )}
     >
       <div className="flex flex-col w-full">

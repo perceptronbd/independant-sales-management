@@ -68,7 +68,7 @@ export function Sales() {
   ));
 
   return (
-    <div className="m-1 w-full">
+    <div className="m-1 w-full mobile:w-[80vw]">
       <div className="font-title font-semibold text-4xl mx-2 mb-10">
         Sales Report
       </div>
@@ -78,12 +78,12 @@ export function Sales() {
         str={`Total Sell Today`}
         variant="highlight"
       />
-      <div className="flex m-1">
-        <div className="flex flex-col justify-between mr-2 bg-backgroundColor-secondary p-2 rounded-md ">
+      <div className="flex m-1 mobile:flex-col">
+        <div className="flex flex-col justify-between mr-2 bg-backgroundColor-secondary p-2 rounded-md mobile:hidden">
           <div className="font-title font-semibold text-2xl">Overview</div>
           <div className="flex mt-10">{weeklySales}</div>
         </div>
-        <div className="w-1/2 bg-backgroundColor-secondary p-2 rounded-md">
+        <div className="w-1/2 bg-backgroundColor-secondary p-2 rounded-md mobile:w-full">
           <div className="font-title font-semibold text-2xl mb-2">
             Recent Sales
           </div>

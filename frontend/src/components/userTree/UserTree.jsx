@@ -59,8 +59,10 @@ export const UserTree = ({ user, depth = 0 }) => {
         >
           <div className={`flex items-center`}>
             <IconCornerDownRight className="text-backgroundColor-tertiary" />
-            <div className={`p-2 rounded-lg ${roleBackgroundColor} w-64`}>
-              <div className="flex justify-between items-center">
+            <div
+              className={`p-2 rounded-lg ${roleBackgroundColor} w-64 mobile:w-auto`}
+            >
+              <div className="flex justify-between items-center mobile:flex-col mobile:items-start">
                 <div className="font-semibold ">{name}</div>
                 <div
                   className={`font-semibold text-xs bg-white bg-opacity-10 px-2 pb-1 rounded-2xl`}
@@ -68,7 +70,7 @@ export const UserTree = ({ user, depth = 0 }) => {
                   {role}
                 </div>
               </div>
-              <div className="text-sm opacity-50">{email}</div>
+              <div className="text-sm opacity-50 mobile:hidden">{email}</div>
             </div>
             {hasChildren && (
               <span className="w-4 text-backgroundColor-tertiary  rounded-xl">

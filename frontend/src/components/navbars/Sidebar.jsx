@@ -1,7 +1,6 @@
 import { Navbar, Group, Text, ScrollArea, createStyles } from "@mantine/core";
 import { IconBrandEdge } from "@tabler/icons-react";
 import { IconLogout } from "@tabler/icons-react";
-import { ButtonIcon } from "../buttons/ButtonIcon";
 import { LinksGroup } from "./LinksGroup";
 import { navlink } from "./navlink";
 import { useEffect, useState } from "react";
@@ -131,15 +130,15 @@ export function Sidebar({ handleLogout }) {
         width={{ sm: 240 }}
         p="md"
         //className={classes.navbar}
-        className="pb-0 bg-blue-50 rounded-lg h-[97vh]"
+        className="pb-0 bg-blue-50 rounded-lg h-[97vh] mobile:w-1/6 mobile:h-[90vh] "
       >
-        <Navbar.Section className={classes.header}>
-          <Group position="left">
+        <Navbar.Section className="mb-2">
+          <Group>
             <IconBrandEdge className="text-accent-secondary m-0 p-0" />
             <Text
               size="xl"
               weight={800}
-              className="text-accent-primary font-title m-0 p-0"
+              className="text-accent-primary font-title m-0 p-0 mobile:hidden"
             >
               PLUTO
             </Text>
@@ -160,9 +159,15 @@ export function Sidebar({ handleLogout }) {
         </Navbar.Section>
 
         <Navbar.Section className={classes.footer}>
-          <ButtonIcon icon={IconLogout} onClick={handleLogout}>
-            Log Out
-          </ButtonIcon>
+          <div
+            onClick={handleLogout}
+            className="flex  mx-auto my-2 hover:cursor-pointer group bg-backgroundColor-tertiary rounded px-4 py-1 mobile:px-1"
+          >
+            <span className="mobile:hidden pr-2 font-medium text-textColor-tertiary group-hover:text-accent-primary">
+              Log Out
+            </span>
+            <IconLogout className="text-textColor-tertiary group-hover:text-accent-primary" />
+          </div>
         </Navbar.Section>
       </Navbar>
     </>

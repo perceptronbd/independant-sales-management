@@ -124,7 +124,7 @@ export function UserForm() {
       ) : (
         <Box
           component="form"
-          className="mx-auto"
+          className="mx-auto mobile:mx-1 mobile:w-full"
           onSubmit={form.onSubmit(handleSubmit)}
           sx={(theme) => ({
             backgroundColor:

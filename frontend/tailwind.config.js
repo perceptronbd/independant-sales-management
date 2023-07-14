@@ -3,6 +3,9 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      screens: {
+        mobile: { max: "640px" },
+      },
       colors: {
         "orange-red": "#FF4500",
         accent: {

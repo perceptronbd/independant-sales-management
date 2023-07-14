@@ -49,7 +49,7 @@ export function Products() {
       ) : (
         <Box
           component="form"
-          className="m-auto"
+          className="m-auto mobile:mx-1 mobile:w-full"
           onSubmit={form.onSubmit(handleSubmit)}
           sx={(theme) => ({
             backgroundColor:

@@ -41,7 +41,9 @@ export function ContactInfo({ role, name, email }) {
         <div className="flex">
           <Text className="!text-textColor-primary"> {email}</Text>
         </div>
-        <Badge color={roleColors[role.toLowerCase()]}>{role}</Badge>
+        <Badge color={roleColors[role.toLowerCase()]} className="mobile:hidden">
+          {role}
+        </Badge>
         {user.refCode ? (
           <div>
             <p className="!text-alert-warning rounded-lg font-medium border-2 text-center border-alert-warning px-2 my-1">

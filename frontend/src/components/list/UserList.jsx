@@ -17,11 +17,11 @@ import styled from "@emotion/styled";
 import { deleteUser } from "../../api/crudApi";
 
 const HeaderContainer = styled.div`
-  ${tw`grid grid-cols-12 gap-4 w-full py-2 h-12 border-b-2`}
+  ${tw`grid grid-cols-12 mobile:grid-cols-8 gap-4 w-full py-2 h-12 border-b-2`}
 `;
 
 const RowContainer = styled.div`
-  ${tw`my-0 pr-1 font-light grid grid-cols-12 gap-4 items-center w-full rounded-lg h-12 hover:bg-backgroundColor-secondary`}
+  ${tw`my-0 pr-1 font-light grid grid-cols-12 mobile:grid-cols-8 gap-4  items-center w-full rounded-lg h-12 hover:bg-backgroundColor-secondary`}
 `;
 
 const roleColors = {
@@ -65,23 +65,23 @@ export function UserList({ data, refreshToken }) {
           ""
         ) : (
           <RowContainer key={item._id}>
-            <div className="col-start-1 col-span-2 pl-4 bg-backgroundColor-secondary p-2 rounded-lg">
+            <div className="col-start-1 col-span-2 pl-4 bg-backgroundColor-secondary p-2 rounded-lg mobile:hidden">
               <Text fz="sm" fw={500}>
                 {item.firstName}
               </Text>
             </div>
 
-            <div className="col-span-2 pl-4">
+            <div className="col-span-2 pl-4 mobile:hidden">
               <Badge color={roleColors[item.role.toLowerCase()]}>
                 {item.role}
               </Badge>
             </div>
-            <div className="col-span-3 pl-4 text-textColor-tertiary">
+            <div className="col-span-3 pl-4 text-textColor-tertiary mobile:col-span-4">
               {item.email}
             </div>
             <div className="col-span-3 pl-4">
               {item.referredBy[0] ? (
-                <div className="flex  justify-between items-center bg-backgroundColor-secondary p-2 rounded-lg">
+                <div className="flex  justify-between items-center bg-backgroundColor-secondary p-2 rounded-lg mobile:hidden">
                   {item.referredBy[0].firstName}
                   <Badge color={roleColors[item.role.toLowerCase()]}>
                     {item.referredBy[0].role}
@@ -92,7 +92,7 @@ export function UserList({ data, refreshToken }) {
               )}
             </div>
 
-            <div className="col-end-13 bg-backgroundColor-secondary p-2 rounded-lg ">
+            <div className="col-end-13 bg-backgroundColor-secondary p-2 rounded-lg mobile:col-start-8">
               <Group spacing={0} position="right">
                 <ActionIcon
                   onClick={() => {
@@ -127,17 +127,17 @@ export function UserList({ data, refreshToken }) {
         </div>
       </Modal>
       <HeaderContainer>
-        <div className="col-start-1 col-span-2 pl-4 border-gray-600 border rounded-2xl">
+        <div className="col-start-1 col-span-2 pl-4 border-gray-600 border rounded-2xl mobile:hidden">
           Name
         </div>
-        <div className="col-span-2 pl-4 border-gray-600 border rounded-2xl">
+        <div className="col-span-2 pl-4 border-gray-600 border rounded-2xl mobile:hidden">
           Role
         </div>
-        <div className="col-span-3 pl-4 border-gray-600 border rounded-2xl">
+        <div className="col-span-3 pl-4 border-gray-600 border rounded-2xl mobile:px-2 mobile:col-span-4">
           Email
         </div>
         <div
-          className="col-span-3 px-4 border-gray-600 border rounded-2xl
+          className="col-span-3 px-4 border-gray-600 border rounded-2xl mobile:hidden
         "
         >
           <div className="flex justify-between">
@@ -145,7 +145,7 @@ export function UserList({ data, refreshToken }) {
             <span className="text-textColor-tertiary"> Role</span>
           </div>
         </div>
-        <div className="col-end-13 pl-4 border-gray-600 border rounded-2xl">
+        <div className="col-end-13 pl-4 border-gray-600 border rounded-2xl mobile:px-2  ">
           Action
         </div>
       </HeaderContainer>

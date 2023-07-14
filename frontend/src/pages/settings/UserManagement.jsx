@@ -52,7 +52,7 @@ export const UserManagement = () => {
   }, [searchQuery, data]);
 
   return (
-    <div className="m-1 w-full flex justify-center items-start">
+    <div className="m-1 w-full flex justify-center items-start mobile:w-[80vw]">
       {isLoading ? (
         <GridSkeleton c />
       ) : (

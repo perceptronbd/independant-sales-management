@@ -50,7 +50,7 @@ export const Mercado = () => {
 
   return (
     <div className="m-2">
-      <div className="flex mb-6 w-1/4 justify-between bg-backgroundColor-tertiary p-2 rounded-xl">
+      <div className="flex mb-6 w-1/4 justify-between bg-backgroundColor-tertiary p-2 rounded-xl mobile:w-full">
         <Text title>Mercado Pago</Text>
         <IconWallet size={"34px"} className="text-alert-ok" />
       </div>

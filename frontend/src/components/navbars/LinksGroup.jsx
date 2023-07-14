@@ -77,16 +77,20 @@ export function LinksGroup({
             <li key={link.label}>
               <NavLink
                 to={link.link}
-                className={clsx(`${classes.link} flex items-center`, {
-                  "text-accent-primary": window.location.pathname === link.link,
-                })}
+                className={clsx(
+                  `${classes.link} flex items-center mobile:p-0 mobile:m-2`,
+                  {
+                    "text-accent-primary":
+                      window.location.pathname === link.link,
+                  }
+                )}
                 onClick={() => {
                   setLinkPath(link.link);
                   setOpened(!opened);
                 }}
               >
                 {link.icon && <link.icon size="1.1rem" />}
-                <span className="ml-5">{link.label}</span>
+                <span className="ml-5 mobile:hidden">{link.label}</span>
               </NavLink>
             </li>
           </div>
@@ -109,7 +113,7 @@ export function LinksGroup({
     <div>
       <UnstyledButton
         onClick={handleControlButtonClick}
-        className={clsx(classes.control, {
+        className={clsx(classes.control, "mobile:p-2", {
           "text-white bg-accent-primary": window.location.pathname === linkPath,
         })}
       >
@@ -118,7 +122,9 @@ export function LinksGroup({
             <div className={clsx("p-1")}>
               <Icon size="1.1rem" />
             </div>
-            <Box ml="md">{label}</Box>
+            <Box ml="md" className="mobile:hidden">
+              {label}
+            </Box>
           </Box>
         </Group>
       </UnstyledButton>

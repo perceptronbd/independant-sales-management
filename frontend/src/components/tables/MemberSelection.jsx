@@ -64,17 +64,17 @@ export const MemberSelection = ({
           transitionDuration={0}
           className="mx-4"
         />
-        <RowItems className="w-10">{item.firstName}</RowItems>
+        <RowItems className="w-10 mobile:!hidden">{item.firstName}</RowItems>
         <RowItems className="w-1/5 text-textColor-tertiary">
           {item.email}
         </RowItems>
-        <RowItems className="w-1/5 text-textColor-tertiary">
+        <RowItems className="w-1/5 text-textColor-tertiary mobile:!hidden">
           <Badge color={roleColors[item.role.toLowerCase()]}>{item.role}</Badge>
         </RowItems>
         <RowItems tertiary className="w-1/5">
           {item.lastPurchaseDate}
         </RowItems>
-        <RowItems className="w-24 !text-alert-ok">
+        <RowItems className="w-24 !text-alert-ok mobile:!hidden">
           ${item.totalAmountSpent}
         </RowItems>
       </RowContainer>
@@ -82,7 +82,7 @@ export const MemberSelection = ({
   });
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mobile:w-[80vw]">
       <HeaderContainer>
         <Checkbox
           indeterminate={
@@ -91,19 +91,19 @@ export const MemberSelection = ({
           transitionDuration={0}
           className="mx-4"
         />
-        <HeaderItems tertiary className="w-10">
+        <HeaderItems tertiary className="w-10 mobile:!hidden">
           Name
         </HeaderItems>
         <HeaderItems tertiary className="w-1/5">
           Email
         </HeaderItems>
-        <HeaderItems tertiary className="w-1/5">
+        <HeaderItems tertiary className="w-1/5 mobile:!hidden">
           Role
         </HeaderItems>
         <HeaderItems secondary className="w-1/5">
           Last Purchase
         </HeaderItems>
-        <HeaderItems secondary className="w-24">
+        <HeaderItems secondary className="w-24 mobile:!hidden">
           Amount
         </HeaderItems>
       </HeaderContainer>

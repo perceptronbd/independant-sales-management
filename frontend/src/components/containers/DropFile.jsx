@@ -81,9 +81,9 @@ export function DropFile(props) {
             <IconUpload size="3.2rem" stroke={1.5} />
           </Dropzone.Idle>
 
-          <div>
+          <div className="mobile:hidden">
             <Text size="xl" inline>
-              Drag images here or click to select files
+              Drag files here or click to select files
             </Text>
             <Text body>
               Attach as many files as you like, each file should not exceed 5mb

@@ -8,7 +8,10 @@ export function SearchBar({ str = "...", searchQuery, setSearchQuery }) {
     setSearchQuery(e.target.value);
   };
   return (
-    <form onSubmit={(e) => e.preventDefault()} className="flex w-full">
+    <form
+      onSubmit={(e) => e.preventDefault()}
+      className="flex w-full mobile:w-[80vw]"
+    >
       <TextInput
         className="w-full"
         icon={<IconSearch size="1.1rem" stroke={1.5} />}
@@ -19,12 +22,20 @@ export function SearchBar({ str = "...", searchQuery, setSearchQuery }) {
             radius="md"
             color={theme.primaryColor}
             variant="filled"
-            className=" bg-accent-primary"
+            className=" bg-accent-primary mobile:hidden"
           >
             {theme.dir === "ltr" ? (
-              <IconArrowRight size="1.1rem" stroke={1.5} />
+              <IconArrowRight
+                size="1.1rem"
+                stroke={1.5}
+                className="mobile:hidden"
+              />
             ) : (
-              <IconArrowLeft size="1.1rem" stroke={1.5} />
+              <IconArrowLeft
+                size="1.1rem"
+                stroke={1.5}
+                className="mobile:hidden"
+              />
             )}
           </ActionIcon>
         }

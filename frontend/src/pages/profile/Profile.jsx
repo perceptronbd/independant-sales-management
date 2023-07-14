@@ -88,17 +88,17 @@ export function Profile() {
   const totalUserCount = getTotalUserCount(userTreeData);
 
   return (
-    <div className="flex flex-col w-full m-1">
+    <div className="flex flex-col w-full m-1 mobile:w-[80vw]">
       <Text title className={`mb-4 mx-2`}>
         Welcome, {firstName} {lastName}!
       </Text>
-      <div className="flex flex-row justify-between">
+      <div className="flex justify-between mobile:flex-col mobile:my-2 ">
         <ContactInfo
           role={role}
           name={`${firstName} ${lastName}`}
           email={email}
         />
-        <div className="flex ">
+        <div className="flex mobile:flex-col">
           <StatCard
             icon={IconUser}
             str={`Users under you`}

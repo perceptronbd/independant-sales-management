@@ -6,7 +6,7 @@ import tw from "twin.macro";
 import styled from "@emotion/styled";
 
 const HeadGrid = styled.div`
-  ${tw`grid grid-cols-4 gap-2 h-12 items-center border-b-2`}
+  ${tw`grid grid-cols-4 mobile:grid-cols-2 gap-2 h-12 items-center border-b-2`}
 `;
 
 const HeadGridItems = styled.div(({ icon }) => [
@@ -15,7 +15,7 @@ const HeadGridItems = styled.div(({ icon }) => [
 ]);
 
 const RowGrid = styled.div`
-  ${tw`grid grid-cols-4 gap-2 my-2 items-center rounded-lg  hover:bg-backgroundColor-secondary`}
+  ${tw`grid grid-cols-4 mobile:grid-cols-2 gap-2 my-2 items-center rounded-lg  hover:bg-backgroundColor-secondary`}
 `;
 
 const RowGridItems = styled.div(({ icon, secondary, tertiary }) => [
@@ -72,11 +72,15 @@ export const FileTable = () => {
   const files = filedata.map((item) => (
     <RowGrid className="group" key={item.id}>
       <RowGridItems>{item.originalname}</RowGridItems>
-      <RowGridItems tertiary>{item.createdAt}</RowGridItems>
-      <RowGridItems secondary>{item.uploadedBy}</RowGridItems>
+      <RowGridItems tertiary className="mobile:!hidden">
+        {item.createdAt}
+      </RowGridItems>
+      <RowGridItems secondary className="mobile:!hidden">
+        {item.uploadedBy}
+      </RowGridItems>
       <RowGridItems icon>
         <ButtonIcon variant="ghost" onClick={() => downloadFile(item)}>
-          Download
+          <span className="mobile:hidden">Download</span>
         </ButtonIcon>
       </RowGridItems>
     </RowGrid>
@@ -86,8 +90,12 @@ export const FileTable = () => {
     <div className="flex flex-col">
       <HeadGrid>
         <HeadGridItems>Files</HeadGridItems>
-        <HeadGridItems tertiary>Date</HeadGridItems>
-        <HeadGridItems secondary>Uploaded by</HeadGridItems>
+        <HeadGridItems tertiary className="mobile:!hidden">
+          Date
+        </HeadGridItems>
+        <HeadGridItems secondary className="mobile:!hidden">
+          Uploaded by
+        </HeadGridItems>
         <HeadGridItems secondary icon>
           Action
         </HeadGridItems>

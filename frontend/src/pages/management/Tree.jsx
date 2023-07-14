@@ -23,7 +23,7 @@ export const Tree = () => {
   }, []);
 
   return (
-    <div className="w-full">
+    <div className="w-full mobile:w-[80vw]">
       {loading ? (
         <div>loading...</div>
       ) : userTreeData.role === "agent" ? (
