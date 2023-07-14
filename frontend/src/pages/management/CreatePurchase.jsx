@@ -20,6 +20,14 @@ export function CreatePurchase() {
   const user = JSON.parse(localStorage.getItem("user"));
   const role = user.role;
 
+  const filterData = (data, query) => {
+    return data.filter(
+      (user) =>
+        user.firstName.toLowerCase().includes(query.toLowerCase()) ||
+        user.email.includes(query.toLowerCase())
+    );
+  };
+
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     const fetchData = async () => {
@@ -44,14 +52,6 @@ export function CreatePurchase() {
     const results = filterData(userData, searchQuery);
     setSearchResults(results);
   }, [searchQuery, userData]);
-
-  const filterData = (data, query) => {
-    return data.filter(
-      (user) =>
-        user.firstName.toLowerCase().includes(query.toLowerCase()) ||
-        user.email.includes(query.toLowerCase())
-    );
-  };
 
   const handleMemberSelection = (selectedIds) => {
     setSelectedMembers(selectedIds);
